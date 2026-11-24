@@ -36,7 +36,7 @@ L'état est une simple fonction de la situation, recalculée à chaque changemen
 ## Données
 
 - Limites des communes : IGN (ADMIN EXPRESS ou BD TOPO) ; arrondissements municipaux pour Paris, Lyon et Marseille.
-- Position de la mairie : BD TOPO, zone « Mairie » sans détail ou « Hôtel de ville » (les mairies de communes déléguées sont écartées) ; bâtiment de la mairie : le plus grand dont le centroïde est dans la zone, sinon le plus proche à moins de 100 m. Dans la Manche, 444 communes sur 445 ont leur mairie dans la BD TOPO ([P-07](../../../prototypes/p07-chaine-manche/README.md#9-lieux-dintérêt-de-locations-dans-la-manche-resultats-lieuxcsv)). À Paris, Lyon et Marseille, la mairie d'arrondissement porte le code de la commune : elle est rattachée à son arrondissement par sa position. Sert aussi au découpage des régions électriques ([cnpe.md](cnpe.md)).
+- Position de la mairie : BD TOPO, zone « Mairie » sans détail ou « Hôtel de ville » (les mairies de communes déléguées sont écartées) ; bâtiment de la mairie : le plus grand dont le centroïde est dans la zone, sinon le plus proche à moins de 100 m. Dans la Manche, 444 communes sur 445 ont leur mairie dans la BD TOPO ([P-07](https://github.com/fafapiti/prototypes/blob/main/p07-chaine-manche/README.md#9-lieux-dintérêt-de-locations-dans-la-manche-resultats-lieuxcsv)). À Paris, Lyon et Marseille, la mairie d'arrondissement porte le code de la commune : elle est rattachée à son arrondissement par sa position. Sert aussi au découpage des régions électriques ([cnpe.md](cnpe.md)).
 
 ## Décisions
 
@@ -61,4 +61,4 @@ L'état est une simple fonction de la situation, recalculée à chaque changemen
 
 ## Questions ouvertes
 
-Voir [P-05](../../../prototypes/p05-civils/README.md#questions-ouvertes).
+Voir [P-05](https://github.com/fafapiti/prototypes/blob/main/p05-civils/README.md#questions-ouvertes).

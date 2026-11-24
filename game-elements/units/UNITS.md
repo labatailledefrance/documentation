@@ -48,7 +48,7 @@ Les unités non combattantes sont au cœur du jeu. Toute munition tirée doit av
 
 ### Classes d'itinéraire
 
-- Chaque véhicule terrestre appartient à une **classe d'itinéraire** : véhicule léger, camion, porte-char chargé, chenillé lourd ([P-09](../../../prototypes/p09-chemin-routier/README.md), [SYSTEMES](../systemes/SYSTEMES.md#véhicules)). Une classe regroupe les véhicules de masse, de gabarit et de motricité voisins ; on ne crée pas une classe par modèle (chaque classe coûte une métrique en mémoire). Liste révisable.
+- Chaque véhicule terrestre appartient à une **classe d'itinéraire** : véhicule léger, camion, porte-char chargé, chenillé lourd ([P-09](https://github.com/fafapiti/prototypes/blob/main/p09-chemin-routier/README.md), [SYSTEMES](../systemes/SYSTEMES.md#véhicules)). Une classe regroupe les véhicules de masse, de gabarit et de motricité voisins ; on ne crée pas une classe par modèle (chaque classe coûte une métrique en mémoire). Liste révisable.
 - Les fiches indiquent la classe dans **Mobilité**.
 
 ### Génie militaire et génie civil
