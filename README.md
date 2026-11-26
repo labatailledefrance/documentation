@@ -74,7 +74,7 @@ Exigences identifiées :
 - Multijoueur seulement : une partie officielle, sur un serveur unique qui fait autorité (pile native Kubernetes)
 - Sans compte (pour le moment)
 - Jeu 100 % open source : code sous AGPL-3.0-or-later, documentation sous CC-BY-SA-4.0, contributions sous DCO ; assets tiers en CC0-1.0, CC-BY-4.0 ou OFL-1.1 ([F-05](OPEN-PROBLEMS.md#f-05--licence))
-- Données géographiques issues de l'IGN (BD TOPO, LiDAR HD, RGE ALTI ; Licence Ouverte Etalab, à vérifier pour le LiDAR HD), OpenStreetMap en complément (licence ODbL : attribution obligatoire)
+- Données géographiques issues de l'IGN (BD TOPO, RGE ALTI ; Licence Ouverte Etalab), OpenStreetMap en complément (licence ODbL : attribution obligatoire)
 
 Choix de conception :
 
