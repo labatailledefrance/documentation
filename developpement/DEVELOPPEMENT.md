@@ -14,9 +14,9 @@ Tous publics, dans l'organisation [`labatailledefrance`](https://github.com/laba
 | [beta1-common](https://github.com/labatailledefrance/beta1-common) | Bibliothèque partagée : positions (`geo`), `Reader` et `Writer` binaires (`codec`), messages et handshake (`protocol`), aléatoire déterministe (`rng`) ; bientôt le format des tiles |
 | [beta1-server](https://github.com/labatailledefrance/beta1-server) | Serveur de simulation : Bevy sans rendu, 20 Hz, WebSocket ; il fait autorité |
 | [beta1-client](https://github.com/labatailledefrance/beta1-client) | Client navigateur : Bevy en WebAssembly, WebGPU seul ; il affiche et envoie des ordres |
-| [beta1-datachain](https://github.com/labatailledefrance/beta1-datachain) | Chaîne de données : IGN et INSEE vers tiles de 1 km et graphe routier (en construction) |
+| [beta1-datachain](https://github.com/labatailledefrance/beta1-datachain) | Chaîne de données : IGN et INSEE vers tiles de 1 km et graphe routier ; image lancée en Job par le chart `game` (en construction) |
 | [beta1-assets](https://github.com/labatailledefrance/beta1-assets) | Manifeste et scripts des assets tiers ; aucun asset dans git (en construction) |
-| [beta1-helm](https://github.com/labatailledefrance/beta1-helm) | Chart `game` : un monde sur Kubernetes (serveur, client, ingress, NetworkPolicies) |
+| [beta1-helm](https://github.com/labatailledefrance/beta1-helm) | Chart `game` : un monde sur Kubernetes (serveur, client, tiles et leur Job de production, ingress, NetworkPolicies) |
 | [documentation](https://github.com/labatailledefrance/documentation) | Conception du jeu (ce dépôt) |
 | [prototypes](https://github.com/labatailledefrance/prototypes) | Prototypes techniques jetables (P-00 à P-26), dont on porte le code |
 | [agent](https://github.com/labatailledefrance/agent) | Configuration de Claude Code (instructions, skills, agents) |
@@ -92,9 +92,24 @@ La signature tient lieu d'approbation : l'image a été produite par **notre** w
 
 Le monde officiel tourne sur `srv.labatailledefrance.fr` (k3s, ingress Traefik), namespace `labatailledefrance`. Le cluster n'a pas de contrôle d'admission : la vérification se fait **avant** l'installation, à la main.
 
-1. Relever les digests des images publiées par la CI de `beta1-server` et `beta1-client`.
-2. Vérifier les signatures du chart et des deux images avec **cosign ≥ 3** (la version des distributions ne lit pas les signatures en bundle OCI).
+1. Relever les digests des images publiées par la CI de `beta1-server`, `beta1-client` et `beta1-datachain`.
+2. Vérifier les signatures du chart et des trois images avec **cosign ≥ 3** (la version des distributions ne lit pas les signatures en bundle OCI).
 3. Sur srv : `KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm upgrade game oci://ghcr.io/labatailledefrance/charts/game …`, images **par digest**.
+
+### Tiles
+
+Tout le jeu tient dans un namespace ([H-06](../OPEN-PROBLEMS.md#h-06--diffusion-des-tiles)) :
+
+```
+Job datachain-<hash> ──écrit──> PVC sources (~720 Go)   PVC tiles (~100 Go)
+  (seul pod qui sort, en 443)                              │ lecture seule
+                                           ┌───────────────┴──────────────┐
+                                     server (jeu)                  tiles (nginx)
+                                attendent <hash>/COMPLET        cache immutable
+Traefik : /  → client, /tiles/ → tiles, /ws → server
+```
+
+La publication est adressée par ses **entrées** (manifeste des sources, digest de l'image `beta1-datachain`) : le chart sait quel dossier servir avant qu'il existe. Le Job tourne à chaque `helm install` ou `upgrade` ; il sort aussitôt si le dossier existe, sinon il le produit à part puis le renomme. La première génération dure des heures : `helm` rend la main, le jeu attend. Les deux PVC survivent à `helm uninstall`.
 
 Commandes complètes : [README de beta1-helm](https://github.com/labatailledefrance/beta1-helm/blob/main/README.md). Une mise à jour du serveur remet le monde à zéro (H-01).
 
