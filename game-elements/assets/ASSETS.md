@@ -1,15 +1,15 @@
 # Assets
 
-Liste des assets (modèles 3D, animations, sons, icônes) à trouver pour le jeu, tirée des fiches de [UNITS.md](../units/UNITS.md), [CONSTRUCTIONS.md](../constructions/CONSTRUCTIONS.md), [ZOMBIES.md](../zombies/ZOMBIES.md), [LOCATIONS.md](../locations/LOCATIONS.md) et [RESOURCES.md](../resources/RESOURCES.md). Les fichiers eux-mêmes iront dans le dossier `assets/` du projet (non versionné pour l'instant).
+Liste des assets (modèles 3D, animations, sons, icônes) à trouver pour le jeu, tirée des fiches de [UNITS.md](../units/UNITS.md), [CONSTRUCTIONS.md](../constructions/CONSTRUCTIONS.md), [ZOMBIES.md](../zombies/ZOMBIES.md), [LOCATIONS.md](../locations/LOCATIONS.md) et [RESOURCES.md](../resources/RESOURCES.md). Les fichiers eux-mêmes ne sont **jamais versionnés** : chaque asset est inscrit au manifeste de [beta1-assets](https://github.com/labatailledefrance/beta1-assets) (source, auteur, licence, hash), qui le télécharge ([F-05](../../OPEN-PROBLEMS.md#f-05--licence)).
 
 ----
 
 ## Décisions
 
 - **Pas de génération par IA** pour les modèles 3D : essai de TRELLIS (texte vers 3D) abandonné, résultat jugé trop laid ([E-01](../../OPEN-PROBLEMS.md#e-01--volume-de-contenu)).
-- Les assets viendront de **sources existantes**. Aucune source n'est retenue pour le moment.
+- Les assets viendront de **sources existantes**. Toute source convient si l'asset est en **CC0-1.0, CC-BY-4.0 ou OFL-1.1** (déjà utilisées : Sketchfab, poly.pizza, Poly Haven, OpenGameArt).
 - **Direction artistique** : **low-poly**, dans l'esprit de Project Zomboid (vue isométrique lisible), mais avec des **textures moins détaillées**. C'est le critère de choix de tout asset : un modèle réaliste ou très texturé ne se mélange pas aux autres. Les bâtiments générés (fenêtres dans la texture, P-08) suivent la même direction.
-- **Passe pixel art** ([E-01](../../OPEN-PROBLEMS.md#e-01--volume-de-contenu)) : elle unifie les modèles à l'écran ; un modèle plus texturé est acceptable s'il est réduit et rendu mat. Premiers assets intégrés à P-24 (Charles de Gaulle, Leclerc, Rafale, VBCI, personnages de Quaternius, textures de Poly Haven) : attributions dans `assets/README.md`, à la racine du projet.
+- **Passe pixel art** ([E-01](../../OPEN-PROBLEMS.md#e-01--volume-de-contenu)) : elle unifie les modèles à l'écran ; un modèle plus texturé est acceptable s'il est réduit et rendu mat. Premiers assets intégrés à P-24 (Charles de Gaulle, Leclerc, Rafale, VBCI, personnages de Quaternius, textures de Poly Haven) : attributions dans le manifeste de [beta1-assets](https://github.com/labatailledefrance/beta1-assets) (provisoirement `assets/README.md`, à la racine, hors dépôt).
 - **Navires civils** : il en faut, pour transporter les colons (navires de colons, unités simulées, [A-15](../../OPEN-PROBLEMS.md#a-15--civils-en-métropole--colonies)) et les importations.
 
 ## Ce qui n'est pas à chercher
@@ -27,7 +27,7 @@ Le jeu le génère lui-même à partir des données ou par le code :
 - **Priorité** : **1** = nécessaire au premier prototype jouable ; **2** = cœur du jeu ; **3** = plus tard.
 - **Variantes** : les versions d'une unité partagent en général **un modèle de base** ; une variante ne change que des pièces (tourelle, armement, cabine). Il vaut mieux trouver un modèle de base propre que dix modèles disparates.
 - **Statut** : *À trouver*, *Trouvé* (candidat repéré), *Retenu*.
-- Pour chaque asset retenu, noter : **source, auteur, licence, URL, modifications**. Une licence qui interdit la redistribution des fichiers (dépôt public) élimine l'asset.
+- Pour chaque asset retenu, noter : **source, auteur, licence, URL, modifications**. Seules les licences **CC0-1.0, CC-BY-4.0 et OFL-1.1** sont acceptées : le jeu déployé sert les assets aux joueurs ; tout autre asset est éliminé ([F-05](../../OPEN-PROBLEMS.md#f-05--licence)).
 
 ----
 
@@ -251,7 +251,7 @@ Les arbres sont placés au chargement depuis les données (B-01). Le feu est sim
 
 | Asset | Priorité | Statut |
 |---|---|---|
-| Police de caractères (licence libre, accents français) | 1 | À trouver |
+| Police de caractères (OFL-1.1 ou CC0-1.0, accents français) | 1 | À trouver |
 | Icônes des ordres (déplacer, attaquer, patrouille, axe de frappe, construire, charger, décharger…) | 1 | À trouver |
 | Icônes des ressources (une par ressource de [RESOURCES.md](../resources/RESOURCES.md)) | 2 | À trouver |
 | Icônes des lieux (CTM, CNPE, barrage, base aérienne, gare, port, mairie, survivants) | 2 | À trouver |

@@ -442,6 +442,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : vérifier la compatibilité de chaque source avec un projet 100 % open source : IGN (Licence Ouverte Etalab), OpenStreetMap (ODbL, attribution et partage à l'identique), INSEE, SHOM.
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : BD TOPO et RGE ALTI sous Licence Ouverte Etalab (version à vérifier) ; carreaux Filosofi de l'INSEE sous Licence Ouverte 2.0 (data.gouv.fr). L'IGN ne couvre pas le Pacifique (Nouvelle-Calédonie, Polynésie, Wallis-et-Futuna), qui a ses propres services (Te Fenua en Polynésie : MNT publiés, bâti à vérifier, limites des communes en ODbL) : le Pacifique a été retiré du jeu ([C-01](#c-01--précision-numérique)). Les tirants d'eau des ports manquent (SHOM).
 - **Constat** (P-26) : terres du monde (globe gris) : Natural Earth 10 m v5.1.2, **domaine public**. LiDAR HD : licence à vérifier (Licence Ouverte Etalab, comme les autres données de l'IGN, probablement).
+- **Décision** (F-05) : les données gardent leur propre licence, distincte de celle du code ([F-05](#f-05--licence)). Restent à vérifier : la version de la Licence Ouverte Etalab, le LiDAR HD et le SHOM.
 - **Statut** : Ouvert.
 
 ## C. Rendu et caméra
@@ -579,7 +580,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : chaque version de chaque véhicule, chaque navire nommé, les monuments : énorme travail de modèles 3D et de données.
 - **Pistes** : niveau de détail adapté à la vue isométrique ; contributions de la communauté (open source).
 - **Constat** (essai du 2026-11-24, sans prototype conservé) : génération de modèles par IA avec TRELLIS (texte vers 3D, licence MIT ; sa dépendance nvdiffrast n'est pas libre). Une caisse de munitions en 67 s, 1,2 million de faces ; réduite à environ 1 000 faces, le maillage est froissé et inutilisable.
-- **Décision** : **pas de génération par IA** des modèles 3D. Les assets viennent de **sources existantes**, à choisir ; la liste à trouver est dans [ASSETS.md](game-elements/assets/ASSETS.md).
+- **Décision** : **pas de génération par IA** des modèles 3D. Les assets viennent de **sources existantes**, sous licence CC0-1.0, CC-BY-4.0 ou OFL-1.1 seulement ([F-05](#f-05--licence)) ; la liste à trouver est dans [ASSETS.md](game-elements/assets/ASSETS.md).
 - **Décision** : **direction artistique low-poly**, dans l'esprit de Project Zomboid (vue isométrique lisible), mais avec des **textures moins détaillées**.
 - **Décision** (2026-11-24, P-24, révisable) : **passe pixel art** plein écran, légère (pixel de 2 (abandonné, voir ci-dessous), palette à 60 %, contours), par-dessus des maillages 3D ordinaires, sans Gaussian splats. Elle unifie des modèles de provenances et de niveaux de détail différents : un modèle texturé, réduit et rendu mat, devient acceptable.
 - **Décision** (2026-11-24, P-24, révisable) : **pixel de 1** au lieu de 2. À cette taille, la grille disparaît : l'aspect vient de la **palette à 60 %** et des **contours** d'un pixel. La taille reste réglable dans le jeu.
@@ -617,10 +618,10 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : moteur existant (Bevy, par exemple) ou moteur sur mesure. Bevy évolue vite (API instable) mais offre un ECS performant ; le sur-mesure coûte beaucoup plus cher.
 - **Prototype P-00** ([résultats](https://github.com/labatailledefrance/prototypes/blob/main/p00-socle-ecs/README.md)) : l'ECS de Bevy, en multi-cœur, égale du Rust écrit à la main (≈ 2 ms par tick pour 1 million d'entités), si l'on groupe les composants mis à jour ensemble et contourne la détection de changement là où elle ne sert pas. La limite est la bande passante mémoire, pas le moteur : 10 millions d'agents complets par tick ne tiennent dans le budget avec aucune solution.
 - **Décision** : le jeu est construit sur **Bevy** complet (ECS, rendu, fenêtres, entrées). La simulation utilise l'**exécuteur multi-thread** (systèmes en parallèle, requêtes en `par_iter_mut`).
-- **Décision** (multijoueur, navigateur) : deux binaires issus du même code. Le **serveur** utilise Bevy sans rendu (ECS, exécuteur multi-thread, `MinimalPlugins`) : il porte toute la simulation. Le **client** utilise Bevy complet compilé en **WebAssembly**, rendu en WebGPU : il affiche, il ne simule pas ([F-04](#f-04--plateformes-cibles)).
-- **Conséquence** : l'API de Bevy change à chaque version ; la version est figée dans `Cargo.lock` et les montées de version sont des chantiers planifiés.
+- **Décision** (multijoueur, navigateur) : deux binaires, dans deux dépôts (`beta1-server`, `beta1-client`), qui partagent la bibliothèque `beta1-common` épinglée sur un même tag. Le **serveur** utilise Bevy sans rendu (ECS, exécuteur multi-thread, `MinimalPlugins`) : il porte toute la simulation. Le **client** utilise Bevy complet compilé en **WebAssembly**, rendu en WebGPU : il affiche, il ne simule pas ([F-04](#f-04--plateformes-cibles)).
+- **Conséquence** : l'API de Bevy change à chaque version ; la même version exacte (`=x.y.z`) est imposée à `beta1-common`, `beta1-server` et `beta1-client`, et une montée de version est un chantier planifié, mené dans les trois ensemble.
 - **Constat** (P-24) : un serveur Bevy sans rendu (`MinimalPlugins`, 20 Hz) et un client Bevy reliés par WebSocket forment un jeu jouable de bout en bout ; 27 000 zombies sur 36 km² coûtent 2,3 ms par tick.
-- **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (`game/`) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (dépôts `beta1-*`, voir [développement](developpement/DEVELOPPEMENT.md)) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
 - **Constat** (P-24, Bevy 0.20) : shaders en WESL ; pas de mipmaps pour les GLB (à calculer au chargement) ; une passe placée après le tonemapping lit la profondeur du prepass, donc sans MSAA ; `depth_bias` trie aussi les transparents (biais remis à 0 dans `specialize` pour l'eau). Une compilation avec `lto = "thin"` dure 2 min 40 : prévoir un profil sans LTO pour itérer.
 - **Statut** : Décidé.
 
@@ -679,7 +680,11 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 ### F-05 — Licence
 
-- **Statut** : Ouvert (à voir plus tard).
+- **Décision** : le code est sous **AGPL-3.0-or-later**. Le jeu se joue sur un serveur : avec une licence copyleft classique (GPL), un tiers pourrait héberger une version modifiée sans en publier le code ; l'AGPL l'oblige à le fournir à ses joueurs.
+- **Décision** : les contributions sont soumises au **DCO** (`Signed-off-by` sur chaque commit, vérifié par la CI), sans cession de droits : chaque contributeur garde les siens.
+- **Décision** : dépendances sous licence compatible AGPL seulement, vérifiées par `cargo deny` ; assets tiers en **CC0-1.0, CC-BY-4.0 ou OFL-1.1**, inscrits au manifeste de `beta1-assets` et jamais versionnés ; données sous leur propre licence (Licence Ouverte Etalab, ODbL, voir [B-06](#b-06--licences-des-données)).
+- Détail : [développement](developpement/DEVELOPPEMENT.md).
+- **Statut** : Décidé.
 
 ## G. Trous de conception
 
