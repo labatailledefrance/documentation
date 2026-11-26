@@ -10,7 +10,7 @@ Tous publics, dans l'organisation [`labatailledefrance`](https://github.com/laba
 
 | Dépôt | Rôle |
 |---|---|
-| [.github](https://github.com/labatailledefrance/.github) | CONTRIBUTING, SECURITY, modèles d'issues et de PR ; **workflows réutilisables** appelés par tous les autres dépôts |
+| [.github](https://github.com/labatailledefrance/.github) | CONTRIBUTING, SECURITY, modèles d'issues et de PR ; **workflows réutilisables** appelés par les autres dépôts |
 | [beta1-common](https://github.com/labatailledefrance/beta1-common) | Bibliothèque partagée : positions (`geo`), `Reader` et `Writer` binaires (`codec`), messages et handshake (`protocol`), aléatoire déterministe (`rng`) ; bientôt le format des tiles |
 | [beta1-server](https://github.com/labatailledefrance/beta1-server) | Serveur de simulation : Bevy sans rendu, 20 Hz, WebSocket ; il fait autorité |
 | [beta1-client](https://github.com/labatailledefrance/beta1-client) | Client navigateur : Bevy en WebAssembly, WebGPU seul ; il affiche et envoie des ordres |
@@ -66,7 +66,13 @@ L'analogie : chaque dépôt est un service, `.github` est sa **bibliothèque de 
 | `chart` | `helm lint`, kubeconform, kube-linter (`beta1-helm`) |
 | fuzzing | 60 s sur une PR, 30 min chaque nuit (`beta1-common`) |
 
-Ces checks sont **requis** par le ruleset de `main` : une PR qui en échoue un ne peut pas être fusionnée.
+Chaque dépôt appelle ceux qui le concernent, et son ruleset sur `main` les **exige** : une PR qui en échoue un ne peut pas être fusionnée.
+
+| Dépôts | Checks requis |
+|---|---|
+| `beta1-common`, `beta1-server`, `beta1-client` | `rust`, `securite`, `codeql` (Rust, Actions), `dco` ; fuzzing pour `beta1-common` |
+| `beta1-helm` | `chart`, `securite`, `codeql` (Actions), `dco` |
+| `.github`, `beta1-datachain`, `beta1-assets`, `documentation`, `prototypes`, `agent` | `securite`, `codeql` (Actions), `dco` |
 
 ### Après fusion ou sur un tag
 
