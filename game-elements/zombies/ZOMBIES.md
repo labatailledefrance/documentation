@@ -37,7 +37,7 @@ Comportement des zombies, tel que décidé jusqu'ici. Document à compléter.
 - Ils franchissent les cours d'eau **en marchant au fond** : l'eau ne constitue pas une protection.
 - Sous l'eau, ils ne peuvent pas attaquer un bateau ni un véhicule qui traverse un gué.
 - Ils se marchent dessus : en s'entassant, ils franchissent les obstacles (murs, fossés, barbelés). Les corps des zombies abattus au pied d'un obstacle servent de rampe aux suivants, tant qu'ils ne sont pas évacués. Le nombre de zombies par case est exact partout : une case pleine n'accepte plus personne (réservation des places, [A-05](../../OPEN-PROBLEMS.md#a-05--entassement-et-franchissement-dobstacles)).
-- **Chemin** : un zombie qui a une cible descend un **flow field**, une carte des distances à pied calculée pour toute la tile, à cases de 2 m ([P-03](https://github.com/labatailledefrance/prototypes/blob/main/p03-flow-fields/README.md)). Il contourne les îlots et longe les rues sans raser les façades. Sous 15 m de sa cible, il va droit sur elle.
+- **Chemin** : un zombie qui a une cible descend un **flow field**, une carte des distances à pied calculée pour toute la tile, à cases de 2 m ([P-03](https://github.com/labatailledefrance/prototypes/blob/main/p03-flow-fields/README.md)). Il contourne les îlots et longe les rues sans raser les façades. Sous 15 m de sa cible, il va droit sur elle. Son pas mêle la pente du champ et un **écart individuel**, pour que la foule s'étale au lieu d'avancer en colonne (P-24, révisable). Les champs ne couvrent que les tiles actives et leur couronne.
 - **Limite de la simulation** : un zombie sans cible (errance) ne quitte pas la zone simulée vers une tile inerte ; il fait demi-tour. Un zombie qui poursuit une cible la suit partout ([A-01](../../OPEN-PROBLEMS.md#a-01--nombre-de-zombies--simulation-par-tiles), [P-04](https://github.com/labatailledefrance/prototypes/blob/main/p04-activation/README.md)).
 - **Obstacles** : dans le calcul du chemin, chaque obstacle a un coût de franchissement qui lui est propre (barbelés faible, mur et gravats d'un bâtiment effondré élevés). La foule contourne un obstacle quand le détour est court, et l'attaque en s'entassant quand il est long.
 
@@ -60,7 +60,7 @@ Comportement des zombies, tel que décidé jusqu'ici. Document à compléter.
 ## Comportement de horde
 
 - **Hordes émergentes** : une horde n'est pas un objet du jeu. C'est simplement un ensemble de zombies voisins qui se transmettent l'alerte (voir *Perception*). Pas de meneur, pas de périmètre à calculer, rien à maintenir quand une horde se divise ou fusionne.
-- Les zombies d'une horde suivent le flow field de leur cible ([A-07](../../OPEN-PROBLEMS.md#a-07--recherche-de-chemin)). Chaque tile a deux champs, partagés par tous ses zombies :
+- Les zombies d'une horde suivent le flow field de leur cible ([A-07](../../OPEN-PROBLEMS.md#a-07--recherche-de-chemin)). Chaque tile active (et sa couronne) a deux champs, partagés par tous ses zombies :
   - **proies** : vers les humains observés par au moins un zombie depuis moins d'une minute, à la position où ils ont été vus. C'est la règle de la dernière position connue : la horde suit ce qu'elle sait, pas la vérité. Un zombie va vers l'humain observé le plus proche à pied. Recalculé une fois par seconde ;
   - **bruits** : vers les bruits (tirs, y compris par les fenêtres d'un bâtiment) et les fumées ; recalculé quand ils changent.
 

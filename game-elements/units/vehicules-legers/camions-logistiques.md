@@ -56,4 +56,5 @@ Chaque occupant est un soldat contrôlable individuellement.
 
 ## Décisions
 
+- **Ordres permanents** : un camion peut recevoir un ordre durable (« tenir ce groupe ravitaillé », « vider les corps de ce secteur vers ce site ») et enchaîner seul trajets et chargements (P-24, révisable). Voir [SYSTEMES.md](../../systemes/SYSTEMES.md).
 - La cargaison est gérée au détail : chaque objet est visible, avec une masse et un volume. Palettes et conteneurs peuvent être inspectés. Voir [SYSTEMES.md](../../systemes/SYSTEMES.md).

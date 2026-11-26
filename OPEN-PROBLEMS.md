@@ -53,6 +53,10 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-07) : la grille des carreaux de l'INSEE n'est **pas** celle du Lambert-93 depuis 2017 : elle est en ETRS89-LAEA (EPSG 3035). La grille des tiles reste le Lambert-93 ; les carreaux sont redistribués sur les bâtiments (A-10).
 - **Constat** (P-07) : la zone accessible se calcule par **étiquetage distribué** (composantes par tile, union-find sur les bords) : 0,04 s de fusion pour la Manche, mémoire bornée quelle que soit la surface. Critère d'accès : composante traversée par une route ou un chemin, ou la plus grande (sinon les îles n'auraient pas de zombies). 99,98 % des cases libres de la Manche sont accessibles, 93,9 % à Paris avant percement des cours.
 - **Décision** (P-07) : saturation de la migration (40 000) et capacité d'une tile active (65 000) **maintenues** : la tile la plus dense de France part d'environ 38 000 zombies, sous les deux seuils.
+- **Constat** (P-25) : activation en tâche de fond à tick fixé sur la Manche entière (490 154 zombies) : 149 activations et 113 désactivations, compte contrôlé 285 fois, aucune erreur. Les vagues du siège sont prélevées dans la population des tiles inertes.
+- **Constat** (P-24, siège du Mont-Saint-Michel) : 10 000 zombies presque tous en chasse coûtent 10 à 12 ms par tick, contre 2,3 ms pour 27 000 zombies surtout errants. Le coût suit les zombies **non errants**, pas leur nombre total ; dans P-25, perception 2,7 ms et déplacement 1,7 ms par tick.
+- **À décider** (P-24) : densité de zombies en métropole. Les habitants INSEE seuls laissent le bocage presque vide : faut-il y ajouter des hordes migrantes (P-13) dès le départ ?
+- **À décider** (P-25, appliqué dans le prototype) : les vagues d'un siège sont **prélevées** dans la population des tiles inertes au lieu d'être créées ; aucun zombie n'apparaît, sauf les soldats zombifiés.
 - **Statut** : Décidé dans le principe ; Prototype (priorité 1) pour la taille des tiles ; coût d'une tile urbaine dense mesuré (P-01) ; structure de perception décidée (P-02) ; index des zombies décidé (P-03) ; activation, désactivation, frontières et migration décidées (P-04).
 
 ### A-14 — Territoires sans zombies (outre-mer, zones reconquises)
@@ -96,6 +100,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-05) : pendant un assaut sur une colonie isolée de 30 000 colons, la chute **émerge** : 571 bâtiments sur 574 tombent en 30 min sans arme ; avec 5 % de miliciens, la colonie perd 29 bâtiments puis tient ; avec 20 %, aucun zombie n'atteint une porte. Elle n'a demandé aucune individualisation des occupants. Conservation exacte, une entité zombie par zombifié.
 - **Décision** : **pas d'âge** : la part des enfants et des personnes âgées n'est pas modélisée, tous les colons ont les mêmes règles. Le temps ne passe pas pour la population : ni vieillissement, ni naissances, ni morts de vieillesse ; elle ne change que par les débarquements, les morts et les zombifications.
 - **Décision** : une **colonie n'est pas un objet du jeu** : ce sont des colons logés dans des bâtiments, sur la surface de communes. L'unité d'approvisionnement est la **commune** : sa **mairie** sert de **dépôt** pour toutes les ressources de ses colons (vivres, eau potable, médicaments, vêtements chauds, couvertures, munitions), et chaque bâtiment de la commune y puise directement, sans transport simulé ([mairies.md](game-elements/locations/mairies.md)). Les soldats et les ouvriers logés dans la commune y puisent aussi, munitions comprises ; une unité en opération hors d'un bâtiment, elle, n'est ravitaillée que par sa chaîne logistique. Dépôt de capacité illimitée ; inaccessible tant que la mairie est occupée par des zombies. La mairie n'est que le dépôt **par défaut** : chaque bâtiment puise chaque ressource au **dépôt construit le plus proche** qui la garde ([dépôt de munitions, dépôt de carburant](game-elements/constructions/CONSTRUCTIONS.md#logistique-et-soutien)), dans sa commune ou une commune voisine ; à défaut, à la mairie de sa commune. Les vivres, l'eau potable, les médicaments, les vêtements chauds et les couvertures restent à la mairie. Le stock ne change pas de dépôt tout seul : le joueur le transporte, comme toute cargaison. Une commune voisine est une commune qui **touche** celle du bâtiment (graphe d'adjacence précalculé par la chaîne de données). Un dépôt vide ou occupé par des zombies est sauté : le bâtiment puise au suivant qui a du stock et n'est pas occupé, puis à la mairie.
+- **À décider** (P-25, règle de prototype) : en attendant les colons, dix humains (un véhicule compte pour trois) colorent une commune comme tenue.
 - **Statut** : Décidé.
 
 ### A-16 — Gestion des corps
@@ -115,6 +120,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : **aucune restriction de lieu** : le joueur peut envoyer n'importe qui évacuer des corps (ou construire) n'importe où, y compris sous les balles et au contact des zombies, à ses risques.
 - **Décision** : la fosse commune et l'incinération ne diffèrent que par trois points. L'**incinération** pèse plus lourd sur le moral et fait de la fumée, mais ne se remplit jamais. La **fosse commune** pèse moins sur le moral et ne fait pas de fumée, mais se remplit.
 - **Décision** : l'évacuation des corps fait partie du combat. Sans elle, les rampes de corps et la maladie gagnent ; avec elle, l'incinérateur attire de nouvelles hordes. C'est l'un des moteurs de la boucle de reconquête ([README.md](README.md#boucle-de-reconquête)).
+- **Constat** (P-24) : avec des navettes de camions réglées à la main, les corps s'accumulent (112 au sol pour 129 abattus après 15 min) ; un camion entouré de zombies ne peut pas ramasser.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : des **ordres logistiques permanents** (« vider les corps de ce secteur vers ce site », « tenir ce groupe ravitaillé ») évitent la micro-gestion ([SYSTEMES.md](game-elements/systemes/SYSTEMES.md)).
 - **Statut** : Décidé.
 
 ### A-17 — Maladies
@@ -204,6 +211,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-02, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p02-perception/README.md)) : la veille profonde, testée par une carte de proximité des humains lue en O(1), endort 39 % des zombies d'une tile calme et gagne 23 % du tick. Le reliquat vient de la grille des zombies, dont le coût dépend du nombre de cases plus que du nombre de zombies.
 - **Décision** : quand le calcul ne suit plus à ×1, le **temps de jeu ralentit** sous ×1 (×0,5, ×0,25…) plutôt que de simplifier les combats (A-02).
 - **Constat** (P-09, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md#8-suivi-en-jeu)) : un convoi en tile inerte n'a besoin que de son itinéraire (liste d'arcs) et des durées cumulées : sa position à un instant donné se lit en 10 ns par recherche dichotomique, sans géométrie. En tile active, la géométrie vient des morceaux des tiles traversées (0,1 ms pour 80 km), en positions locales f32 exactes.
+- **Constat** (P-25) : deux foyers de 10 000 zombies et leurs 18 tiles actives coûtent 5,2 ms par tick (p99 7,6 ms). Un convoi de 467 activations traverse le département.
+- **Constat** (P-25, estimation par règle de trois) : le tick dépend du nombre de **foyers** de combat, pas de la taille de la carte. Environ 12 foyers comme ceux de P-25 (deux sièges de 10 000 zombies, 18 tiles actives, 5 à 8 ms) tiendraient dans 50 ms **si** la charge est linéaire. Non mesuré : à vérifier avec une dizaine de foyers.
 - **Statut** : Ouvert (contrainte forte).
 
 ### A-04 — Combat et blessures
@@ -211,6 +220,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : un zombie ne meurt que d'une destruction de la tête ; il faut donc savoir où chaque projectile touche. Des milliers de tireurs (mitrailleuses, artillerie) rendent le calcul balle par balle très coûteux.
 - **Pistes** : balistique complète près de la caméra ; modèle probabiliste (chance de tir à la tête selon l'arme, la distance et l'entraînement) ailleurs. Explosions et fragmentation traitées par zone.
 - **Décision** : modèle probabiliste partout (chance de toucher la tête selon l'arme, la distance, l'entraînement…). Les explosions fonctionnent par zone.
+- **À décider** (P-24) : faut-il garder les véhicules invulnérables au contact des zombies, cabines des camions comprises ?
 - **Statut** : Décidé.
 
 ### A-05 — Entassement et franchissement d'obstacles
@@ -251,6 +261,11 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-09, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md#décisions)) : **CCH** sur un **graphe national unique**. La chaîne calcule l'ordre (dissection emboîtée) et livre un fichier du graphe ; le jeu reconstruit la structure et personnalise une **métrique par classe d'itinéraire** au chargement, en tâche de fond. Une modification du réseau passe par une **personnalisation partielle** ; seuls les convois dont l'itinéraire restant emprunte une arête coupée replanifient, **en tâche de fond**, jamais dans le tick.
 - **Décision** (P-09) : le **sens de circulation** n'est respecté que sur les **chaussées séparées** (autoroutes, routes à 2 chaussées, bretelles) ; les sens uniques urbains, les ronds-points et les interdictions de tourner sont ignorés : il n'y a plus de code de la route.
 - **Décision** (P-09) : une **nouvelle traversée** (pont du génie hors d'un pont existant) ajoute une arête : la structure CCH est reconstruite avec le même ordre, en tâche de fond (60 ms pour la Manche). Poser un pont du génie sur un pont détruit n'est qu'un changement de métrique.
+- **Constat** (P-24) : sur 36 km² de la Manche, deux flow fields calculés sur toute la zone (rayon de 600 m autour des sources) coûtent 20 à 30 ms chacun, hors du tick, une fois par seconde : c'est le premier poste dès qu'il y a plusieurs foyers. En suivant le centre de la case voisine la plus basse, les hordes avancent **en colonne** en terrain ouvert.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : les flow fields sont limités aux **tiles actives et à leur couronne**. Le mouvement d'un zombie mêle le gradient du champ et un **écart individuel**, pour que la foule s'étale.
+- **Constat** (P-25) : CCH reprise dans le jeu, coupure d'une route et replanification ; un convoi doit rester groupé, sinon l'escorte abandonne les camions.
+- **À décider** (P-25, appliqué dans le prototype) : le **convoi** est une unité groupée (vitesse du plus lent, escorte ravitaillée à l'arrêt), et non une liste de véhicules. Utah → Mont-Saint-Michel en environ 1 h 45 avec quatre blindés et quatre camions.
+- **Constat** (P-26, serveur EPYC) : graphe routier des Alpes-de-Haute-Provence, des Hautes-Alpes et des Alpes-Maritimes recousu entre départements : 337 558 nœuds, 381 157 arêtes, 561 tronçons recousus, aucun doublon ni rupture (104 trous aux bords de l'ensemble). Ordre CCH en 12,7 s ; fichier de 24 Mo relu en 0,6 s ; Gap → Nice (214 km) en 4 ms ; une coupure se recalcule en 30 ms, avec le même résultat que le calcul complet. Manche + La Réunion : une composante par île, aucun itinéraire entre elles.
 - **Statut** : Décidé.
 
 ### A-08 — Eau et franchissement des cours d'eau
@@ -258,6 +273,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : les zombies marchent au fond des cours d'eau. Il faut connaître la profondeur, que les données ne fournissent pas pour les rivières.
 - **Voir aussi** : G-02 (la mer).
 - **Décision** : pas d'estimation : profondeur arbitraire pour les cours d'eau (valeur à fixer).
+- **Décision** (P-24, révisable) : les cours d'eau **étroits** (fossés, ruisseaux) sont franchissables **à gué** par les piétons, lentement ; la chaîne les distingue par leur largeur ([B-01](#b-01--chaîne-de-traitement-des-données-ign)).
 - **Statut** : Décidé.
 
 ### A-09 — Logistique et production
@@ -278,6 +294,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : répartition dasymétrique des carreaux de 200 m sur les bâtiments résidentiels, au prorata du plancher, par la méthode du plus fort reste : somme exacte, indépendante de l'ordre, identique pour deux départements voisins. 1 % des habitants de la Manche tombent dans un carreau sans bâtiment et sont posés sur des points. Filosofi compte 1,5 % (Manche) à 3,4 % (Paris) d'habitants de moins que la population légale (sans les communautés, à vérifier).
 - **Piste** (P-07) : la chaîne stocke les **habitants** par fragment ; le nombre de zombies (habitants moins les évacués) se calcule à la création de la partie.
 - **Décision** (P-07) : les habitants initiaux viennent des **carreaux de 200 m** de l'INSEE (Filosofi), répartis sur les bâtiments résidentiels au prorata du plancher (plus fort reste), puis **complétés, commune par commune, jusqu'à la population légale** (population des communautés absente de Filosofi), avec la même répartition. La chaîne stocke les habitants ; les zombies (habitants moins les évacués) se calculent à la création de la partie.
+- **Décision** (P-26, révisable) : **population** depuis les carreaux INSEE de **200 m** en métropole, de **1 km** en Martinique et à La Réunion, et la population **communale** ailleurs. Saint-Barthélemy et Saint-Martin sont absents de la BD TOPO ; leurs chiffres sont à vérifier.
 - **Statut** : Décidé.
 
 ### A-11 — Météo et marées
@@ -293,7 +310,11 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : le jeu est **multijoueur seulement**, sur un **serveur unique faisant autorité** ([H-01](#h-01--architecture--serveur-unique-faisant-autorité)). Pas de lockstep : il est impossible avec des clients navigateur anonymes qui arrivent et partent à tout moment. Le client ne simule rien : il affiche l'état reçu et envoie des ordres.
 - **Conséquence** : le déterminisme n'est plus nécessaire au multijoueur ; il reste utile pour rejouer et déboguer (P-18), et la chaîne de données doit rester déterministe (P-07).
 - **Constat** (P-09, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md#7-déterminisme)) : le graphe routier, l'ordre CCH, les sept métriques et les itinéraires (CCH et Dijkstra) ont les mêmes empreintes à 1 et 16 threads, dans trois ordres de lecture des tiles, sur deux exécutions. Temps en millisecondes entières, égalités départagées par identifiant ; aucune fonction de la bibliothèque mathématique (seulement `sqrt`).
-- **Statut** : Décidé (serveur faisant autorité) ; Piste (déterminisme pour le débogage).
+- **Constat** (P-24) : appliquer les résultats des tâches de fond (chemins, flow fields) **à leur arrivée** rend la partie dépendante de l'horloge murale et du nombre de threads : trois exécutions, trois empreintes. En les appliquant à un tick fixé d'avance, deux exécutions à 16 threads et une à un thread donnent la même empreinte après 6 000 ticks.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : tout calcul en tâche de fond rend son résultat à un **tick fixé à son lancement** ; le tick l'attend s'il est en retard. Analogie : un horodatage logique plutôt que l'heure d'arrivée du message.
+- **Constat** (P-25) : même empreinte à 1 et 16 threads, activations comprises.
+- **Constat** (P-26) : même empreinte pour la Manche (patrouille de 1 500 s) dans P-25 et dans P-26, à 16 et à 1 threads, après la refonte des positions ; l'écart d'une activation (144 au lieu de 145) venait d'un défaut de P-25, qui activait une tile absente des données.
+- **Statut** : Décidé (serveur faisant autorité ; tâches de fond à tick fixé, P-24) ; Piste (déterminisme pour le débogage).
 
 ### A-13 — Sauvegardes
 
@@ -344,6 +365,15 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : la section `bati` reçoit la **hauteur du toit** (dm), les **matériaux** des murs et du toit (un octet chacun) et la **porte** (rang de l'arête extérieure, abscisse au 1/16 m), environ 3 octets par bâtiment ; la chaîne **nettoie les emprises auto-sécantes**.
 - **Constat** (P-09, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md)) : reconstruire le graphe routier depuis les tiles prend 1,4 s pour la Manche (environ 2 min pour la France) ; le livrer coûte 2,2 Mo compressés pour la Manche (graphe et ordre CCH), environ 0,25 Go pour la France, moins de 1 % des tiles. Il manque aux tiles le lien entre un pont et les tronçons qu'il porte (aujourd'hui retrouvé par la géométrie, 2 286 ponts associés sur 2 591 qui portent une route), et l'attribut « fictif » des tronçons.
 - **Décision** (P-09, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md#décisions)) : la chaîne produit, après tous les départements, un **fichier national du réseau routier** (graphe carrossable, charge des ouvrages, ordre CCH). La section `ponts` reçoit les **tronçons portés**, le **franchissement** (tabliers d'une même traversée regroupés) et la **charge calculée** ; la section `reseau` reçoit le bit **fictif**. Les interdictions de tourner ne sont pas ajoutées.
+- **Constat** (P-24) : dans l'occupation du sol, les fossés de drainage des polders sont de l'eau ; infranchissables, ils imposaient aux piétons des détours de plusieurs kilomètres.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : les cours d'eau étroits sont **franchissables à gué** par les piétons, lentement ; la chaîne **distingue les fossés des autres eaux** (par leur largeur) dans la section `occupation`.
+- **Décision** (2026-11-25, pour P-26, révisable) : nœuds de relief de **1 m** au lieu de 2 m, quantifiés à 10 cm (environ 110 Go au lieu de 41 Go pour la France, estimation). Proposé : base de 2 m et complément de 1 m séparés, pour que le client ne télécharge que la base de loin. La grille de simulation reste à 2 m.
+- **Constat** (P-24) : il manque aux tiles de P-07 l'**altitude du toit** et les **remparts** (relus à part dans la BD TOPO). Le rocher du Mont-Saint-Michel est classé en estran et une grande partie de la baie en mer : il a fallu déduire eau, herbus et rocher du relief et de la marée. Un niveau de mer unique ne vaut que pour une zone : appliqué à toute la Manche, il noierait les polders.
+- **Constat** (P-26) : le RGE ALTI 1 m fait **647 Go** et non 561 : la Guyane a quatre quadrants (115 Go), P-07 n'en comptait qu'un. Téléchargement depuis l'IGN : 64 à 97 Mo/s avec deux connexions, avec reprise et contrôle MD5. Le LiDAR HD (MNT) n'est servi qu'en GeoTIFF non compressé par WMS (0,5 m natif ; à 1 m, le service moyenne : 5 cm d'écart avec la moyenne 2 × 2 du natif) ; l'IGN le ralentit (3 Mo/s, erreurs 502 et 504).
+- **Constat** (P-26, échantillons partiels) : LiDAR HD contre RGE ALTI 1 m : écart médian par tile de 23 cm dans la Manche, 133 cm dans les Hautes-Alpes (RMS au pire 21,7 et 87 m). Relief par tile de terre, base 2 m + complément 1 m (zstd 19, 10 cm) : 37 + 77 ko (RGE) contre 54 + 106 ko (LiDAR) dans la Manche ; 54 + 96 contre 95 + 147 ko dans les Hautes-Alpes. Source gardée : environ 2 Mo/km².
+- **Décision** (P-26, 2026-11-25, révisable) : relief national depuis le **LiDAR HD en 1 m** ; le RGE ALTI 1 m comble les trous. Aux raccords, fondu de 32 m (Hautes-Alpes : 156 cm d'écart moyen entre sources, 32 m au plus ; marche restante p99 8 cm, 181 cm au plus). Non corrigé : 310 tiles côtières de la Manche ont une marche de plus de 20 cm (pied de falaise, 5 m contre 1 m). Guadeloupe : pas de chemin « private » à l'IGN, RGE ALTI 1 m seul.
+- **Constat** (P-26, chaîne généralisée, un département à la fois sur le serveur) : Manche, Paris, La Réunion et Hautes-Alpes produits. Manche et Paris : tiles, bâtiments, routes et habitants **égaux à P-07**. Durées de 27 s (Paris) à 354 s (Hautes-Alpes) sur 12 à 16 threads, 2 à 7,5 Go de mémoire, paquets de 30 Mo (Paris) à 1,2 Go (Hautes-Alpes). Relief par tile de terre : 53 + 114 ko (Manche), 72 + 130 ko (Hautes-Alpes), 118 + 231 ko (La Réunion). Nœuds de bord entre départements voisins : plus de 11 millions comparés par département, aucune différence. Relancée, la chaîne rend les mêmes octets (Paris, La Réunion).
+- **Décision** (P-26, révisable) : **étranger ou mer** : hors commune, la limite la plus proche décide ; le trait de côte donne la mer, sinon l'étranger (gris, code d'occupation 15). Limite connue : Jersey et les îles voisines comptent comme de la mer, contrairement à la décision de P-07 (grisées).
 - **Statut** : Décidé (P-07).
 
 ### B-02 — Génération des bâtiments
@@ -377,6 +407,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-08) : la **porte** est sur la case accessible au pied d'un mur extérieur la plus proche de la rue à pied ; calculée par la **chaîne de données** et stockée avec le bâtiment. Sans case accessible au pied des murs (0,4 à 2,4 % des bâtiments), elle est au point du mur le plus proche de la case accessible la plus proche du centroïde (règle de P-05).
 - **Décision** (P-08) : **monuments** modélisés fidèlement : une **liste écrite à la main** d'identifiants BD TOPO ; une liste courte (quelques dizaines de sites nationaux), sans téléchargement de la base Mérimée ; les églises, chapelles, châteaux, forts, phares et moulins ont des **gabarits par nature** de forme simple (nef et clocher, corps et tours d'angle…), générés comme les autres bâtiments. Un bâtiment s'affiche endommagé dès que sa barre de vie est entamée.
 - **Décision** (P-08) : un bâtiment **endommagé** ne change que de couleur ; **effondré**, il laisse un seul relief de gravats sur son emprise dilatée selon sa hauteur (0,3 × la hauteur, valeurs de départ), dont les cases deviennent infranchissables pour les humains et les véhicules.
+- **Décision** (P-26, accord de l'utilisateur, 2026-11-25) : **matériaux réels** des murs et des toits, d'après les codes des fichiers fonciers (à vérifier) ; un matériau inconnu est tiré, toujours le même, parmi ceux de la tile ; hauteur de toit réelle quand elle est connue.
+- **À décider** (P-25) : ouvrir la **porte du Mont-Saint-Michel** pour que les camions entrent ? Le village est inaccessible à pied depuis le pont ; dans P-25, le dépôt est devant la porte.
 - **Statut** : Décidé (bâtiments contenants, auto-résolution, passages, barre de vie, modèle, porte, monuments) ; liste des monuments à écrire.
 
 ### B-03 — Charge limite des ponts
@@ -409,6 +441,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : vérifier la compatibilité de chaque source avec un projet 100 % open source : IGN (Licence Ouverte Etalab), OpenStreetMap (ODbL, attribution et partage à l'identique), INSEE, SHOM.
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : BD TOPO et RGE ALTI sous Licence Ouverte Etalab (version à vérifier) ; carreaux Filosofi de l'INSEE sous Licence Ouverte 2.0 (data.gouv.fr). L'IGN ne couvre pas le Pacifique (Nouvelle-Calédonie, Polynésie, Wallis-et-Futuna), qui a ses propres services (Te Fenua en Polynésie : MNT publiés, bâti à vérifier, limites des communes en ODbL) : le Pacifique a été retiré du jeu ([C-01](#c-01--précision-numérique)). Les tirants d'eau des ports manquent (SHOM).
+- **Constat** (P-26) : terres du monde (globe gris) : Natural Earth 10 m v5.1.2, **domaine public**. LiDAR HD : licence à vérifier (Licence Ouverte Etalab, comme les autres données de l'IGN, probablement).
 - **Statut** : Ouvert.
 
 ## C. Rendu et caméra
@@ -429,6 +462,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-06) : repère de chaque tile au **second ordre** (Taylor au centre), pas en plan tangent.
 - **Décision** (P-06) : **rendu relatif à la caméra**, origine **recalée au-delà de 5 km** de la caméra, par le jeu ; ni `big_space`, ni hiérarchie de Bevy pour les modèles.
 - **Piste** (P-06) : caler les cascades d'ombres sur leur grille de texels, pour supprimer le saut des bords d'ombre au recalage ; à étudier dans P-10.
+- **Constat** (P-26) : réalisation de tile = (zone, ix, iy) : la zone est portée par `ix`, en bandes de 2 048 ; rangs denses dans l'ordre (zone, iy, ix), sur 32 bits dans le protocole. Un compteur par tile ; seules les tiles modifiées sont détaillées ; aucun balayage de la carte.
 - **Statut** : Décidé.
 
 ### C-02 — Niveaux de vue
@@ -442,6 +476,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-08, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md)) : trois niveaux de bâtiments : vue isométrique complète (82 triangles par bâtiment dans la Manche, 155 à Paris) ; vue lointaine (emprise simplifiée à 1 m, sans fenêtres, porches ni portes : 50 et 78 triangles) ; carte (emprise plate : 3 à 6 triangles).
 - **Piste** (P-08) : pas de bâtiments en 3D dans la vue simplifiée : le bâti de 1 m, déjà recalculé au chargement (P-07), sert de texture de carte.
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : bâtiments en trois niveaux : vue isométrique complète ; vue lointaine (emprise simplifiée, sans fenêtres, porches ni portes) ; **aucun bâtiment en 3D en vue simplifiée**, où le bâti de 1 m sert de texture de carte.
+- **Constat** (P-25) : zoom continu du soldat au département, fondu vers la carte entre 5,5 et 8,5 km ; style de carte à valider.
+- **À décider** (P-25) : style de la carte : teintes des communes, chaleur orange pour les zombies.
+- **Constat** (P-26) : pyramide de carte multi-zones, minicarte par zone et mappemonde ; carte de deux territoires (Manche, La Réunion) : 74,6 Mo et 13 s de calcul, contre 383 Mo pour la seule Manche dans P-25. L'estimation de P-25 pour la France (22 à 38 Go) venait surtout de l'ombrage, qui se comprime mal : il se calcule au client.
 - **Statut** : Piste.
 
 ### C-03 — Globe
@@ -450,6 +487,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Piste** : la carte 2D est plaquée sur le globe au dézoom maximal.
 - **Constat** (P-06, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p06-origine-flottante/README.md#analyse)) : un globe dont les sommets sont relatifs au centre de la Terre est faux de 74 px de près et de 2 px à 1 km : il doit être découpé en morceaux, chacun avec son origine locale (comme une tile). Avec des morceaux de 625 km, il est précis au-delà de 1 à 10 km de la caméra.
 - **Décision** (P-06) : le globe est **découpé en morceaux à origine locale**, comme les tiles ; il n'est pas affiché de près (sol des tiles, C-02).
+- **Constat** (P-26) : globe continu ; voyage Mont-Saint-Michel → globe → La Réunion à la molette et au clavier, par le réseau : à-coup de bascule de 0,6 px, frame p99 8,6 ms, max 12,8 ms. Terres du monde rastérisées en 8 192 × 4 096 depuis Natural Earth.
 - **Statut** : Ouvert.
 
 ### C-04 — Streaming sans écran de chargement
@@ -463,6 +501,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Piste** (P-08) : bâtiments **générés au chargement** (jamais stockés : 28 à 45 Go pour la France), en tâche de fond ; maillages découpés en morceaux de 1 à 2 Mo et envoyés par une file limitée en octets par frame.
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : les bâtiments sont **générés au chargement**, en tâche de fond, jamais stockés ; leurs maillages sont découpés en assets de 1 à 2 Mo et envoyés au GPU par une **file limitée en octets par frame**.
 - **Décision** (jeu en navigateur) : le streaming passe désormais par le **réseau** : les tiles viennent du serveur ([H-06](#h-06--diffusion-des-tiles)), l'état des unités et des zombies aussi ([H-05](#h-05--débit-réseau-et-gestion-dintérêt)). Le client génère toujours les bâtiments lui-même, en WebAssembly ([F-04](#f-04--plateformes-cibles)).
+- **Constat** (P-25) : parcours et survol à 1,5 km/s : frame p99 11,1 ms, max 18,6 ms ; les pics de 50 ms venaient des allocations de mémoire graphique. Critère manqué : mémoire du client, 3,8 Go après deux tours et en hausse lente, cause non identifiée (hors du tas Rust) ; une frame de 46,8 ms sur 84 148.
+- **Constat** (P-25) : les pics de frame venaient des **allocations de mémoire graphique** : blocs wgpu de 16 à 32 Mo et dalles de maillages fixes de 64 Mo font passer de 5 à 11 frames au-dessus de 33 ms à zéro par parcours. Mémoire du client : 480 à 560 Mo vivants côté Rust, stables (allocateur compteur) ; le reste est hors du tas Rust (bibliothèques C, wgpu, pilote). mimalloc et les seuils de la glibc n'y changent presque rien. Recommandation : trouver la cause avant P-23.
+- **Constat** (P-26) : le client joue sur son cache quand le serveur est coupé (hors cache : de la mer ; sans cache : un message clair) ; un cache corrompu exprès est retéléchargé, même image.
 - **Statut** : Piste.
 
 ### C-05 — Rendu des foules
@@ -473,6 +514,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-06) : les foules et les modèles nombreux passent par l'**instanciation** (un tampon de positions relatives à l'origine, rempli depuis la simulation) ; environ **100 000 entités rendues** au plus.
 - **Constat** (P-08, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md)) : pour les bâtiments, 49 tiles parisiennes (12,4 millions de triangles) se rendent en 4 ms en morceaux fusionnés de 250 m (832 entités), 3 ms au format compressé de Bevy 0.20 (mémoire GPU divisée par deux, sans changer de shader) ; une entité par bâtiment fait 76 000 entités, des pics de 48 ms et 75 % de mémoire en plus. L'instanciation ne sert pas aux volumes, tous différents.
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : bâtiments rendus en **morceaux de 250 m fusionnés**, au format compressé de Bevy ; ni entité par bâtiment, ni instanciation des volumes.
+- **Constat** (P-24) : client natif, 5 100 zombies en entités Bevy (même maillage, regroupées automatiquement) et 4,6 millions de triangles : frame p99 12 ms sur la machine de mesure.
+- **Constat** (P-25) : foule individuelle jusqu'à 1 km, figurants posés d'après la densité au-delà.
+- **Constat** (P-24, siège du Mont-Saint-Michel) : animations **précalculées dans une texture** (une ligne par image), lues par le shader de sommets : aucun squelette sur le CPU. Quatre zombies, deux niveaux de détail (1 100 triangles près, 320 au-delà de 110 m), teinte et taille variées par individu : 6 400 zombies reçus à 100 images/s.
 - **Statut** : Prototype.
 
 ### C-06 — Lisibilité en ville
@@ -508,7 +552,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Pistes** : lignes de ravitaillement automatiques entre dépôts et unités, que le joueur configure (priorités, escortes, itinéraires).
 - **Pistes** : les lieux contrôlés ouvrent des lignes à grande capacité : de [gare](game-elements/locations/gares.md) à gare, de [port](game-elements/locations/ports.md) à port, de [base aérienne](game-elements/locations/bases-aeriennes.md) à base.
 - **Conséquence** (temps réel, monde persistant) : une traversée dure des semaines réelles et aucun joueur ne suit un convoi de bout en bout. Les lignes automatiques deviennent le mode normal de la logistique, pas un confort (A-02).
-- **Statut** : Ouvert (central).
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : les véhicules logistiques reçoivent des **ordres permanents** (« tenir ce groupe ravitaillé », « vider les corps de ce secteur vers ce site ») ; ils enchaînent seuls trajets et chargements. Les lignes à grande capacité restent à décider.
+- **Statut** : Décidé (ordres permanents) ; Ouvert (lignes à grande capacité).
 
 ### D-04 — Alertes et information
 
@@ -524,6 +569,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### D-06 — Équilibrage
 
 - **Problème** : l'efficacité réaliste (obus flèche inutiles, missiles gaspillés) est voulue, mais le jeu doit rester jouable et intéressant. Les chiffres viendront plus tard ; il faudra des tests de jeu.
+- **Constat** (P-25, siège de 25 min) : sans joueur, 38 pertes et plus de munitions ; avec une défense scriptée, 29 pertes et 16 194 zombies abattus au lieu de 12 134. Le siège est **perdable** ; qu'il soit **tenable** n'est pas démontré.
 - **Statut** : Ouvert.
 
 ## E. Contenu
@@ -532,7 +578,16 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : chaque version de chaque véhicule, chaque navire nommé, les monuments : énorme travail de modèles 3D et de données.
 - **Pistes** : niveau de détail adapté à la vue isométrique ; contributions de la communauté (open source).
-- **Statut** : Ouvert.
+- **Constat** (essai du 2026-11-24, sans prototype conservé) : génération de modèles par IA avec TRELLIS (texte vers 3D, licence MIT ; sa dépendance nvdiffrast n'est pas libre). Une caisse de munitions en 67 s, 1,2 million de faces ; réduite à environ 1 000 faces, le maillage est froissé et inutilisable.
+- **Décision** : **pas de génération par IA** des modèles 3D. Les assets viennent de **sources existantes**, à choisir ; la liste à trouver est dans [ASSETS.md](game-elements/assets/ASSETS.md).
+- **Décision** : **direction artistique low-poly**, dans l'esprit de Project Zomboid (vue isométrique lisible), mais avec des **textures moins détaillées**.
+- **Décision** (2026-11-24, P-24, révisable) : **passe pixel art** plein écran, légère (pixel de 2 (abandonné, voir ci-dessous), palette à 60 %, contours), par-dessus des maillages 3D ordinaires, sans Gaussian splats. Elle unifie des modèles de provenances et de niveaux de détail différents : un modèle texturé, réduit et rendu mat, devient acceptable.
+- **Décision** (2026-11-24, P-24, révisable) : **pixel de 1** au lieu de 2. À cette taille, la grille disparaît : l'aspect vient de la **palette à 60 %** et des **contours** d'un pixel. La taille reste réglable dans le jeu.
+- **Constat** (P-25) : anticrénelage léger essayé, désactivé par défaut, en attente d'avis.
+- **Constat** (P-24, réglages retenus pour le siège du Mont) : passe en mode palette, pixel de 1, palette de **57 couleurs** écrites à la main (pierre, sable, herbe, treillis, mer, sang, feu) comparées en OKLab, à 60 %, contour assombri de 34 %, sans tramage ; tonemapping ACES, sans HDR ni bloom, MSAA coupé sous la passe ; soleil bas et chaud (11 000 lux), ambiante froide (900) ; ombres de 4 096 en cascades jusqu'à 1 100 m ; brouillard à 9 km. Textures : 12 couches de 512 px ramenées à un détail autour de leur moyenne (**la teinte vient du jeu**, pas de la photo). Véhicules mats, opaques, sans métal, à l'échelle réelle ; fumées en panneaux face à la caméra, fondu en quatre paliers.
+- **Constat** (P-24) : la passe d'écran unifie des modèles de provenances très différentes : c'est elle qui donne le style, pas la qualité des modèles. Elle est adaptée de pixelart-gaussiansplat (MIT) ; les Gaussian splats eux-mêmes n'apportent rien (tri par frame, milliers d'éléments par zombie animé).
+- **À décider** (P-25) : anticrénelage léger par défaut ? Il adoucit les toits et les fenêtres, pas les contours d'un pixel.
+- **Statut** : Décidé (pas d'IA, direction artistique, passe pixel art) ; sources des assets et liste des monuments à choisir.
 
 ### E-02 — Format des données
 
@@ -564,6 +619,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : le jeu est construit sur **Bevy** complet (ECS, rendu, fenêtres, entrées). La simulation utilise l'**exécuteur multi-thread** (systèmes en parallèle, requêtes en `par_iter_mut`).
 - **Décision** (multijoueur, navigateur) : deux binaires issus du même code. Le **serveur** utilise Bevy sans rendu (ECS, exécuteur multi-thread, `MinimalPlugins`) : il porte toute la simulation. Le **client** utilise Bevy complet compilé en **WebAssembly**, rendu en WebGPU : il affiche, il ne simule pas ([F-04](#f-04--plateformes-cibles)).
 - **Conséquence** : l'API de Bevy change à chaque version ; la version est figée dans `Cargo.lock` et les montées de version sont des chantiers planifiés.
+- **Constat** (P-24) : un serveur Bevy sans rendu (`MinimalPlugins`, 20 Hz) et un client Bevy reliés par WebSocket forment un jeu jouable de bout en bout ; 27 000 zombies sur 36 km² coûtent 2,3 ms par tick.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (`game/`) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
+- **Constat** (P-24, Bevy 0.20) : shaders en WESL ; pas de mipmaps pour les GLB (à calculer au chargement) ; une passe placée après le tonemapping lit la profondeur du prepass, donc sans MSAA ; `depth_bias` trie aussi les transparents (biais remis à 0 dans `specialize` pour l'eau). Une compilation avec `lto = "thin"` dure 2 min 40 : prévoir un profil sans LTO pour itérer.
 - **Statut** : Décidé.
 
 ### F-02 — Performances de la simulation
@@ -597,6 +655,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-06) : les compteurs de ticks sont en **u64** ; pas de hiérarchie de Bevy pour les modèles rendus ; foules rendues par instanciation (C-05). La date de mise à jour d'un colon reste un u32 relatif, comparé par soustraction modulaire : la fiche garde ses 32 octets (A-02).
 - **Décision** (P-04) : les entités sont créées et détruites **par lots** étalés sur plusieurs ticks ; les tables de l'ECS sont **préchauffées** au démarrage pour **800 000 zombies**, ce que le budget de ×1 permet (environ 40 tiles × 20 000) ; la boucle de simulation vide les journaux de l'ECS (`clear_trackers`) à chaque tick ; les tiles actives réutilisent un **pool** de slots (aucune allocation en régime établi).
 - **Constat** (P-08, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md)) : générer les bâtiments d'une tile dense d'un seul tenant prend 38 à 80 ms ; étalé, au plus 3,08 ms par tick (10 à 18 ticks). Paralléliser une tile sur ses bâtiments est instable (12 à 29 ms sur 16 threads, contre 88 sur un) ; paralléliser sur les tiles donne × 5 à × 8.
+- **Constat** (P-25, estimation pour la France) : les tableaux denses par tile balayés plusieurs fois par seconde grossiraient de 40 fois ou plus : il faut des **listes de tiles utiles**, pas des balayages (fait dans P-26). Graphe routier : environ 11 millions de nœuds (75 fois la Manche), ordre CCH livré par la chaîne. Synchronisation initiale des comptes et des communes 40 fois plus longue : à envoyer par niveau de zoom.
+- **Constat** (P-26, serveur EPYC) : siège du Mont avec 3 000 à 4 600 zombies actifs : tick p99 10 à 13 ms, chaîne de données en parallèle, 560 Mo de mémoire. Le serveur a 125 Go, dont 120 disponibles, sans swap ; `/srv` est sur le RAID 0 (XFS chiffré).
 - **Statut** : Décidé.
 
 ### F-03 — Modding
@@ -614,6 +674,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - Bevy en WebAssembly est **mono-thread** : les threads exigent `SharedArrayBuffer`, donc l'isolation cross-origin (en-têtes COOP et COEP, posés par l'ingress), et l'exécuteur de Bevy ne les exploite pas. La génération des bâtiments (P-08 : 38 à 80 ms par tile dense sur un thread) est étalée sur plusieurs frames ou confiée à des Web Workers.
   - Mémoire limitée à **4 Go** (wasm32).
   - WebGPU sous Linux et Wayland (machine de référence) : support par Chrome et Firefox à vérifier en premier.
+- **Constat** (P-24) : le client de P-24 est natif ; il sert de point de départ à P-23 (wasm et WebGPU).
 - **Statut** : Décidé (navigateur, WebGPU) ; Prototype (P-23).
 
 ### F-05 — Licence
@@ -711,6 +772,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - Aucune migration : ni du format des instantanés (A-13), ni du protocole. Client et serveur ont **toujours la même version** ; à une mise à jour, les clients sont déconnectés et rechargent le client.
   - Un correctif urgent efface lui aussi le monde : les mises à jour se regroupent.
   - Un redémarrage **sans** changement de version (panne, redémarrage du nœud, déplacement du pod) reprend sur le dernier instantané.
+- **Constat** (P-26, cluster) : conteneurs vérifiés dans `/proc` : aucune capacité, pas d'élévation de privilèges, seccomp filtré ; sorties réseau fermées ; un autre pod ne joint pas le serveur de jeu. Mais le **nœud** le joint directement : une NetworkPolicy ne filtre pas l'hôte. L'accès depuis le poste passe par un tunnel SSH ; `sshd` n'autorisait que `PermitOpen 127.0.0.1:6443`, l'adresse de service de nginx (figée) y a été ajoutée, avec l'accord de l'utilisateur.
 - **Statut** : Décidé (serveur unique, autorité, Kubernetes, mise à jour = remise à zéro) ; Piste (découpage, transport).
 
 ### H-02 — Identité et abus
@@ -747,13 +809,19 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Piste** : **gestion d'intérêt** : chaque client ne reçoit que ce que sa caméra voit, comme un abonnement pub/sub par zone. Positions quantifiées et envoyées en différences ; fréquence réduite loin de la caméra ; en vue simplifiée (C-02), des agrégats (densités) plutôt que des agents.
 - **Décision** (recommandation adoptée par défaut, révisable) : quand le lien sature, le serveur envoie par **ordre de priorité**, comme une QoS à files prioritaires sur un routeur : (1) accusés des ordres et votes ; (2) état des unités et des zombies proches de la caméra ; (3) tiles ; (4) état lointain, dégradé en premier (fréquence réduite, agrégats).
 - **À décider** : budget par joueur entre l'état et les tiles (après P-22).
-- **Statut** : Ouvert ; Prototype (P-22).
+- **Constat** (P-24) : avec 26 750 zombies, un client qui voit 1,5 km reçoit **32 ko/s** (p99 40 ko/s) ; un client qui voit toute la zone de 6 km, **475 ko/s**, presque 4 fois le budget de 125 ko/s par joueur. Envoyer chaque zombie (5 octets, 10 fois par seconde) ne passe pas à l'échelle de la vue éloignée.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : zombies **individuels jusqu'à environ 1 km** de la caméra ; au-delà, **carte de densité** par case de 50 m ; positions en différences d'un état à l'autre. Objectif : **60 ko/s par client**, quelle que soit la vue. À valider dans P-22.
+- **Constat** (P-25) : navigation à l'estime et budget d'octets : 24 ko/s (p99 30) pour 8 600 zombies suivis, écart p99 0,85 m ; 3 ko/s au p99 en vue de carte.
+- **Statut** : Décidé (priorités, zombies en densité au-delà de 1 km, 60 ko/s visés) ; Prototype (P-22).
 
 ### H-06 — Diffusion des tiles
 
 - **Décision** : les tiles sont servies par le serveur du jeu, **à la demande**, en HTTP statique ; il n'y a plus d'installation (B-01). Les paquets de tiles sont immuables et identifiés par leur empreinte BLAKE3 : ils se mettent en cache sans expiration (`Cache-Control: immutable`).
 - **Décision** : pas de CDN ni de miroir.
 - **Piste** : cache persistant dans le navigateur (OPFS), qui évite de retélécharger une région déjà visitée ; la place accordée par le navigateur est à mesurer. Les tiles de base (environ 40 Go) tiennent dans le cache mémoire du serveur.
+- **Constat** (P-26) : publication **immuable** : un dossier par département et par empreinte ; les paquets de P-07 sont lus par plages HTTP, avec un index par paquet (décalages, empreinte du début de tile) ; `actuel` est le seul fichier qui change. Le complément de relief de 1 m est en fin de tile : il est omis de loin.
+- **Constat** (P-26, par le tunnel) : une tile de base (56 ko), une connexion : p50 136 ms, p99 615 ms, serveur occupé. Vue complète de La Réunion (585 tiles, 82 Mo, cache vide, ping de 100 à 200 ms) : 16 lectures en parallèle, 8,6 à 11,9 s ; **48**, 4,2 à 6,3 s ; 96, 7,6 à 26,7 s.
+- **Piste** (P-26) : un **aperçu lointain** par bloc (relief et occupation à 20 m, routes), 1 à 1,6 % du poids des tiles : la même vue de La Réunion ne demande que 18 Mo au lieu de 82, affichée en 4,5 à 11,5 s par le réseau.
 - **Statut** : Décidé (à la demande, sans CDN) ; Prototype (P-22).
 
 ### H-07 — Remise à zéro du monde

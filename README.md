@@ -73,10 +73,11 @@ Exigences identifiées :
 - Multijoueur seulement : une partie officielle, sur un serveur unique qui fait autorité (pile native Kubernetes)
 - Sans compte (pour le moment)
 - Jeu 100 % open source
-- Données géographiques issues de l'IGN (BD TOPO, RGE ALTI ; Licence Ouverte Etalab), OpenStreetMap en complément (licence ODbL : attribution obligatoire)
+- Données géographiques issues de l'IGN (BD TOPO, LiDAR HD, RGE ALTI ; Licence Ouverte Etalab, à vérifier pour le LiDAR HD), OpenStreetMap en complément (licence ODbL : attribution obligatoire)
 
 Choix de conception :
 
 - Vue isométrique
+- Direction artistique low-poly, dans l'esprit de Project Zomboid, avec des textures peu détaillées ([E-01](OPEN-PROBLEMS.md#e-01--volume-de-contenu))
 - API/ABI pour le modding avancé, côté serveur seulement ([F-03](OPEN-PROBLEMS.md#f-03--modding))
 - Facilité de traduction
