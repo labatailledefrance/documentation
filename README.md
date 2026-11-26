@@ -7,6 +7,7 @@
 - [Problèmes ouverts](OPEN-PROBLEMS.md) : problèmes techniques et de conception, avec leurs décisions.
 - [Unités](game-elements/units/UNITS.md), [ressources](game-elements/resources/RESOURCES.md), [systèmes](game-elements/systemes/SYSTEMES.md), [zombies](game-elements/zombies/ZOMBIES.md), [constructions](game-elements/constructions/CONSTRUCTIONS.md), [lieux](game-elements/locations/LOCATIONS.md).
 - Prototypes techniques : dépôt [labatailledefrance/prototypes](https://github.com/labatailledefrance/prototypes).
+- [Développement](developpement/DEVELOPPEMENT.md) : dépôts du code, standard, pipelines, déploiement, contribution.
 
 ----
 

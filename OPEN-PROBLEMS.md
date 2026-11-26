@@ -620,7 +620,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (multijoueur, navigateur) : deux binaires issus du même code. Le **serveur** utilise Bevy sans rendu (ECS, exécuteur multi-thread, `MinimalPlugins`) : il porte toute la simulation. Le **client** utilise Bevy complet compilé en **WebAssembly**, rendu en WebGPU : il affiche, il ne simule pas ([F-04](#f-04--plateformes-cibles)).
 - **Conséquence** : l'API de Bevy change à chaque version ; la version est figée dans `Cargo.lock` et les montées de version sont des chantiers planifiés.
 - **Constat** (P-24) : un serveur Bevy sans rendu (`MinimalPlugins`, 20 Hz) et un client Bevy reliés par WebSocket forment un jeu jouable de bout en bout ; 27 000 zombies sur 36 km² coûtent 2,3 ms par tick.
-- **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (`game/`) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (dépôts `beta1-*`, voir [développement](developpement/DEVELOPPEMENT.md)) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
 - **Constat** (P-24, Bevy 0.20) : shaders en WESL ; pas de mipmaps pour les GLB (à calculer au chargement) ; une passe placée après le tonemapping lit la profondeur du prepass, donc sans MSAA ; `depth_bias` trie aussi les transparents (biais remis à 0 dans `specialize` pour l'eau). Une compilation avec `lto = "thin"` dure 2 min 40 : prévoir un profil sans LTO pour itérer.
 - **Statut** : Décidé.
 
@@ -679,7 +679,11 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 ### F-05 — Licence
 
-- **Statut** : Ouvert (à voir plus tard).
+- **Décision** : le code est sous **AGPL-3.0-or-later**. Le jeu se joue sur un serveur : avec une licence copyleft classique (GPL), un tiers pourrait héberger une version modifiée sans en publier le code ; l'AGPL l'oblige à le fournir à ses joueurs.
+- **Décision** : les contributions sont soumises au **DCO** (`Signed-off-by` sur chaque commit, vérifié par la CI), sans cession de droits : chaque contributeur garde les siens.
+- **Décision** : dépendances sous licence compatible AGPL seulement, vérifiées par `cargo deny` ; assets tiers en **CC0-1.0, CC-BY-4.0 ou OFL-1.1**, inscrits au manifeste de `beta1-assets` et jamais versionnés ; données sous leur propre licence (Licence Ouverte Etalab, ODbL, voir [B-06](#b-06--licences-des-données)).
+- Détail : [développement](developpement/DEVELOPPEMENT.md).
+- **Statut** : Décidé.
 
 ## G. Trous de conception
 
