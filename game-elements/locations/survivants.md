@@ -8,6 +8,9 @@ Liste des rares poches isolées de survivants en métropole au début de la part
 - Les poches sont **rares** et **connues dès le début** de la partie.
 - Une fois secourus, les survivants deviennent des [civils](../units/soutien/civils.md), au même titre que les colons.
 - Une poche non secourue peut tomber comme une colonie : la chute est émergente (règles normales d'infection).
+- Une poche est **simulée comme une colonie** : son stock est dans son bâtiment, comme un dépôt ; elle le consomme ; à épuisement, ses survivants tentent une sortie : ils deviennent des [civils](../units/soutien/civils.md) simulés, qui tombent ou survivent par les règles normales (on peut encore en sauver).
+- **Une quinzaine** de poches en métropole, sur des sites plausibles (forts, îles, citadelles, prisons, bases militaires, monastères, phares), **dispersées** sur tout le territoire, dont plusieurs loin de la Normandie.
+- Chaque poche a une **durée de résistance** qualitative (courte, moyenne, longue) ; la liste est écrite à la main dans le scénario du mod `base`.
 
 ## Liste
 
@@ -16,9 +19,14 @@ Une entrée par poche, sous la forme :
 | Lieu | Commune (département) | Type de site | Effectif | Ressources sur place | Notes |
 |---|---|---|---|---|---|
 
-(aucune poche pour l'instant)
+(aucune poche pour l'instant : la liste est à écrire dans le scénario du mod `base`)
+
+## Décisions
+
+- Stock dans le bâtiment de la poche ; à la sortie, civils simulés, sans retrait d'office (2026-11-27, recommandation adoptée par défaut, révisable).
+- Une quinzaine de poches, dispersées, sur des sites plausibles ; simulées comme des colonies ; durée de résistance qualitative ; liste dans le scénario du mod `base` (2026-11-27, recommandation adoptée par défaut, révisable).
+- Les quantités (stocks, effectifs) sont dans le mod `base`, fixées en tests de jeu ([D-06](../../OPEN-PROBLEMS.md#d-06--équilibrage)).
 
 ## Questions ouvertes
 
-- Nombre de poches et répartition sur le territoire.
-- Situation de départ de chaque poche (défenses, niveau qualitatif des stocks, durée de résistance sans secours) ; les quantités sont dans le mod `base`, fixées en tests de jeu (D-06).
+- Choisir les quinze sites.

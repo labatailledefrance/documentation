@@ -33,6 +33,7 @@ Des navires chargés de civils attendent au large de Brest. Le joueur les débar
 - Aucun écran de chargement en jeu : le joueur peut zoomer pour suivre l'action d'un soldat individuel, et dézoomer jusqu'à l'espace. En quelques mouvements de souris, le joueur doit pouvoir déplacer la caméra de Paris à La Réunion sans accroc.
 - Commandement par ordres : le joueur peut commander une unité individuelle (un char, un soldat…) comme une armée entière, mais il ne **pilote** rien : pas de conduite au clavier ou à la manette, pas de vue à la première ou à la troisième personne. Il donne des ordres (destination, mission, trajectoire), un seul à la fois, que les unités exécutent d'elles-mêmes, en choisissant seules leurs cibles ([D-02](OPEN-PROBLEMS.md#d-02--ia-des-unités-amies)).
 - Simulation en temps réel : le jeu n'est pas au tour par tour. Tout se passe en temps réel, **sans accélération** : le temps de jeu est le temps réel ([A-02](OPEN-PROBLEMS.md#a-02--accélération-du-temps)).
+- Météo réelle (Météo-France) et cycle jour-nuit réel ; marées calculées et prévisibles : on planifie un débarquement sur les marées à des semaines, sur la météo à quelques jours ([A-11](OPEN-PROBLEMS.md#a-11--météo-et-marées)).
 - L'intégralité de l'arsenal français est disponible : la majeure partie de l'armée est partie pour l'outre-mer. Tout l'arsenal français reste disponible, mais pas dans les quantités d'avant la guerre contre les zombies.
 
 ### Multijoueur
@@ -78,7 +79,7 @@ Exigences identifiées :
 
 Choix de conception :
 
-- Vue isométrique
+- Vue isométrique ; au dézoom, carte d'état-major (une par territoire), puis le globe ([C-02](OPEN-PROBLEMS.md#c-02--niveaux-de-vue), [C-03](OPEN-PROBLEMS.md#c-03--globe))
 - Direction artistique low-poly, dans l'esprit de Project Zomboid, avec des textures peu détaillées ([E-01](OPEN-PROBLEMS.md#e-01--volume-de-contenu))
 - Jeu décrit par des fichiers de données (TOML) ; mods de données, côté serveur seulement ([E-02](OPEN-PROBLEMS.md#e-02--format-des-données), [F-03](OPEN-PROBLEMS.md#f-03--modding))
 - Facilité de traduction
