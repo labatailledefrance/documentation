@@ -283,7 +283,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : chaque objet a une masse et un volume, et les palettes et conteneurs sont inspectables. Toute la chaîne (matières premières → production → transport → consommation) est simulée.
 - **Pistes** : regrouper les objets identiques en lots (une caisse de 1 000 cartouches, pas 1 000 objets) ; détailler à l'inspection seulement.
-- **Décision** : objets identiques regroupés en lots, avec une mécanique « emballer / déballer » : on emballe des objets en caisses, palettes ou conteneurs pour le transport, et on les déballe à l'arrivée ou pour les inspecter.
+- **Décision** : objets identiques regroupés en lots, avec une mécanique « emballer / déballer » : on emballe des objets en caisses, palettes ou conteneurs pour le transport, et on les déballe à l'arrivée ou pour les distribuer ; l'inspection se fait dans le panneau de cargaison ([D-05](#d-05--inspection-de-la-cargaison)).
 - **Statut** : Décidé.
 
 ### A-10 — Population civile
@@ -304,14 +304,20 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : un cycle météo et un cycle de marées conditionnent les débarquements et le feu (vent).
 - **Pistes** : météo générée de façon déterministe à partir de normales climatiques ; marées calculées par harmoniques à partir de données publiques (SHOM, sous réserve de licence).
-- **Décision** : météo générée de façon déterministe à partir de normales climatiques ; marées calculées par harmoniques (licence des données SHOM à vérifier, voir B-06).
+- **Décision** (abandonnée, remplacée par la météo réelle ci-dessous) : météo générée de façon déterministe à partir de normales climatiques ; marées calculées par harmoniques (licence des données SHOM à vérifier, voir B-06).
 - **Constat** (2026-11-27) : les prédictions de marée du SHOM sont sous une licence à part ([B-06](#b-06--licences-des-données)) : les marées ne peuvent pas en dépendre. La source des constantes harmoniques reste à trouver.
 - **Décision** (2026-11-27, remplace la météo générée) : la **météo est la vraie**, celle de **Météo-France**, lue en direct (modèles AROME et ARPEGE, Licence Ouverte depuis le 1er janvier 2024, API gratuite avec jeton). Le jeu étant en temps réel, la météo du jeu est celle du jour. Les **prévisions officielles** sont affichées aux joueurs : elles portent à environ 2 jours (AROME) et 4 jours (ARPEGE), et peuvent se tromper, comme en vrai. **État de la mer** : modèle de vagues de Météo-France, s'il est ouvert (à vérifier).
 - **Décision** (2026-11-27) : les **marées** sont calculées par le projet à partir des hauteurs du modèle mondial **FES2022** (CNES/AVISO, utilisables pour tout usage, commercial compris, sous accord de licence avec inscription ; compatibilité à vérifier avant de l'inscrire au manifeste des sources). Elles sont astronomiques, donc calculables des semaines à l'avance : le jeu affiche un **annuaire des marées** et les **phases de la lune**. La planification d'un débarquement se fait sur les marées et la lune à plusieurs semaines, sur la météo à quelques jours.
 - **Décision** (2026-11-27) : un **CronJob `meteo`** du chart `game` récupère les prévisions ; c'est le seul pod qui sort vers Météo-France (443). Le jeton de l'API est un **Secret** Kubernetes, jamais dans les values. Le serveur **ingère** les prévisions à un **tick fixé**, comme un ordre de joueur ; elles sont enregistrées dans l'instantané, ce qui garde le déterminisme ([A-12](#a-12--déterminisme-et-multijoueur)). En cas de panne de l'API, la dernière prévision est gardée ; le tick n'attend jamais le réseau.
 - **Décision** (2026-11-27) : sans jeton (partie hébergée par d'autres), **météo calme** par défaut.
-- **À décider** (lot 2) : effets de la météo sur le jeu (vent et feu, état de la mer et débarquements, plafond et visibilité pour les aéronefs et les drones, pluie et mobilité hors route, lune et vision de nuit).
-- **Statut** : Décidé (sources et architecture) ; Ouvert (effets sur le jeu, licence de FES2022, modèle de vagues).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **effets de la météo** :
+  - **vent** : direction et vitesse de propagation du feu et de la fumée ;
+  - **état de la mer** : au-delà d'un seuil, débarquement sur plage, petites embarcations et appontage des hélicoptères impossibles ;
+  - **plafond et visibilité** : frappes aériennes, drones et appui-feu limités par le plafond ; pluie et brouillard réduisent la vue des humains comme des zombies ;
+  - **pluie** : mobilité hors route réduite pour les véhicules à roues ; **neige et verglas** ralentissent les routes ;
+  - **température** : le froid augmente le besoin en **vêtements chauds** et **couvertures**, la chaleur celui en **Eau potable**.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **cycle jour-nuit réel** : soleil et lune calculés pour l'heure et le lieu réels. La nuit réduit la vue des humains sans vision nocturne ; les zombies voient moins aussi, leur ouïe est inchangée. Rendu de nuit : lumière réduite, teinte froide, lumières des communes alimentées en électricité visibles.
+- **Statut** : Décidé (sources, architecture, effets, jour et nuit) ; Ouvert (licence de FES2022, modèle de vagues).
 
 ### A-12 — Déterminisme et multijoueur
 
@@ -491,21 +497,22 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### C-02 — Niveaux de vue
 
 - **Problème** : la vue isométrique ne permet pas de dézoomer jusqu'à l'espace.
-- **Proposition** : au-delà d'un certain zoom, passage en **vue simplifiée** : carte 2D de type carte routière. Voir aussi C-03.
+- **Proposition** (précisée par les décisions ci-dessous : carte d'état-major) : au-delà d'un certain zoom, passage en **vue simplifiée** : carte 2D de type carte routière. Voir aussi C-03.
 - **Décision** : en vue simplifiée, la surface de chaque commune est colorée selon son état : rouge (zombie), jaune (contestée), bleu (libérée). Ce statut est purement cosmétique, sans effet sur le jeu. Règles de passage dans [mairies.md](game-elements/locations/mairies.md).
-- **À décider** : seuil de bascule ; style de la carte ; projection (Lambert-93 pour la métropole, projections locales pour les outre-mer) ; affichage des distances Paris–La Réunion (globe ou changement de carte).
 - **Constat** (P-06, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p06-origine-flottante/README.md#2-précision-du-rendu-relecture-de-la-projection-resultats-precisioncsv)) : un zoom continu du soldat (25 m) au globe (30 000 km) reste précis à toutes les distances avec l'origine flottante. Un globe découpé en morceaux de 625 km à origine locale est sous 0,5 px au-delà de 1 à 10 km de la caméra ; plus près, il faut afficher le sol des tiles. Zones de projection vérifiées dans PROJ : Lambert-93 (EPSG 2154), UTM 20N, 22N, 40S, 38S, 21N, UTM 5S à 8S en Polynésie, Lambert Nouvelle-Calédonie (3163), UTM 1S (Wallis-et-Futuna) ; projection d'usage de chaque territoire à vérifier.
 - **Décision** (P-06) : sous 1 à 10 km d'altitude de caméra, le **sol des tiles** est affiché ; au-dessus, le globe découpé (C-03). Le seuil exact de bascule reste à fixer (P-10).
 - **Constat** (P-08, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md)) : trois niveaux de bâtiments : vue isométrique complète (82 triangles par bâtiment dans la Manche, 155 à Paris) ; vue lointaine (emprise simplifiée à 1 m, sans fenêtres, porches ni portes : 50 et 78 triangles) ; carte (emprise plate : 3 à 6 triangles).
 - **Piste** (P-08) : pas de bâtiments en 3D dans la vue simplifiée : le bâti de 1 m, déjà recalculé au chargement (P-07), sert de texture de carte.
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : bâtiments en trois niveaux : vue isométrique complète ; vue lointaine (emprise simplifiée, sans fenêtres, porches ni portes) ; **aucun bâtiment en 3D en vue simplifiée**, où le bâti de 1 m sert de texture de carte.
 - **Constat** (P-25) : zoom continu du soldat au département, fondu vers la carte entre 5,5 et 8,5 km ; style de carte à valider.
-- **À décider** (P-25) : style de la carte : teintes des communes, chaleur orange pour les zombies.
 - **Constat** (P-26) : pyramide de carte multi-zones, minicarte par zone et mappemonde ; carte de deux territoires (Manche, La Réunion) : 74,6 Mo et 13 s de calcul, contre 383 Mo pour la seule Manche dans P-25. L'estimation de P-25 pour la France (22 à 38 Go) venait surtout de l'ombrage, qui se comprime mal : il se calcule au client.
 - **Décision** (2026-11-27) : la carte note les **lieux** par catégorie (une par fiche de [lieux](game-elements/locations/LOCATIONS.md#carte-et-calques)), et des **couches dynamiques** (statut des communes, densité de zombies, régions électriques, coupures, ponts à charge limitée, ports minés, constructions, alertes, météo). Chaque catégorie et chaque couche a son **interrupteur**.
 - **Décision** (2026-11-27) : les catégories (identifiant, clé de traduction, symbole, zoom minimal, visible par défaut) sont des données du mod `base` ([F-03](#f-03--modding)) ; les listes géographiques écrites à la main sont des entrées de la publication des tiles (`beta1-datachain`, [H-06](#h-06--diffusion-des-tiles)).
 - **Décision** (2026-11-27) : les interrupteurs sont gardés dans le **navigateur** de chaque joueur, sans rien côté serveur ([H-02](#h-02--identité-et-abus)). Les catégories denses n'affichent que leurs sites principaux quand on dézoome.
-- **Statut** : Piste.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **style** de la vue simplifiée : carte d'état-major sobre (relief ombré, bâti en texture, routes par classe, communes colorées en transparence, zombies en chaleur orange), dans la palette de la passe pixel art ([E-01](#e-01--volume-de-contenu)).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **projection** : chaque territoire a sa carte dans sa projection (Lambert-93 en métropole, locale en outre-mer) ; pas de carte plane du monde : au-delà, le globe ([C-03](#c-03--globe)). La distance Paris–La Réunion ne se voit que sur le globe.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : le **seuil** exact de bascule entre la 3D et la vue simplifiée est fixé par la mesure de P-10.
+- **Statut** : Décidé (style, projection, calques) ; Prototype (seuil de bascule, P-10).
 
 ### C-03 — Globe
 
@@ -514,7 +521,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-06, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p06-origine-flottante/README.md#analyse)) : un globe dont les sommets sont relatifs au centre de la Terre est faux de 74 px de près et de 2 px à 1 km : il doit être découpé en morceaux, chacun avec son origine locale (comme une tile). Avec des morceaux de 625 km, il est précis au-delà de 1 à 10 km de la caméra.
 - **Décision** (P-06) : le globe est **découpé en morceaux à origine locale**, comme les tiles ; il n'est pas affiché de près (sol des tiles, C-02).
 - **Constat** (P-26) : globe continu ; voyage Mont-Saint-Michel → globe → La Réunion à la molette et au clavier, par le réseau : à-coup de bascule de 0,6 px, frame p99 8,6 ms, max 12,8 ms. Terres du monde rastérisées en 8 192 × 4 096 depuis Natural Earth.
-- **Statut** : Ouvert.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : au dézoom, la carte de chaque territoire est **plaquée sur le globe** ; les continents étrangers sont grisés ; les navires en mer y sont affichés en symboles.
+- **Statut** : Décidé (2026-11-27).
 
 ### C-04 — Streaming sans écran de chargement
 
@@ -552,12 +560,14 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-08, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md)) : refusionner un morceau pour masquer un bâtiment coûte 10 à 30 ms de mise à jour : la transparence et la découpe autour des unités doivent se faire dans le shader.
 - **Piste** (P-08) : indice du bâtiment par sommet (4 octets) et table d'états par morceau lue par le shader, ou découpe géométrique autour de l'unité ; à mesurer dans P-12.
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : chaque sommet des morceaux porte l'**indice de son bâtiment** (rang sur 16 bits dans le morceau), pour la transparence et la découpe dans le shader ; méthode à choisir dans P-12.
-- **Statut** : Piste.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les bâtiments entre la caméra et des unités visibles sont rendus **transparents** (tramage, cohérent avec le pixel art) ; les unités ont une **silhouette** à travers les murs, les zombies aussi, dans une autre couleur. Pas de vue en coupe : l'intérieur n'est pas simulé (B-02). La méthode exacte dans le shader est choisie par P-12.
+- **Statut** : Décidé (principe) ; Prototype (méthode, P-12).
 
 ### C-07 — Feu et fumée à grande échelle
 
 - **Problème** : rendre des incendies de plusieurs km² avec un coût raisonnable.
-- **Statut** : Ouvert.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : flammes et fumée rendues **par cellule en feu**, instanciées et agrégées au dézoom, dans le style pixel art ; la fumée suit le vent réel ([A-11](#a-11--météo-et-marées)). Coût mesuré par P-17.
+- **Statut** : Décidé (principe) ; Prototype (coût, P-17).
 
 ## D. Interface et jouabilité
 
@@ -608,7 +618,10 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### D-05 — Inspection de la cargaison
 
 - **Problème** : interface pour inspecter palettes, conteneurs, soutes de navires et inventaires des soldats sans noyer le joueur.
-- **Statut** : Ouvert.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : panneau de cargaison **en arbre repliable** (navire → conteneurs → palettes → caisses → lots), avec en tête le **total par ressource** (noms de RESOURCES).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **recherche par ressource** dans tout le monde (« où reste-t-il du F-34 ? »), commune à tous les joueurs.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : emballer, déballer et transborder sont des **ordres** donnés à une unité, pas des actions instantanées ([D-02](#d-02--ia-des-unités-amies)).
+- **Statut** : Décidé (2026-11-27).
 
 ### D-06 — Équilibrage
 
@@ -821,6 +834,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (2026-11-27) : les **mairies** de métropole sont **vides** au début de la partie.
 - **Décision** (2026-11-27) : la **liste des dégâts initiaux** vit dans le scénario du mod `base`, à côté de la force d'invasion.
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les **dépôts pétroliers** et les **hôpitaux** gardent eux aussi une partie de leurs stocks ([raffineries](game-elements/locations/raffineries.md), [hôpitaux](game-elements/locations/hopitaux.md)).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : une **quinzaine de poches de survivants**, dispersées, sur des sites plausibles, décrites dans le scénario du mod `base` ([survivants](game-elements/locations/survivants.md)).
 - **Statut** : Décidé (2026-11-27) ; composition de la force d'invasion à écrire.
 
 ### G-07 — Conditions de victoire et de défaite

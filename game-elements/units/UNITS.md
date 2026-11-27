@@ -53,6 +53,15 @@ Un véhicule est un contenant : chaque membre d'équipage et chaque passager est
 - Les joueurs peuvent **détacher ou rattacher** des unités : c'est un ordre comme un autre (révisable).
 - **IA** : un ordre est un **état désiré**, que l'unité poursuit par une boucle de réconciliation ; ses **réflexes** (riposter, se mettre à couvert, se replier, se ravitailler) sont choisis par des scores d'utilité et suspendent l'ordre sans l'effacer. Les seuils (repli, munitions basses, pertes) sont des données du catalogue, par type d'unité ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies), révisable).
 
+### Météo et nuit
+
+Règles transverses, valables pour toutes les fiches ([SYSTEMES](../systemes/SYSTEMES.md#météo-et-marées)) :
+
+- **Aéronefs** : le plafond et la visibilité limitent frappes, drones et appui aérien.
+- **Navires** : au-delà d'un état de la mer donné, ni débarquement sur plage, ni petites embarcations, ni appontage d'hélicoptère.
+- **Véhicules à roues** : la pluie les ralentit hors route ; neige et verglas ralentissent tous les véhicules sur route.
+- **Nuit** : seules les unités dont la fiche cite une **vision nocturne** ou une optique de nuit voient normalement ; les autres voient moins loin.
+
 ### Contrôle des unités aériennes (et navales)
 
 Le joueur ne pilote pas les aéronefs. Il leur donne des ordres :

@@ -162,8 +162,8 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - La cargaison est gérée au détail : chaque objet est visible individuellement.
 - Chaque objet a une **masse** et un **volume**, qui déterminent ce qu'un véhicule, un navire ou un avion peut emporter.
 - Chaque soldat a un **inventaire individuel limité**, que le port d'un sac à dos augmente.
-- Les objets identiques sont regroupés en lots. Mécanique **emballer / déballer** : on emballe en caisses, palettes ou conteneurs pour transporter, on déballe pour distribuer ou inspecter.
-- Les palettes et les conteneurs peuvent être inspectés pour voir leur contenu.
+- Les objets identiques sont regroupés en lots. Mécanique **emballer / déballer** : on emballe en caisses, palettes ou conteneurs pour transporter, on déballe pour distribuer ; l'inspection se fait dans le panneau de cargaison (voir plus bas).
+- Les palettes et les conteneurs peuvent être inspectés pour voir leur contenu : panneau en arbre repliable (navire → conteneurs → palettes → caisses → lots), avec en tête le total par ressource, et **recherche par ressource** dans tout le monde. Emballer, déballer et transborder sont des ordres donnés à une unité ([D-05](../../OPEN-PROBLEMS.md#d-05--inspection-de-la-cargaison)).
 - Le joueur voit et gère la cargaison des navires (PHA notamment). Le chargement et le déchargement des navires de colons et d'importations se font sur ordre du joueur, ponctuel ou permanent (navette, [D-03](../../OPEN-PROBLEMS.md#d-03--logistique-automatisée)).
 - **Ordres permanents** : en plus des ordres ponctuels (une livraison, charger en A puis décharger en B, compte pour un seul ordre), un véhicule logistique peut recevoir un ordre durable, comme « tenir ce groupe ravitaillé » ou « vider les corps de ce secteur vers ce site » ; il enchaîne seul les trajets et les chargements (P-24, révisable). Sans eux, la logistique demande une micro-gestion intenable à grande échelle.
 
@@ -190,14 +190,22 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - Le feu est simulé objet par objet : chaque arbre, chaque objet peut brûler.
 - La simulation doit tenir des incendies de la taille des plus grands feux français (de l'ordre de la superficie de Bordeaux).
 - Les zombies en feu continuent d'avancer et propagent l'incendie, jusqu'à ce que le feu détruise leur tête et les tue.
+- Le **vent réel** oriente et accélère le feu et la fumée ([A-11](../../OPEN-PROBLEMS.md#a-11--météo-et-marées)).
 
 ## Météo et marées
 
-- Un cycle météo et un cycle de marées sont simulés.
+- La météo est **lue** (Météo-France), les marées sont **calculées** ; aucune n'est générée au hasard.
 - **Météo réelle** : celle de Météo-France, lue en direct ; les prévisions officielles (environ 2 à 4 jours) sont affichées aux joueurs. Sans jeton d'API (autre serveur), météo calme.
 - **Marées** calculées par le projet depuis FES2022, astronomiques donc prévisibles : annuaire des marées et phases de la lune en jeu. On planifie un débarquement sur les marées et la lune à plusieurs semaines, sur la météo à quelques jours ([A-11](../../OPEN-PROBLEMS.md#a-11--météo-et-marées)).
 - Les débarquements ne sont possibles que sur les plages, et seulement en conditions favorables.
 - Dans un port à marée, les navires de fort tirant d'eau n'entrent et ne sortent qu'à certaines heures ([ports](../locations/ports.md)).
+- **Effets de la météo** :
+  - le **vent** oriente et accélère le feu et la fumée ;
+  - au-delà d'un **état de la mer** donné, ni débarquement sur plage, ni petites embarcations, ni appontage d'hélicoptère ;
+  - le **plafond** limite frappes aériennes, drones et appui-feu ; **pluie et brouillard** réduisent la vue des humains comme des zombies ;
+  - la **pluie** ralentit les roues hors route ; **neige et verglas** ralentissent les routes ;
+  - le **froid** augmente le besoin en vêtements chauds et couvertures, la **chaleur** celui en eau potable.
+- **Jour et nuit** : cycle réel, soleil et lune calculés pour l'heure et le lieu réels. La nuit réduit la vue des humains sans vision nocturne et celle des zombies ; leur ouïe est inchangée. De nuit, les lumières des communes alimentées en électricité sont visibles ([A-11](../../OPEN-PROBLEMS.md#a-11--météo-et-marées)).
 
 ## Dissuasion nucléaire
 
@@ -221,6 +229,7 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - **Infrastructure** intacte mais à l'arrêt : routes et ponts praticables, centrales et usines arrêtées, à remettre en route ; des dégâts seulement là où une liste écrite à la main les place ([G-06](../../OPEN-PROBLEMS.md#g-06--état-initial-du-monde)).
 - La **force d'invasion** de départ et la **liste des dégâts initiaux** sont décrites dans le scénario du mod `base` (à écrire).
 - Les **mairies** de métropole sont vides.
+- Une **quinzaine de poches de survivants**, dispersées, décrites dans le scénario du mod `base` ([survivants](../locations/survivants.md)).
 - Aucun soldat n'a d'expérience, forces spéciales et Légion comprises ([A-18](../../OPEN-PROBLEMS.md#a-18--chaîne-sanitaire--blessures-et-usure)).
 - **Approvisionnement** : au début, tout vient de l'outre-mer par bateau. Les ressources que la France ne peut pas produire (pétrole brut, électronique, composants étrangers dont les pièces américaines) sont fournies par des pays non spécifiés, non simulés ([G-03](../../OPEN-PROBLEMS.md#g-03--importations)). Leur livraison n'est pas simulée : elles s'ajoutent aux stocks des ports d'outre-mer environ toutes les deux semaines. Aucun quota sur le transport : le joueur charge, achemine à vitesse réelle et décharge ses navires lui-même.
 - **Fin de partie** : aucune condition de victoire ni de défaite pour le moment ; le jeu tourne indéfiniment (G-07).

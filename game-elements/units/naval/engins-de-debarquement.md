@@ -53,4 +53,4 @@ Chaque occupant est un soldat commandable individuellement.
 
 ## Décisions
 
-- Débarquement uniquement sur les plages, et seulement quand la météo et la marée le permettent : un cycle météo et de marée est simulé. Voir [SYSTEMES.md](../../systemes/SYSTEMES.md).
+- Débarquement uniquement sur les plages, et seulement quand la marée et l'état de la mer le permettent (météo réelle, marées calculées, annuaire en jeu). Voir [SYSTEMES.md](../../systemes/SYSTEMES.md#météo-et-marées).
