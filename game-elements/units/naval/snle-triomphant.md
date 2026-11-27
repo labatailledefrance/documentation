@@ -4,7 +4,7 @@
 
 - Catégorie : naval — Contrôle : [A], ordre de frappe uniquement.
 - Rôle : sous-marin nucléaire lanceur d'engins : dissuasion nucléaire.
-- Base : Saint-Pierre-et-Miquelon (élément de contexte), en patrouille ; invisibles en jeu. L'Île Longue (Brest), siège de la FOST, reste l'objectif central du scénario.
+- Base : Saint-Pierre-et-Miquelon (élément de contexte), en patrouille ; invisibles en jeu. L'Île Longue (Crozon, rade de Brest), siège de la FOST, reste l'objectif central du scénario.
 - Navires : Le Triomphant, Le Téméraire, Le Vigilant, Le Terrible.
 
 ## Postes

@@ -254,7 +254,8 @@ Les arbres sont placés au chargement depuis les données (B-01). Le feu est sim
 | Police de caractères (OFL-1.1 ou CC0-1.0, accents français) | 1 | À trouver |
 | Icônes des ordres (déplacer, attaquer, patrouille, axe de frappe, construire, charger, décharger…) | 1 | À trouver |
 | Icônes des ressources (une par ressource de [RESOURCES.md](../resources/RESOURCES.md)) | 2 | À trouver |
-| Icônes des lieux (CTM, CNPE, barrage, base aérienne, gare, port, mairie, survivants) | 2 | À trouver |
+| Icônes des lieux (CTM, CNPE, barrage, base aérienne, aérodrome, gare, port, mairie, survivants, base et dépôt militaires, raffinerie et dépôt pétrolier, usine d'armement, hôpital, eau potable) | 2 | À trouver |
+| Symboles des couches dynamiques (coupures, ponts à charge limitée, ports minés, alertes, météo, régions électriques) | 2 | À trouver |
 | Curseurs | 2 | À trouver |
 
 ----

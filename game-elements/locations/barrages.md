@@ -3,7 +3,7 @@
 ## Identité
 
 - Type : barrages et centrales hydroélectriques de métropole.
-- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Serre-Ponçon est confirmé en tête (1 270 hm³, CFBR, version 2026) ; le reste du classement est à vérifier dans le registre des barrages (les bulletins des agences de l'eau ne donnent que des volumes utiles) :
+- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Classement du 2026-11-27, d'après la liste des lacs de barrage de Wikipédia (volume de retenue, page marquée « à achever ») ; Serre-Ponçon est confirmé en tête par le CFBR (1 270 hm³, version 2026). Grandval et L'Aigle remplacent Roselend (12e) et Pareloup (13e) de la liste précédente ; classement à vérifier :
 
 | Barrage | Commune (département) |
 |---|---|
@@ -14,9 +14,9 @@
 | Mont-Cenis | Val-Cenis (Savoie) |
 | Sarrans | Sainte-Geneviève-sur-Argence (Aveyron) |
 | Monteynard | Monteynard (Isère) |
+| Grandval | Cantal (commune à vérifier) |
 | Tignes (lac du Chevril) | Tignes (Savoie) |
-| Roselend | Beaufort (Savoie) |
-| Pareloup | Salles-Curan (Aveyron) |
+| L'Aigle | Cantal et Corrèze (commune à vérifier) |
 
 ## Rôle en jeu
 
@@ -45,6 +45,7 @@
 - Un barrage a une barre de vie, comme toute construction ou infrastructure ; endommagé mais pas rompu, il continue de produire. Plusieurs frappes de bombes guidées ou d'artillerie sont nécessaires pour le rompre ; sa rupture noie la vallée en aval.
 - Un barrage détruit ne peut pas être reconstruit ; sa région reste dans le noir pour toujours.
 - Tout ordre de frappe visant un barrage est soumis au **vote des joueurs** ([H-04](../../OPEN-PROBLEMS.md#h-04--vote-sur-les-actions-irréversibles)).
+- La rupture d'un barrage d'amont (Grandval, Bort-les-Orgues) ne rompt **pas** le barrage d'aval (Sarrans, L'Aigle) : la crue s'arrête à la retenue d'aval (2026-11-27, recommandation adoptée par défaut, révisable).
 - La liste des barrages est écrite à la main (identifiants BD TOPO), la BD TOPO classant aussi les seuils en « Barrage » (P-07).
 
 ## Questions ouvertes
