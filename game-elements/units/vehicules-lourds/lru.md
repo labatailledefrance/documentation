@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd — Contrôle : [D] pour le déplacement ; tir sur ordre.
+- Catégorie : véhicule lourd — Contrôle : [O] (déplacement, tir sur une zone désignée par le joueur).
 - Rôle : frappes de précision à longue portée.
 - Statut 2030 : peu d'exemplaires, roquettes non renouvelables.
 
@@ -12,7 +12,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Tireur.
@@ -42,11 +42,11 @@ Chaque occupant est un soldat contrôlable individuellement.
 
 ## Interactions
 
-- Tire sur coordonnées ou sur désignation d'un JTAC.
+- Tire sur une **zone désignée par le joueur** ; un JTAC rend le tir précis.
 
 ## Face aux zombies
 
-- Précis mais charge unitaire : gaspillage contre une horde. Utile pour détruire un pont ou un bâtiment précis.
+- Précis mais charge unitaire : gaspillage contre une horde. Utile pour détruire un pont ou un bâtiment précis, sur ordre du joueur.
 
 ## Décisions
 

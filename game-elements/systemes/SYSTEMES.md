@@ -10,7 +10,7 @@ Décidé avec [H-01 à H-07](../../OPEN-PROBLEMS.md#h-multijoueur-et-serveur).
 
 - **Une seule partie officielle**, multijoueur seulement, sur un serveur unique qui fait autorité ; les joueurs y accèdent depuis leur navigateur ([H-01](../../OPEN-PROBLEMS.md#h-01--architecture--serveur-unique-faisant-autorité)).
 - **Anonymat** : aucun compte, pour le moment ; n'importe qui peut rejoindre la partie et l'influencer ([H-02](../../OPEN-PROBLEMS.md#h-02--identité-et-abus)).
-- **Tout le monde commande tout** : toute unité, tout lieu et tout stock appartiennent à tous les joueurs. Aucun verrou : le dernier ordre l'emporte, contrôle direct compris. Dans les fiches, « le joueur » désigne n'importe quel joueur ([H-03](../../OPEN-PROBLEMS.md#h-03--commandement-partagé)).
+- **Tout le monde commande tout** : toute unité, tout lieu et tout stock appartiennent à tous les joueurs. Aucun verrou : le dernier ordre l'emporte. **Aucune unité n'est pilotée manuellement** : le joueur donne des ordres, même à une unité seule, que l'unité exécute d'elle-même, en choisissant seule ses cibles ; **un seul ordre à la fois** ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies)). Dans les fiches, « le joueur » désigne n'importe quel joueur ([H-03](../../OPEN-PROBLEMS.md#h-03--commandement-partagé)).
 - **Vote** : les actions irréversibles (frappe nucléaire, frappe sur un barrage, liste close) sont soumises au vote des joueurs connectés : majorité des voix exprimées, une voix par adresse IP, 2 minutes, égalité = refus ([H-04](../../OPEN-PROBLEMS.md#h-04--vote-sur-les-actions-irréversibles)).
 - **Monde persistant** : il tourne en temps réel, même quand personne n'est connecté. L'administrateur du serveur peut le remettre à zéro (nouvelle saison) ; toute mise à jour du serveur le remet à zéro ([H-01](../../OPEN-PROBLEMS.md#h-01--architecture--serveur-unique-faisant-autorité), [H-07](../../OPEN-PROBLEMS.md#h-07--remise-à-zéro-du-monde)).
 - **Gestion d'intérêt** : un client reçoit les zombies **un par un jusqu'à environ 1 km** de sa caméra, une **carte de densité** (cases de 50 m) au-delà, en différences d'un état à l'autre ; objectif de 60 ko/s par client ([H-05](../../OPEN-PROBLEMS.md#h-05--débit-réseau-et-gestion-dintérêt)).
@@ -110,7 +110,7 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - Chaque soldat a ses propres jauges de **fatigue**, de **moral**, de **faim** et de **soif**. Elles évoluent **une fois par seconde** de jeu, pas à chaque tick : elles changent lentement, et cela divise leur coût par 20 (P-00).
 - **Événements ponctuels** (mort d'un civil à proximité, chef tué…) : ils sont mis en file et appliqués aux jauges lors de la mise à jour suivante, soit au plus une seconde de jeu plus tard. Leurs effets s'additionnent : l'ordre des événements au cours d'une même seconde ne change pas le résultat.
 - **Débandade** : évaluée à la même mise à jour d'une seconde, quand le moral passe sous un seuil.
-- **Commandement** : un chef de groupe améliore le moral et la précision de son groupe.
+- **Commandement** : un chef de groupe améliore le moral et la précision de son groupe. Un ordre donné au groupe **remplace l'ordre en cours** de chacun de ses membres.
 - **Mort de civils** : la mort d'un civil à proximité d'une unité fait baisser son moral (événement ponctuel, appliqué à la mise à jour suivante des jauges).
 - **Usure psychologique** : jauge lente, distincte du moral, mise à jour avec les autres. Elle monte avec l'exposition au combat, les pertes et la manipulation des corps, et ne baisse qu'au repos en tile sûre. Au-delà d'un seuil, le soldat devient **blessé psychique** : évacué vers une tile sûre, il est inapte environ un jour de jeu, puis revient avec une usure juste sous le seuil (il rechute vite sans repos supplémentaire). La perte du chef de groupe augmente l'usure du groupe. Elle impose la relève des unités ([A-18](../../OPEN-PROBLEMS.md#a-18--chaîne-sanitaire--blessures-et-usure)).
 - **Blessures** : les zombies n'en font pas (tout contact zombifie). Elles sont d'origine humaine et accidentelle : appuis-feux trop proches, tirs amis, brûlures et souffle d'une arme nucléaire, accidents de véhicules, de chantier et de manipulation des corps, brûlures, effondrements (pour les humains proches du bâtiment ; ses occupants, eux, meurent). La fatigue en augmente le risque. Le manque de sommeil n'est pas simulé à part : la fatigue le couvre.
@@ -162,17 +162,20 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - Chaque soldat a un **inventaire individuel limité**, que le port d'un sac à dos augmente.
 - Les objets identiques sont regroupés en lots. Mécanique **emballer / déballer** : on emballe en caisses, palettes ou conteneurs pour transporter, on déballe pour distribuer ou inspecter.
 - Les palettes et les conteneurs peuvent être inspectés pour voir leur contenu.
-- Le joueur voit et gère la cargaison des navires (PHA notamment). Le chargement et le déchargement des navires de colons et d'importations sont manuels.
-- **Ordres permanents** : en plus des ordres ponctuels (charger, aller, décharger), un véhicule logistique peut recevoir un ordre durable, comme « tenir ce groupe ravitaillé » ou « vider les corps de ce secteur vers ce site » ; il enchaîne seul les trajets et les chargements (P-24, révisable). Sans eux, la logistique demande une micro-gestion intenable à grande échelle.
+- Le joueur voit et gère la cargaison des navires (PHA notamment). Le chargement et le déchargement des navires de colons et d'importations se font sur ordre du joueur (pas d'ordre permanent).
+- **Ordres permanents** : en plus des ordres ponctuels (une livraison, charger en A puis décharger en B, compte pour un seul ordre), un véhicule logistique peut recevoir un ordre durable, comme « tenir ce groupe ravitaillé » ou « vider les corps de ce secteur vers ce site » ; il enchaîne seul les trajets et les chargements (P-24, révisable). Sans eux, la logistique demande une micro-gestion intenable à grande échelle.
 
 ## Combat
 
+- **L'unité choisit seule ses cibles** : le joueur ne désigne ni cible ni zone de tir ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies)), sauf pour les [appuis-feux](#appuis-feux) et les destructions.
 - **Pas d'auto-résolution** : toute unité du joueur est réellement simulée, même loin de la caméra. **Seule exception** : le combat à l'intérieur d'un bâtiment, qui est auto-résolu (B-02).
 - **Tirs** : modèle probabiliste partout (chance de toucher la tête selon l'arme, la distance, l'entraînement…).
 - **Explosions** : effets calculés par zone.
 
 ## Appuis-feux
 
+- **Le joueur désigne la zone** : artillerie sur une zone, axes de frappe des aéronefs, appui-feu naval sur une zone côtière ; l'appui-feu à la demande est demandé par le joueur. C'est l'exception à « l'unité choisit ses cibles » ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies)).
+- **Destruction d'une infrastructure précise** (pont, rails, bâtiment) : toujours un ordre du joueur ; une unité ne la décide jamais seule. Frappe sur un barrage et frappe nucléaire : cible désignée par le joueur, puis soumise au vote.
 - Les frappes d'artillerie et aériennes sont possibles sans JTAC, avec une précision dégradée.
 - Avec un JTAC, elles sont précises.
 

@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : décontamination des zones (évacuation et traitement des corps de zombies et d'humains).
 - Statut : équipes dédiées, formées et équipées pour manipuler les corps. Correspondance avec une formation réelle (armée, sécurité civile, services funéraires) : à vérifier.
 

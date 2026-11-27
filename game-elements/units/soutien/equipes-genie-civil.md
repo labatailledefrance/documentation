@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : remise en service des infrastructures (énergie, eau, routes, ponts), travail dans les usines.
 
 ## Armement

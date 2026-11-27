@@ -539,14 +539,19 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 ### D-01 — Du soldat à l'armée
 
-- **Problème** : le joueur peut contrôler chaque soldat, mais commande aussi des dizaines de milliers d'hommes sur tout le territoire. Il lui faut une chaîne de commandement : ordres donnés à une section, une compagnie, un régiment, et exécutés automatiquement.
+- **Problème** : le joueur peut donner un ordre à chaque soldat, mais commande aussi des dizaines de milliers d'hommes sur tout le territoire. Il lui faut une chaîne de commandement : ordres donnés à une section, une compagnie, un régiment, et exécutés automatiquement.
+- **Décision** : un **ordre de groupe** remplace l'ordre en cours de chacun des soldats du groupe ([D-02](#d-02--ia-des-unités-amies)).
 - **Statut** : Ouvert (central).
 
 ### D-02 — IA des unités amies
 
-- **Problème** : toutes les unités que le joueur ne contrôle pas directement doivent agir avec compétence : se défendre, se ravitailler, respecter les ordres, fuir quand il le faut. Cela inclut aéronefs et navires (waypoints, patrouilles, axes de frappe).
+- **Problème** : toutes les unités doivent agir avec compétence : se défendre, se ravitailler, respecter les ordres, fuir quand il le faut. Cela inclut aéronefs et navires (waypoints, patrouilles, axes de frappe).
+- **Décision** : **pas de pilotage manuel**. Le joueur ne conduit aucun véhicule ni aucun soldat (pas de clavier ou de manette sur une unité, pas de vue à la première ou à la troisième personne) ; il donne des **ordres**, même à une unité seule (destination, mission, posture, embarquement), que l'unité exécute d'elle-même. Le serveur ne reçoit que des ordres ponctuels, jamais un flux continu d'entrées ([H-03](#h-03--commandement-partagé), [H-05](#h-05--débit-réseau-et-gestion-dintérêt)).
+- **Décision** : **pas de micro-management** : le joueur ne désigne ni cible ni zone de tir ; l'unité juge sa situation et **engage ce qu'elle veut**. **Exceptions**, ordres du joueur : missions de feu à distance sur une zone (artillerie, axes de frappe, appui-feu naval, appui-feu à la demande), destruction d'une infrastructure précise (jamais décidée par l'unité), frappe nucléaire et frappe sur un barrage (cible désignée puis votée, [H-04](#h-04--vote-sur-les-actions-irréversibles)).
+- **Décision** : **un seul ordre à la fois**, sans file d'ordres ; un nouvel ordre remplace le précédent (un trajet par waypoints, une livraison ou un ordre permanent compte pour un ordre). Exception : plusieurs tirs nucléaires en parallèle.
+- **Conséquence** : cette IA porte **toutes** les unités, pas seulement aéronefs et navires, et choisit seule ses cibles.
 - **Conséquence** (temps réel, monde persistant) : le monde tourne sans personne de connecté ; une unité doit pouvoir tenir des heures, voire des jours, sans qu'aucun joueur ne la regarde (A-02).
-- **Statut** : Ouvert (central).
+- **Statut** : Décidé (pas de pilotage manuel, pas de micro-management, un seul ordre à la fois) ; Ouvert (IA des unités, central).
 
 ### D-03 — Logistique automatisée
 
@@ -794,8 +799,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Décision** : **tout le monde commande tout**. Toute unité, tout lieu et tout stock appartiennent à tous les joueurs ; n'importe qui peut donner n'importe quel ordre, à tout moment.
 - **Convention** : dans les fiches, « le joueur » désigne **n'importe quel joueur**.
-- **Décision** : **aucun verrou** sur une unité. Le **dernier ordre l'emporte**, contrôle direct compris : un joueur peut prendre une unité tenue par un autre.
-- **Piste** : l'interface montre qu'une unité est en contrôle direct, et depuis combien de temps son dernier ordre a été donné.
+- **Décision** : **aucun verrou** sur une unité. Le **dernier ordre l'emporte** : un ordre remplace celui d'un autre joueur.
+- **Décision** : **pas de pilotage manuel** ([D-02](#d-02--ia-des-unités-amies)) : aucun joueur ne tient une unité en continu, il n'y a donc rien à verrouiller.
+- **Piste** : l'interface montre depuis combien de temps le dernier ordre d'une unité a été donné.
 - **Statut** : Décidé.
 
 ### H-04 — Vote sur les actions irréversibles

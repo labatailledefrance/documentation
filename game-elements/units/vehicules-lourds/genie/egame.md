@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd (génie) — Contrôle : [D]
+- Catégorie : véhicule lourd (génie) — Contrôle : [O]
 - Rôle : terrassement, fossés, talus, déblaiement, travaux d'aménagement.
 
 ## Versions
@@ -11,7 +11,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Conducteur.
 

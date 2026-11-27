@@ -15,8 +15,10 @@ Les statistiques chiffrées seront définies plus tard ; les fiches utilisent de
 
 ## Légende
 
-- **[D]** : contrôle direct par le joueur.
-- **[A]** : unité pilotée par le jeu ; le joueur lui donne des ordres (voir ci-dessous).
+Aucune unité n'est pilotée manuellement (voir [Pas de pilotage manuel](#pas-de-pilotage-manuel)). La légende indique le type d'ordres :
+
+- **[O]** : ordres d'unité : le joueur donne une destination ou une mission ; l'unité, même seule, choisit son chemin et ses cibles.
+- **[A]** : ordres de trajectoire (aéronefs, navires) : waypoints, patrouilles, axes de frappe (voir ci-dessous).
 
 ----
 
@@ -28,7 +30,20 @@ Chaque version de chaque véhicule est incluse. Les bâtiments de la Marine sont
 
 ### Granularité
 
-Un véhicule est un contenant : chaque membre d'équipage et chaque passager est un soldat individuel, contrôlable une fois descendu. Un Griffon, c'est un pilote, un chef d'engin et 8 fantassins, chacun avec sa propre fiche d'infanterie.
+Un véhicule est un contenant : chaque membre d'équipage et chaque passager est un soldat individuel, commandable une fois descendu. Un Griffon, c'est un pilote, un chef d'engin et 8 fantassins, chacun avec sa propre fiche d'infanterie.
+
+### Pas de pilotage manuel
+
+- **Décision** : le joueur **ne pilote aucune unité** : pas de conduite d'un véhicule au clavier ou à la manette, pas de vue à la première ou à la troisième personne. Il peut toujours **commander une unité individuelle** (un soldat, un char, un drone MALE) en lui donnant des ordres, que l'unité exécute seule ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies)).
+- **Décision** : **pas de micro-management**. Le joueur ne désigne **ni cible ni zone de tir** à une unité : l'unité connaît mieux sa situation que lui, et **engage ce qu'elle veut**.
+- **Exceptions** : les **missions de feu à distance** et les **destructions** sont des ordres du joueur ([SYSTEMES](../systemes/SYSTEMES.md#appuis-feux)) :
+  - artillerie ([CAESAR](vehicules-lourds/caesar.md), [LRU](vehicules-lourds/lru.md)) sur une **zone désignée par le joueur** ;
+  - **axes de frappe** des aéronefs ; **appui-feu naval** sur une zone côtière ; l'**appui-feu à la demande** est demandé par le joueur ;
+  - **destruction d'une infrastructure précise** (pont, rails, bâtiment) : toujours un ordre du joueur, **jamais une décision de l'unité** ;
+  - **frappe nucléaire** et **frappe sur un barrage** : cible désignée par le joueur, puis soumise au vote.
+- **Décision** : **un seul ordre à la fois** : pas de file d'ordres. Un nouvel ordre remplace le précédent. Comptent pour un seul ordre : un trajet par waypoints, une patrouille, une **livraison** (charger en A, aller, décharger en B), un ordre permanent ([SYSTEMES](../systemes/SYSTEMES.md#cargaison-et-logistique)). **Exception** : un SNLE peut mener plusieurs tirs nucléaires en parallèle, sur plusieurs cibles.
+- **Décision** : un **ordre de groupe** (donné au chef de groupe, à une section, à une compagnie) **remplace l'ordre en cours** de chacun de ses membres.
+- **Pourquoi** : le serveur reçoit des **ordres ponctuels** plutôt qu'un flux continu d'entrées, sensible à la latence ; et, sans verrou, plusieurs joueurs ne se disputent pas le volant d'une même unité ([H-03](../../OPEN-PROBLEMS.md#h-03--commandement-partagé)).
 
 ### Contrôle des unités aériennes (et navales)
 
@@ -61,7 +76,7 @@ La politique n'est pas simulée. L'arme nucléaire est utilisable comme une arme
 
 ----
 
-## Infanterie (soldats individuels, tous [D])
+## Infanterie (soldats individuels, tous [O])
 
 - [Fusilier](infanterie/fusilier.md)
 - [Chef de groupe](infanterie/chef-de-groupe.md)
@@ -77,7 +92,7 @@ La politique n'est pas simulée. L'arme nucléaire est utilisable comme une arme
 - [Forces spéciales](infanterie/forces-speciales.md)
 - [Légion étrangère](infanterie/legion-etrangere.md) (trait de régiment)
 
-## Véhicules légers ([D])
+## Véhicules légers ([O])
 
 - [VBL](vehicules-legers/vbl.md)
 - [Serval](vehicules-legers/serval.md)
@@ -88,7 +103,7 @@ La politique n'est pas simulée. L'arme nucléaire est utilisable comme une arme
 - [Camions logistiques](vehicules-legers/camions-logistiques.md)
 - [Véhicules civils récupérés](vehicules-legers/vehicules-civils.md)
 
-## Véhicules lourds ([D])
+## Véhicules lourds ([O])
 
 - [Leclerc XLR](vehicules-lourds/leclerc.md)
 - [CAESAR](vehicules-lourds/caesar.md)
@@ -119,14 +134,14 @@ La politique n'est pas simulée. L'arme nucléaire est utilisable comme une arme
 - [Canadair](aerien/canadair.md)
 - [Dash 8 bombardier d'eau](aerien/dash8.md)
 
-## Naval (majoritairement [A])
+## Naval ([A])
 
 - [PHA Mistral](naval/pha-mistral.md)
 - [Charles de Gaulle](naval/charles-de-gaulle.md)
 - [FREMM](naval/fremm.md)
 - [FDI](naval/fdi.md)
 - [BRF (ravitailleurs)](naval/brf.md)
-- [Engins de débarquement](naval/engins-de-debarquement.md) ([D] pendant le débarquement)
+- [Engins de débarquement](naval/engins-de-debarquement.md)
 - [SNA Suffren](naval/sna-suffren.md)
 - [SNLE Triomphant](naval/snle-triomphant.md)
 - [Chasseurs de mines](naval/chasseurs-de-mines.md)
@@ -137,7 +152,7 @@ La politique n'est pas simulée. L'arme nucléaire est utilisable comme une arme
 - [Gendarmerie et police](soutien/gendarmerie-police.md)
 - [Sapeurs-pompiers](soutien/sapeurs-pompiers.md)
 - [Équipes sanitaires](soutien/equipes-sanitaires.md)
-- [Hôpital de campagne](soutien/hopital-de-campagne.md)
+- [Hôpital de campagne](soutien/hopital-de-campagne.md) (construction, pas une unité)
 - [Civils](soutien/civils.md)
 - [Milices](soutien/milices.md)
 - [Équipes de génie civil](soutien/equipes-genie-civil.md)

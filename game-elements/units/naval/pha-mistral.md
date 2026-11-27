@@ -8,7 +8,7 @@
 
 ## Postes
 
-L'équipage n'est pas contrôlable à bord. Les troupes embarquées redeviennent contrôlables une fois débarquées.
+L'équipage n'est pas commandable à bord. Les troupes embarquées redeviennent commandables une fois débarquées.
 
 - Équipage du navire.
 - Troupes embarquées : plusieurs centaines de soldats avec leurs véhicules.

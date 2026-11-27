@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : pas un rôle à part, mais une appartenance : tout rôle d'infanterie peut être légionnaire.
 
 ## Armement

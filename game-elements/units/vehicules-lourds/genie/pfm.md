@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd (génie) — Contrôle : [D]
+- Catégorie : véhicule lourd (génie) — Contrôle : [O]
 - Rôle : franchissement des grands cours d'eau par pont flottant ou bac motorisé.
 
 ## Versions
@@ -11,7 +11,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Équipage de chaque module (pilote, pontonniers).
 

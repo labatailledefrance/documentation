@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : liaisons radio ; guidage des appuis d'artillerie et aériens (JTAC : contrôleur aérien avancé).
 
 ## Armement
@@ -23,7 +23,7 @@
 
 ## Interactions
 
-- Améliore la précision des frappes de l'[artillerie](../vehicules-lourds/caesar.md) et de l'[aviation](../aerien/rafale.md).
+- Améliore la précision des frappes ordonnées par le joueur (il ne les déclenche pas) de l'[artillerie](../vehicules-lourds/caesar.md) et de l'[aviation](../aerien/rafale.md).
 - Relie l'échelle du soldat à l'échelle stratégique.
 
 ## Face aux zombies

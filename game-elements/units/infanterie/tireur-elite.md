@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : tir à très longue distance, observation, travail en binôme hors du groupe.
 
 ## Armement

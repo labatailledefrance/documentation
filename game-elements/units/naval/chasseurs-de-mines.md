@@ -8,9 +8,9 @@
 
 ## Postes
 
-L'équipage n'est pas contrôlable à bord.
+L'équipage n'est pas commandable à bord.
 
-- Équipage du navire, plongeurs démineurs (contrôlables une fois à l'eau).
+- Équipage du navire, plongeurs démineurs (commandables une fois à l'eau).
 
 ## Ordres possibles
 

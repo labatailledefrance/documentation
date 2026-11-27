@@ -2,12 +2,12 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : structure fixe, déplaçable.
+- Catégorie : soutien — **construction** ([CONSTRUCTIONS](../../constructions/CONSTRUCTIONS.md#logistique-et-soutien)), pas une unité : elle ne reçoit pas d'ordres.
 - Rôle : soins chirurgicaux et médicaux ; les blessés guéris retournent au combat.
 
 ## Postes
 
-Chaque membre du personnel est contrôlable individuellement.
+Chaque membre du personnel est commandable individuellement.
 
 - Médecins, chirurgiens, infirmiers, personnel de soutien.
 
@@ -41,6 +41,7 @@ Chaque membre du personnel est contrôlable individuellement.
 
 ## Décisions
 
+- L'hôpital de campagne est une **construction**, pas une unité : on le bâtit, on le démonte, on le transporte et on le remonte ; il ne se déplace pas sur ordre.
 - Les blessés guéris retournent au combat, sauf les amputés, réaffectés à l'arrière à un poste pertinent pour leur métier : un infirmier de combat amputé peut y travailler.
 - Un blessé grave meurt s'il n'est pas opéré à temps : l'hôpital vaut par sa **distance au front**, ce qui pousse à l'avancer, donc à le protéger et à l'approvisionner ([A-18](../../../OPEN-PROBLEMS.md#a-18--chaîne-sanitaire--blessures-et-usure)).
 - Les blessures viennent des humains et des accidents (appuis-feux trop proches, tirs amis, véhicules, chantier, corps, brûlures, effondrements pour les humains proches du bâtiment), jamais des zombies.

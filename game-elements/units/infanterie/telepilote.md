@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : reconnaissance rapprochée avec des micro-drones et des drones légers.
 
 ## Armement
@@ -24,7 +24,7 @@
 
 ## Interactions
 
-- Le drone lui-même peut être piloté directement, dans un rayon limité.
+- Les drones sont un **équipement** du télépilote, pas des unités : il les emploie de lui-même, dans un rayon limité. Le joueur ne leur donne pas d'ordres et ne les pilote pas.
 - Fournit du renseignement aux groupes voisins.
 
 ## Face aux zombies
@@ -33,4 +33,5 @@
 
 ## Décisions
 
+- Les drones restent un **équipement** du télépilote : pas d'unité à part, pas d'ordres propres ([UNITS](../UNITS.md#pas-de-pilotage-manuel)).
 - Les drones n'attirent pas les zombies.

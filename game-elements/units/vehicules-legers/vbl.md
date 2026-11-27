@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule léger — Contrôle : [D]
+- Catégorie : véhicule léger — Contrôle : [O]
 - Rôle : reconnaissance, liaison.
 - Statut 2030 : en cours de remplacement par le [Serval](serval.md) ; encore présent dans les stocks.
 
@@ -16,7 +16,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Chef de bord / tireur.

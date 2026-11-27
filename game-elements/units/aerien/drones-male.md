@@ -44,7 +44,7 @@
 
 ## Interactions
 
-- Fournit le renseignement aux unités au sol et désigne des cibles pour l'artillerie et l'aviation.
+- Fournit le renseignement aux unités au sol et rend précises les frappes d'artillerie et d'aviation ordonnées par le joueur ; il ne choisit pas les cibles.
 
 ## Face aux zombies
 

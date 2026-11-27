@@ -16,7 +16,7 @@
 
 ## Postes
 
-Équipage individuel, non contrôlable à bord, mais pouvant survivre à un crash.
+Équipage individuel, non commandable à bord, mais pouvant survivre à un crash.
 
 - Pilote.
 - Chef de bord / observateur.

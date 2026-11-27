@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : civils armés sommairement pour garder des points fixes ou renforcer une défense.
 
 ## Armement

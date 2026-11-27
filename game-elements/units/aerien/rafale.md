@@ -15,14 +15,14 @@
 
 ## Postes
 
-Équipage individuel, non contrôlable à bord, mais pouvant survivre à une éjection.
+Équipage individuel, non commandable à bord, mais pouvant survivre à une éjection.
 
 - Pilote (et navigateur officier de systèmes d'armes sur le Rafale B).
 
 ## Ordres possibles
 
 - Trajet par waypoints.
-- Patrouille stationnaire (cercle, huit, hippodrome) pour l'appui-feu à la demande.
+- Patrouille stationnaire (cercle, huit, hippodrome) pour l'appui-feu à la demande (demandé par le joueur).
 - Axe de frappe : droite de longueur arbitraire le long de laquelle les bombes sont larguées.
 
 ## Armement
