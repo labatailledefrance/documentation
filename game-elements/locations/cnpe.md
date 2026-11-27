@@ -26,7 +26,7 @@
 | Saint-Laurent | Loir-et-Cher |
 | Tricastin | Drôme |
 
-Liste à vérifier pour 2030 (fermetures ou mises en service éventuelles d'ici là).
+Liste vérifiée pour 2030 (2026-11-27) : aucune fermeture n'est prévue avant 2030, l'État ayant renoncé aux fermetures de la PPE 2 et prolongé le parc ; Flamanville 3 (EPR) est en service depuis décembre 2024 (57 réacteurs). Les EPR2 (Penly, Gravelines) ne produiront pas avant 2030.
 
 ## Rôle en jeu
 

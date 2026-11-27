@@ -20,7 +20,7 @@
 ## Données
 
 - Emprise des ports et des quais : BD TOPO, OpenStreetMap en complément.
-- Tirant d'eau admissible et cotes des chenaux : source à trouver (SHOM, sous réserve de licence ; à vérifier).
+- Tirant d'eau admissible et cotes des chenaux : source à trouver. Une partie des données du SHOM est sous Licence Ouverte 2.0, mais pas toutes ([B-06](../../OPEN-PROBLEMS.md#b-06--licences-des-données)) ; à vérifier produit par produit.
 
 ## Décisions
 

@@ -7,7 +7,7 @@
 
 ## Versions
 
-- Version unique. Liste à vérifier.
+- Version unique ; autonomie de 450 km sur route ou 10 h de travail (fiche de l'armée de Terre). À remplacer par l'EGC (8×8) ; date à vérifier.
 
 ## Postes
 

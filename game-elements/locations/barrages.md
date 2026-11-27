@@ -3,7 +3,7 @@
 ## Identité
 
 - Type : barrages et centrales hydroélectriques de métropole.
-- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Classement à vérifier :
+- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Serre-Ponçon est confirmé en tête (1 270 hm³, CFBR, version 2026) ; le reste du classement est à vérifier dans le registre des barrages (les bulletins des agences de l'eau ne donnent que des volumes utiles) :
 
 | Barrage | Commune (département) |
 |---|---|

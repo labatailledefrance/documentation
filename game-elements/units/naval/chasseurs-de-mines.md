@@ -4,7 +4,7 @@
 
 - Catégorie : naval — Contrôle : [A]
 - Rôle : déminage des approches maritimes et des ports.
-- Statut 2030 : chasseurs de mines tripartites en cours de remplacement par le système SLAM-F (drones).
+- Statut 2030 : six des huit chasseurs de mines tripartites (CMT) seront retirés d'ici 2030 (audition du chef d'état-major de la Marine, avril 2026) ; leurs successeurs, les bâtiments de guerre des mines du système **SLAM-F** (drones), n'entrent en service qu'après 2030. En attendant, deux navires modulaires affrétés servent de bâtiments-mères pour les drones.
 
 ## Postes
 
@@ -49,4 +49,4 @@ L'équipage n'est pas commandable à bord.
 
 ## Questions ouvertes
 
-- Noms des bâtiments en service en 2030 à recenser.
+- Noms des deux CMT restant en 2030 : à vérifier (en service en 2025-2026 : Sagittaire, Andromède, Céphée, L'Aigle notamment ; le Persée a quitté le service fin 2025).

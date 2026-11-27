@@ -52,6 +52,7 @@ Les règles sont dans CONTRIBUTING ; voici ce qui les fait respecter.
 | Pas de secret dans l'historique | gitleaks |
 | Ordre des systèmes explicite (aucune ambiguïté) | détection d'ambiguïté de Bevy en erreur, au démarrage du serveur en CI |
 | Catalogue valide (champs connus, références, bornes) | `beta1-server --check` |
+| JSON Schema du catalogue à jour | régénéré en CI et comparé à la version du dépôt |
 
 L'analogie : chaque dépôt est un service, `.github` est sa **bibliothèque de pipelines** partagée, versionnée comme une dépendance. Un dépôt appelle `labatailledefrance/.github/.github/workflows/rust.yml@<SHA> # v2.0.0` : changer de version de pipeline est une PR explicite, jamais une dérive silencieuse.
 
@@ -64,7 +65,7 @@ Décisions : [E-02](../OPEN-PROBLEMS.md#e-02--format-des-données), [F-01](../OP
 Ce qui **décrit** le jeu est en données ; ce qui le **fait tourner** est en Rust. Comme dans Kubernetes : la ressource est déclarative, le controller est compilé.
 
 - **Catalogue** : un fichier TOML par objet (unité et ses versions et postes, arme, munition, véhicule, ressource, recette, construction, lieu, paramètres des zombies, scénario et état initial), référencé par identifiant. Les textes affichés sont des clés de traduction (Fluent, français seul au début, E-05).
-- **Validation stricte au démarrage** : champs inconnus refusés, références et bornes vérifiées ; le serveur ne démarre pas sur une erreur. `beta1-server --check` en CI ; JSON Schema généré pour l'éditeur.
+- **Validation stricte au démarrage** : champs inconnus refusés, références et bornes vérifiées ; le serveur ne démarre pas sur une erreur. `beta1-server --check` en CI ; JSON Schema versionné dans le dépôt, vérifié à jour en CI, pour l'éditeur.
 - **Compilation au chargement** en une ressource `Catalogue` indexée par entiers ; son hash entre dans le hash d'état. Le client le reçoit au handshake (types dans `beta1-common`).
 - **Pas de rechargement à chaud** : une donnée changée, c'est un redémarrage, donc un monde remis à zéro.
 - **Tout est mod**, à la manière de Factorio : le contenu de base est le mod `base` (`beta1-server/mods/base/`, dans l'image), chargé comme les autres. Chaque mod a un `mod.toml` (identifiant, version, dépendances) ; l'ordre suit les dépendances, puis l'ordre déclaré. Les mods d'un opérateur arrivent par une PVC, listés dans les values du chart `game` ; la partie officielle ne charge que `base`. Pas de code de mod chargé à l'exécution ; un mod de comportement est un fork.
@@ -83,7 +84,7 @@ beta1-server/src/
   combat/
   logistique/
   routes/          CCH, tâches de fond à tick fixé
-  reseau/          WebSocket, handshake, send queue
+  reseau/          WebSocket, handshake, send queue, quota des ordres coûteux
   sauvegarde/
   determinisme/    hash d'état
 mods/base/         le contenu de base : mod.toml, TOML, textes Fluent

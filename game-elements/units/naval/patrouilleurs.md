@@ -41,7 +41,7 @@ Chaque occupant d'une petite embarcation est un soldat commandable individuellem
 
 ## Face aux zombies
 
-- L'eau ne protège pas : les zombies franchissent les cours d'eau.
+- Sur les fleuves, l'eau ne protège pas : les zombies franchissent les cours d'eau au fond. En mer, au-delà de l'estran, le navire est à l'abri ([G-02](../../../OPEN-PROBLEMS.md#g-02--les-zombies-et-la-mer)).
 
 ## Décisions
 
@@ -49,4 +49,7 @@ Chaque occupant d'une petite embarcation est un soldat commandable individuellem
 
 ## Questions ouvertes
 
-- Noms des bâtiments en service en 2030 à recenser.
+- Recensement partiel (2026-11-27) :
+  - **Patrouilleurs outre-mer** (POM, classe Félix Éboué, six) : Auguste Bénébig, Teriieroo a Teriierooiterai, Jean Tranape et Philippe Bernardino sont basés dans le **Pacifique, hors du jeu** ; Auguste Techer et Félix Éboué à La Réunion.
+  - **Patrouilleurs Antilles-Guyane** (PAG, trois) : La Confiance et La Résolue (Guyane), La Combattante (Martinique).
+  - **Patrouilleurs hauturiers** (PH, dix d'ici 2035, premier livré vers 2026) : Trolley de Prévaux (tête de série), puis notamment D'Estienne d'Orves, Jeanne Bohec, Premier maître Nonen, Jacqueline Carsignol, Commandant Ducuing ; nombre en service en 2030 et liste complète à vérifier.

@@ -188,7 +188,7 @@ Chaque construction a une barre de vie : prévoir un état **endommagé** si le 
 | Chevaux de frise | 2 | À trouver |
 | Bastion de gabions (type HESCO) | 2 | À trouver |
 | Mur en béton préfabriqué | 2 | À trouver |
-| Fossé, talus / merlon | 2 | Peut-être généré (relief) |
+| Fossé, talus / merlon, cratère | 2 | Généré (modification du relief, B-05) |
 | Champ de mines / pièges (signalisation) | 3 | À trouver |
 | Poste de tir surélevé / tour de guet | 2 | À trouver |
 | Projecteur d'éclairage de périmètre | 3 | À trouver |
