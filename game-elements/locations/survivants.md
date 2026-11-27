@@ -21,4 +21,4 @@ Une entrée par poche, sous la forme :
 ## Questions ouvertes
 
 - Nombre de poches et répartition sur le territoire.
-- Situation de départ de chaque poche : stocks de vivres et d'eau, défenses, durée de résistance sans secours.
+- Situation de départ de chaque poche (défenses, niveau qualitatif des stocks, durée de résistance sans secours) ; les quantités sont dans le mod `base`, fixées en tests de jeu (D-06).

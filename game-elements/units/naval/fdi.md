@@ -4,7 +4,7 @@
 
 - Catégorie : naval — Contrôle : [A]
 - Rôle : frégates de défense et d'intervention : lutte anti-sous-marine, défense aérienne, appui-feu naval.
-- Navires : Amiral Ronarc'h, Amiral Louzeau, Amiral Castex, Amiral Nomy, Amiral Cabanier (à vérifier : nombre en service en 2030).
+- Navires : Amiral Ronarc'h (livré le 17 octobre 2025), Amiral Louzeau (lancé en mai 2026), Amiral Castex, Amiral Nomy, Amiral Cabanier (livraisons de 2027 à 2032, la dernière en 2032). En 2030 : deux à quatre FDI, dates de Louzeau et Castex à vérifier.
 
 ## Versions
 

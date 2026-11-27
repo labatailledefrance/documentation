@@ -1,6 +1,6 @@
 # Constructions (ébauche)
 
-Liste préliminaire des constructions possibles. Les coûts sont qualitatifs (faible / moyen / élevé) ; les quantités seront définies plus tard. Les ressources citées sont définies dans [RESOURCES.md](../resources/RESOURCES.md).
+Liste préliminaire des constructions possibles. Les coûts sont qualitatifs (faible / moyen / élevé) ; les quantités seront définies dans le mod `base`, en tests de jeu ([D-06](../../OPEN-PROBLEMS.md#d-06--équilibrage)). Les ressources citées sont définies dans [RESOURCES.md](../resources/RESOURCES.md).
 
 Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du génie ([EBG](../units/vehicules-lourds/genie/ebg.md), [EGAME](../units/vehicules-lourds/genie/egame.md)…), [ouvriers](../units/soutien/equipes-genie-civil.md).
 
@@ -15,8 +15,9 @@ Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du gén
 | Mur de sacs de sable | Sacs, terre ou sable | Sapeurs, ouvriers, infanterie | Faible | Protège les tireurs. |
 | Bastion de gabions (type HESCO) | Gabions, terre | Sapeurs avec engin | Moyen | Mur rapide et solide. |
 | Mur en béton préfabriqué | Blocs de béton | Engins de levage | Élevé | Durable ; nécessite des camions et une grue. |
-| Fossé | — | EGAME, EBG, ouvriers | Moyen | Canalise les hordes ; consomme du carburant pour les engins. |
-| Talus / merlon | Terre | EGAME, EBG | Moyen | Souvent combiné au fossé. |
+| Fossé | — | EGAME, EBG, ouvriers | Moyen | Canalise les hordes ; consomme du carburant pour les engins. Modifie le relief ([B-05](../../OPEN-PROBLEMS.md#b-05--destructions-et-modifications-du-terrain)). |
+| Talus / merlon | Terre | EGAME, EBG | Moyen | Souvent combiné au fossé. Modifie le relief (B-05). |
+| Comblement de cratère | Terre | EGAME, EBG, sapeurs | Faible | Rouvre une chaussée coupée aux véhicules à roues par un cratère (B-05). |
 | Barricade d'épaves | Véhicules épaves | EBG, dépanneurs | Faible | Utilise les épaves des routes. |
 | Champ de mines / pièges | Mines et pièges, explosifs | Sapeurs | Moyen | Usage unique. |
 | Poste de tir surélevé / tour de guet | Bois ou acier | Sapeurs, ouvriers | Moyen | Améliore la vue des tireurs. |
@@ -51,7 +52,7 @@ Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du gén
 
 ## Infrastructures à remettre en service
 
-Sites existants à reconquérir puis à réparer plutôt qu'à construire :
+Sites existants à reconquérir puis à remettre en route plutôt qu'à construire : intacts mais à l'arrêt, sauf là où la liste des dégâts initiaux les endommage ([G-06](../../OPEN-PROBLEMS.md#g-06--état-initial-du-monde)) :
 
 - Usines (munitions, poudres, explosifs, pièces détachées).
 - Raffineries et dépôts pétroliers.

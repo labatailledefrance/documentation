@@ -4,7 +4,7 @@
 
 - Catégorie : naval — Contrôle : [A]
 - Rôle : sous-marin nucléaire d'attaque : escorte, renseignement, frappes, insertion de forces spéciales.
-- Navires : Suffren, Duguay-Trouin, Tourville, De Grasse, Rubis, Casabianca (à vérifier : nombre en service en 2030).
+- Navires : Suffren, Duguay-Trouin, Tourville, De Grasse (livré en 2026), Rubis (attendu en 2028), Casabianca (sixième, service prévu en 2030). Les anciens Rubis et Casabianca de classe Rubis sont retirés (2022 et 2023) ; le dernier de la classe, l'Améthyste, doit l'être en 2027. En 2030 : cinq ou six SNA de classe Suffren, selon la date réelle du Casabianca (vérifié le 2026-11-27).
 
 ## Postes
 

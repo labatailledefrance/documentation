@@ -7,7 +7,7 @@
 
 ## Versions
 
-- EBG VT (rénové). Liste à vérifier.
+- EBG VT (rénové), sur châssis d'AMX-30B2 ; fin de vie prévue vers 2030. Son successeur, l'**EGC** (engin du génie de combat, 8×8), doit remplacer l'EBG, l'EGRAP et l'EGAME ; son arrivée avant 2030 est à vérifier.
 
 ## Postes
 

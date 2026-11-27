@@ -2,7 +2,7 @@
 
 Liste commune des ressources du jeu. Les fiches d'unités reprennent ces noms exacts, afin que la chaîne logistique reste lisible : quelle unité dépend de quoi, et ce qui s'arrête quand un stock s'épuise.
 
-Les quantités et les taux de consommation seront définis plus tard.
+Les quantités et les taux de consommation seront définis dans le mod `base`, en tests de jeu ([D-06](../../OPEN-PROBLEMS.md#d-06--équilibrage)).
 
 ----
 

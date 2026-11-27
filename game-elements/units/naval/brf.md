@@ -4,7 +4,7 @@
 
 - Catégorie : naval — Contrôle : [A]
 - Rôle : ravitaillement à la mer des navires de combat : carburants, munitions, vivres, pièces détachées.
-- Navires : Jacques Chevallier, Jacques Stosskopf, Émile Bertin, Gustave Zédé (à vérifier : nombre en service en 2030).
+- Navires : Jacques Chevallier (en service en 2023), Jacques Stosskopf (admis au service actif le 7 mai 2026), Émile Bertin et Gustave Zédé (livraisons attendues avant 2030, dates à vérifier).
 
 ## Versions
 

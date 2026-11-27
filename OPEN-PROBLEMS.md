@@ -302,7 +302,13 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Problème** : un cycle météo et un cycle de marées conditionnent les débarquements et le feu (vent).
 - **Pistes** : météo générée de façon déterministe à partir de normales climatiques ; marées calculées par harmoniques à partir de données publiques (SHOM, sous réserve de licence).
 - **Décision** : météo générée de façon déterministe à partir de normales climatiques ; marées calculées par harmoniques (licence des données SHOM à vérifier, voir B-06).
-- **Statut** : Décidé.
+- **Constat** (2026-11-27) : les prédictions de marée du SHOM sont sous une licence à part ([B-06](#b-06--licences-des-données)) : les marées ne peuvent pas en dépendre. La source des constantes harmoniques reste à trouver.
+- **Décision** (2026-11-27, remplace la météo générée) : la **météo est la vraie**, celle de **Météo-France**, lue en direct (modèles AROME et ARPEGE, Licence Ouverte depuis le 1er janvier 2024, API gratuite avec jeton). Le jeu étant en temps réel, la météo du jeu est celle du jour. Les **prévisions officielles** sont affichées aux joueurs : elles portent à environ 2 jours (AROME) et 4 jours (ARPEGE), et peuvent se tromper, comme en vrai. **État de la mer** : modèle de vagues de Météo-France, s'il est ouvert (à vérifier).
+- **Décision** (2026-11-27) : les **marées** sont calculées par le projet à partir des hauteurs du modèle mondial **FES2022** (CNES/AVISO, utilisables pour tout usage, commercial compris, sous accord de licence avec inscription ; compatibilité à vérifier avant de l'inscrire au manifeste des sources). Elles sont astronomiques, donc calculables des semaines à l'avance : le jeu affiche un **annuaire des marées** et les **phases de la lune**. La planification d'un débarquement se fait sur les marées et la lune à plusieurs semaines, sur la météo à quelques jours.
+- **Décision** (2026-11-27) : un **CronJob `meteo`** du chart `game` récupère les prévisions ; c'est le seul pod qui sort vers Météo-France (443). Le jeton de l'API est un **Secret** Kubernetes, jamais dans les values. Le serveur **ingère** les prévisions à un **tick fixé**, comme un ordre de joueur ; elles sont enregistrées dans l'instantané, ce qui garde le déterminisme ([A-12](#a-12--déterminisme-et-multijoueur)). En cas de panne de l'API, la dernière prévision est gardée ; le tick n'attend jamais le réseau.
+- **Décision** (2026-11-27) : sans jeton (partie hébergée par d'autres), **météo calme** par défaut.
+- **À décider** (lot 2) : effets de la météo sur le jeu (vent et feu, état de la mer et débarquements, plafond et visibilité pour les aéronefs et les drones, pluie et mobilité hors route, lune et vision de nuit).
+- **Statut** : Décidé (sources et architecture) ; Ouvert (effets sur le jeu, licence de FES2022, modèle de vagues).
 
 ### A-12 — Déterminisme et multijoueur
 
@@ -341,7 +347,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : une **mise à jour du serveur remet le monde à zéro** ([H-01](#h-01--architecture--serveur-unique-faisant-autorité)). Un instantané n'est donc relu que par la version qui l'a écrit : il ne sert qu'à reprendre après un arrêt ou un redémarrage (panne, redémarrage du nœud). Aucune migration de format n'est jamais nécessaire.
 - **Décision** (2026-11-27) : un instantané enregistre le **hash du catalogue** (mods compris, [E-02](#e-02--format-des-données)). Le serveur **refuse de reprendre** un instantané dont le hash diffère, au lieu de remettre le monde à zéro sans prévenir : la remise à zéro reste une décision de l'opérateur ([H-07](#h-07--remise-à-zéro-du-monde)).
 - **Constat** (serveur) : le volume racine (XFS sur LUKS, 15 To) est en **RAID 0** sur les deux disques durs de 8 To : il n'est pas redondant. La perte d'un disque perd le monde ; vu la décision précédente, elle équivaut à une remise à zéro.
-- **Statut** : Décidé (tiles, instantanés du monde toutes les 5 minutes, bâtiments modifiés) ; Piste (autres différences du monde de base).
+- **Décision** (2026-11-27) : les autres différences du monde de base (cratères, fossés, talus) sont des différences du relief, dans le fichier de leur tile ([B-05](#b-05--destructions-et-modifications-du-terrain)).
+- **Statut** : Décidé.
 
 ## B. Monde et données
 
@@ -426,10 +433,11 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### B-04 — Végétation
 
 - **Problème** : chaque arbre est un objet (le feu le demande), mais les données ne décrivent que des surfaces boisées.
-- **Piste** : arbres générés de façon déterministe à partir des surfaces forestières et de leur essence (BD Forêt).
+- **Piste** (remplacée par les décisions ci-dessous) : arbres générés de façon déterministe à partir des surfaces forestières et de leur essence (BD Forêt).
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : la BD TOPO distingue forêts de feuillus, de conifères, mixtes, bois, haies (233 000 surfaces et 902 000 lignes dans la Manche), landes, vergers, vignes et peupleraies, sans essences fines (BD Forêt, non téléchargée). Une couche d'occupation à 2 m (un octet par case) fait 6 à 11 ko par tile. Tirer les arbres au chargement par hachage coûte 0,5 ms par tile (8 000 arbres en médiane en rural, 38 000 au plus) ; les stocker coûterait 33 ko par tile.
 - **Décision** (P-07) : les arbres sont **générés au chargement**, de façon déterministe (hachage), à partir de la couche d'occupation à 2 m (classes de la BD TOPO : feuillus, conifères, mixte, bois, haie, lande, verger, vigne, peupleraie) ; ils ne sont pas stockés.
-- **Statut** : Décidé (arbres générés au chargement) ; Ouvert (essences fines : BD Forêt, densités).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les **classes de la BD TOPO suffisent** ; la BD Forêt est abandonnée. Les densités par classe sont des données du catalogue.
+- **Statut** : Décidé (2026-11-27).
 
 ### B-05 — Destructions et modifications du terrain
 
@@ -438,15 +446,23 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-08, [décisions](https://github.com/labatailledefrance/prototypes/blob/main/p08-generation-batiments/README.md#décisions)) : un bâtiment effondré se régénère depuis son état (gravats et cases bloquées compris) ; seul son état est sauvegardé (A-13).
 - **Constat** (P-09, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p09-chemin-routier/README.md#4-modifications)) : couper une route ou détruire un pont se répercute sur les itinéraires en moins d'une milliseconde par classe (personnalisation partielle de la CCH), 1 000 coupures en 11 ms ; la réouverture rend exactement la métrique d'origine. La BD TOPO décrit un pont **par tablier** : détruire un pont d'une 2 × 2 voies ne coupe qu'un sens.
 - **Décision** (P-09) : un **pont du jeu** est une traversée (tabliers regroupés par la chaîne) : il est détruit, endommagé ou réparé d'un bloc. Gravats, épaves et barrages du génie coupent les arêtes qu'ils recouvrent.
-- **Statut** : Décidé (bâtiments effondrés, ponts détruits et routes coupées dans la recherche de chemin) ; Ouvert (cratères, fossés et talus).
+- **Décision** (2026-11-27) : le **relief peut être modifié** : les obus laissent des **cratères**. Une modification est enregistrée comme une **différence** des nœuds du relief dans le fichier de la tile ([A-13](#a-13--sauvegardes)) et envoyée aux clients ; la tile publiée, immuable, n'est jamais réécrite. La grille de 2 m et les flow fields de la zone sont recalculés (recalcul partiel, P-03).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les **fossés et talus** du génie modifient eux aussi le relief, par le même mécanisme.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : un cratère sur une chaussée la **coupe pour les véhicules à roues** (les chenillés passent) jusqu'à ce que le génie le comble ; la recherche de chemin le traite comme une coupure.
+- **Décision** (2026-11-27) : après un cratère, un fossé ou un talus, la **zone accessible** et le **franchissable de 2 m**, précalculés par la chaîne, sont **recalculés localement** sur la tile par le serveur, et enregistrés avec la différence du relief.
+- **Décision** (2026-11-27) : un cratère coupe aussi les **voies ferrées** et les **pistes d'aviation** jusqu'à son comblement par le génie.
+- **Statut** : Décidé (2026-11-27).
 
 ### B-06 — Licences des données
 
 - **Problème** : vérifier la compatibilité de chaque source avec un projet 100 % open source : IGN (Licence Ouverte Etalab), OpenStreetMap (ODbL, attribution et partage à l'identique), INSEE, SHOM.
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : BD TOPO et RGE ALTI sous Licence Ouverte Etalab (version à vérifier) ; carreaux Filosofi de l'INSEE sous Licence Ouverte 2.0 (data.gouv.fr). L'IGN ne couvre pas le Pacifique (Nouvelle-Calédonie, Polynésie, Wallis-et-Futuna), qui a ses propres services (Te Fenua en Polynésie : MNT publiés, bâti à vérifier, limites des communes en ODbL) : le Pacifique a été retiré du jeu ([C-01](#c-01--précision-numérique)). Les tirants d'eau des ports manquent (SHOM).
 - **Constat** (P-26) : terres du monde (globe gris) : Natural Earth 10 m v5.1.2, **domaine public**. LiDAR HD : licence à vérifier (Licence Ouverte Etalab, comme les autres données de l'IGN, probablement).
-- **Décision** (F-05) : les données gardent leur propre licence, distincte de celle du code ([F-05](#f-05--licence)). Restent à vérifier : la version de la Licence Ouverte Etalab et le SHOM.
-- **Statut** : Ouvert.
+- **Décision** (F-05) : les données gardent leur propre licence, distincte de celle du code ([F-05](#f-05--licence)). Restent à vérifier : la version de la Licence Ouverte Etalab (réglé ci-dessous) et le SHOM.
+- **Constat** (2026-11-27) : les données de l'IGN (BD TOPO, RGE ALTI) sont sous **Licence Ouverte 2.0** (Etalab) depuis l'ouverture de 2021 ; l'ancienne licence gratuite de l'IGN (2017) ne s'applique plus.
+- **Constat** (2026-11-27) : le **SHOM** diffuse une partie de ses données sous Licence Ouverte 2.0 (références altimétriques maritimes RAM, limites maritimes), mais les **prédictions de marée** relèvent d'une licence à part, payante pour le service « Marées à la carte ». Le statut des constantes harmoniques n'est pas clair. Les marées (A-11) ne peuvent donc pas reposer sur les prédictions du SHOM.
+- **Constat** (2026-11-27) : les données publiques de **Météo-France** sont sous Licence Ouverte depuis le 1er janvier 2024 ([A-11](#a-11--météo-et-marées)).
+- **Statut** : Décidé (IGN, INSEE, OSM, Météo-France) ; Ouvert (FES2022 pour les marées, SHOM pour les chenaux).
 
 ## C. Rendu et caméra
 
@@ -543,7 +559,12 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : le joueur peut donner un ordre à chaque soldat, mais commande aussi des dizaines de milliers d'hommes sur tout le territoire. Il lui faut une chaîne de commandement : ordres donnés à une section, une compagnie, un régiment, et exécutés automatiquement.
 - **Décision** : un **ordre de groupe** remplace l'ordre en cours de chacun des soldats du groupe ([D-02](#d-02--ia-des-unités-amies)).
-- **Statut** : Ouvert (central).
+- **Décision** (2026-11-27) : la hiérarchie suit les **échelons réels** : équipe, groupe, section, compagnie, régiment ; bâtiment, groupe naval ; patrouille aérienne. Elle est décrite dans le catalogue ([E-02](#e-02--format-des-données)).
+- **Décision** (2026-11-27) : un ordre donné à un échelon est **décomposé par l'IA du chef** en ordres aux échelons inférieurs (répartition du secteur, formation). Le joueur peut toujours donner un ordre à un échelon inférieur ; le dernier ordre l'emporte.
+- **Décision** (2026-11-27) : si le chef est tué, le **suivant dans l'ordre de commandement** prend le relais automatiquement.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les joueurs peuvent **détacher ou rattacher** des unités (groupes ad hoc) ; c'est un ordre comme un autre.
+- **Décision** (2026-11-27) : un ordre donné par un joueur à un échelon inférieur **survit** aux passages suivants du chef ; il n'est remplacé que par un **nouvel ordre** donné au chef ou à l'unité (le dernier ordre l'emporte).
+- **Statut** : Décidé (2026-11-27).
 
 ### D-02 — IA des unités amies
 
@@ -553,7 +574,10 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : **un seul ordre à la fois**, sans file d'ordres ; un nouvel ordre remplace le précédent (un trajet par waypoints, une livraison ou un ordre permanent compte pour un ordre). Exception : plusieurs tirs nucléaires en parallèle.
 - **Conséquence** : cette IA porte **toutes** les unités, pas seulement aéronefs et navires, et choisit seule ses cibles.
 - **Conséquence** (temps réel, monde persistant) : le monde tourne sans personne de connecté ; une unité doit pouvoir tenir des heures, voire des jours, sans qu'aucun joueur ne la regarde (A-02).
-- **Statut** : Décidé (pas de pilotage manuel, pas de micro-management, un seul ordre à la fois) ; Ouvert (IA des unités, central).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : un **ordre est un état désiré** ; l'IA de l'unité est une **boucle de réconciliation** qui y tend, comme un controller Kubernetes. Les **réflexes** (riposter, se mettre à couvert, se replier, se ravitailler) sont choisis par des **scores d'utilité** ; ils peuvent suspendre l'ordre sans l'effacer, et l'unité y revient quand le réflexe n'a plus lieu d'être.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les **seuils de comportement** (repli, munitions basses, pertes) sont des données du catalogue, par type d'unité ([E-02](#e-02--format-des-données)).
+- **Décision** (2026-11-27) : une unité **sans ordre tient sa position et se défend**.
+- **Statut** : Décidé (2026-11-27).
 
 ### D-03 — Logistique automatisée
 
@@ -561,14 +585,19 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Pistes** : lignes de ravitaillement automatiques entre dépôts et unités, que le joueur configure (priorités, escortes, itinéraires).
 - **Pistes** : les lieux contrôlés ouvrent des lignes à grande capacité : de [gare](game-elements/locations/gares.md) à gare, de [port](game-elements/locations/ports.md) à port, de [base aérienne](game-elements/locations/bases-aeriennes.md) à base.
 - **Conséquence** (temps réel, monde persistant) : une traversée dure des semaines réelles et aucun joueur ne suit un convoi de bout en bout. Les lignes automatiques deviennent le mode normal de la logistique, pas un confort (A-02).
-- **Décision** (P-24, recommandation adoptée par défaut, révisable) : les véhicules logistiques reçoivent des **ordres permanents** (« tenir ce groupe ravitaillé », « vider les corps de ce secteur vers ce site ») ; ils enchaînent seuls trajets et chargements. Les lignes à grande capacité restent à décider.
-- **Statut** : Décidé (ordres permanents) ; Ouvert (lignes à grande capacité).
+- **Décision** (P-24, recommandation adoptée par défaut, révisable) : les véhicules logistiques reçoivent des **ordres permanents** (« tenir ce groupe ravitaillé », « vider les corps de ce secteur vers ce site ») ; ils enchaînent seuls trajets et chargements.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : pas de mécanisme à part pour les **lignes à grande capacité** : un train, un navire ou un avion reçoit un **ordre permanent de navette** entre deux lieux contrôlés. Un seul mécanisme, les ordres permanents.
+- **Décision** (2026-11-27) : les navires de **colons** et d'**importations** peuvent eux aussi recevoir un ordre permanent de navette ; le chargement et le déchargement à la main restent possibles.
+- **Statut** : Décidé (2026-11-27).
 
 ### D-04 — Alertes et information
 
 - **Problème** : avec tout le territoire en jeu, le joueur doit savoir ce qui se passe ailleurs (convoi attaqué, unité à court de munitions, incendie).
-- **Conséquence** (multijoueur) : les alertes sont **communes** à tous les joueurs ; un joueur qui arrive doit comprendre en quelques instants où l'on a besoin de lui (résumé de l'état du front, alertes en attente).
-- **Statut** : Ouvert.
+- **Conséquence** (multijoueur) : les alertes sont **communes** à tous les joueurs ; un joueur qui arrive doit comprendre en quelques instants où l'on a besoin de lui.
+- **Décision** (2026-11-27) : les alertes sont **produites par la simulation** (unité attaquée, munitions basses, colonie menacée, pont détruit), **communes à tous** les joueurs, avec une position et une priorité.
+- **Décision** (2026-11-27) : **pas de résumé** de l'état du front à la connexion : le joueur qui arrive lit les alertes en cours.
+- **Décision** (2026-11-27) : les alertes passent en **priorité 1** des envois, avec les accusés d'ordres et les votes ([H-05](#h-05--débit-réseau-et-gestion-dintérêt)).
+- **Statut** : Décidé (2026-11-27).
 
 ### D-05 — Inspection de la cargaison
 
@@ -579,7 +608,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : l'efficacité réaliste (obus flèche inutiles, missiles gaspillés) est voulue, mais le jeu doit rester jouable et intéressant. Les chiffres viendront plus tard ; il faudra des tests de jeu.
 - **Constat** (P-25, siège de 25 min) : sans joueur, 38 pertes et plus de munitions ; avec une défense scriptée, 29 pertes et 16 194 zombies abattus au lieu de 12 134. Le siège est **perdable** ; qu'il soit **tenable** n'est pas démontré.
-- **Statut** : Ouvert.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **méthode** : les valeurs chiffrées sont dans le mod `base` ([E-02](#e-02--format-des-données)), fixées en **tests de jeu**, jamais dans les fiches. Elle vaut pour les quantités importées ([G-03](#g-03--importations)) et les stocks des poches de survivants.
+- **Statut** : Décidé (méthode) ; valeurs à fixer en tests de jeu.
 
 ## E. Contenu
 
@@ -608,6 +638,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : les fichiers sont **compilés au chargement** en une ressource `Catalogue` indexée par entiers : aucune chaîne de caractères dans la boucle de simulation. Le **hash du catalogue** entre dans le hash d'état ([A-12](#a-12--déterminisme-et-multijoueur)).
 - **Décision** : le **client reçoit le catalogue du serveur au handshake**, en binaire, avec son hash (noms, modèles, affichage) ; les types du catalogue sont dans `beta1-common`. Le client ne lit aucun fichier du catalogue.
 - **Décision** : **pas de rechargement à chaud**. Un changement du catalogue ou d'un mod compte comme une **mise à jour du serveur**, donc remet le monde à zéro ([H-01](#h-01--architecture--serveur-unique-faisant-autorité)) ; pour le catalogue officiel, c'est déjà le cas, puisqu'il est livré dans l'image de `beta1-server`.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : le **JSON Schema** du catalogue est versionné dans `beta1-server` et vérifié à jour en CI : les moddeurs l'ont sans compiler.
 - **Conséquence** : les chiffres des statistiques, absents des fiches, vivront dans ces fichiers ; les fiches restent la conception, le catalogue en est la mise en œuvre.
 - **Statut** : Décidé (2026-11-27).
 
@@ -619,7 +650,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### E-04 — Noms et marques réels
 
 - **Problème** : certains noms d'armes et de véhicules sont des marques déposées (HK416, Rafale…). Les utiliser dans un jeu distribué peut poser un problème juridique.
-- **Statut** : Ouvert (à faire vérifier).
+- **Décision** (2026-11-27) : les **noms réels sont gardés**, sans avis juridique. Ce ne sont que des clés de traduction ([E-05](#e-05--traduction)) : les changer reste une modification de données.
+- **Statut** : Décidé (2026-11-27).
 
 ### E-05 — Traduction
 
@@ -717,30 +749,31 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### G-01 — Frontières avec les zones non simulées
 
 - **Problème** : rien n'est simulé hors de France, mais la métropole a des frontières terrestres (Belgique, Luxembourg, Allemagne, Suisse, Italie, Espagne, Andorre, Monaco). La Guyane touche le Brésil et le Suriname. Saint-Martin partage son île avec Sint Maarten.
-- **À décider** : que se passe-t-il à ces frontières ? Mur infranchissable, flux de zombies entrants, ou rien ?
 - **Décision** (mer) : les **navires naviguent réellement en mer**, hors de la zone simulée, sur les vraies routes maritimes, avec durée et consommation. Les terres étrangères restent grisées. Les canaux de **Suez** et de **Panama** sont praticables, sans être simulés.
 - **Décision** (P-06) : en mer, un navire est positionné en ECEF f64 ; à 30 km d'une côte (valeur de départ), il entre dans les tiles de la zone de projection du territoire. Le changement de représentation est sans saut (0,0 mm mesuré) ; l'antiméridien ne pose aucun problème ([P-06](https://github.com/labatailledefrance/prototypes/blob/main/p06-origine-flottante/README.md#analyse)).
 - **Constat** (P-07, [résultats](https://github.com/labatailledefrance/prototypes/blob/main/p07-chaine-manche/README.md)) : la Manche compte 7 808 tiles de pleine mer dans sa bande de 30 km (0,2 ko chacune) ; elles peuvent ne pas être stockées. Les îles étrangères proches (Jersey, Guernesey) sont aujourd'hui classées en mer par la chaîne, qui définit la mer comme « hors de toute commune » ; cette règle met aussi en mer les herbus de la baie du Mont-Saint-Michel. Piste : la mer par le trait de côte des plus hautes eaux (couche `limite_terre_mer`) et l'absence de relief.
 - **Décision** (P-07) : les îles étrangères à moins de 30 km d'une côte française (Jersey, Guernesey, îles des Antilles) sont **grisées**, comme le reste du monde ; seule leur mer est navigable.
-- **Statut** : Décidé (mer) ; Ouvert (frontières terrestres).
+- **Décision** (2026-11-27) : les **frontières terrestres sont infranchissables** pour tous, humains et zombies ; **aucun flux de zombies** n'entre des pays voisins, qui restent grisés et non spécifiés. Même règle en Guyane et à Saint-Martin.
+- **Statut** : Décidé (2026-11-27).
 
 ### G-02 — Les zombies et la mer
 
 - **Problème** : les zombies marchent au fond de l'eau. Peuvent-ils traverser la Manche, ou rejoindre une île d'outre-mer, ou un navire au mouillage, en marchant au fond de la mer ? Si oui, l'outre-mer n'est pas un refuge.
-- **À décider** : profondeur maximale franchissable, ou interdiction de la mer.
-- **Décision** (P-07) : les **estrans** sont de la terre dans les tiles ; la marée (A-11) les recouvre en jeu. La question du fond de la mer reste ouverte.
-- **Statut** : Ouvert.
+- **Décision** (P-07) : les **estrans** sont de la terre dans les tiles ; la marée (A-11) les recouvre en jeu.
+- **Décision** (2026-11-27) : les zombies **ne vont pas en mer au-delà de l'estran**. L'outre-mer et les navires au mouillage sont des **refuges** ; les cours d'eau restent franchissables au fond ([A-08](#a-08--eau-et-franchissement-des-cours-deau)).
+- **Décision** (2026-11-27) : un navire **à quai** est atteignable par les zombies depuis le quai ; seul le **mouillage** protège.
+- **Statut** : Décidé (2026-11-27).
 
 ### G-03 — Importations
 
 - **Problème** : rien n'étant simulé hors de France, il n'y a pas d'importations. La France produit très peu de pétrole brut ; les carburants deviennent des stocks finis, sauf production locale. Certains composants (électronique des munitions guidées, pièces étrangères) deviennent impossibles à produire.
 - **Décision** : au début, tout vient de l'outre-mer par bateau. Les ressources que la France ne peut pas produire sont **livrées par des pays non spécifiés**, pour simplifier. Ces pays ne sont pas simulés.
 - **Décision** : ressources importées : **pétrole brut**, **électronique**, et **composants que la France ne fabrique pas**, y compris les pièces de rechange américaines (Reaper notamment).
-- **Décision** : **aucun quota**. Le joueur charge manuellement le navire, le fait voyager à vitesse réelle, puis le décharge manuellement. Le volume est limité par la flotte disponible et par la durée des trajets.
+- **Décision** : **aucun quota**. Le joueur charge le navire, le fait voyager à vitesse réelle, puis le décharge, à la main ou par un ordre permanent de navette (D-03). Le volume est limité par la flotte disponible et par la durée des trajets.
 - **Décision** : la livraison par les pays étrangers **n'est pas simulée**. Les ressources importées sont ajoutées aux ressources disponibles environ **toutes les deux semaines** (réelles : le temps de jeu est le temps réel, A-02). Le joueur les achemine ensuite par ses propres navires.
 - **Décision** : les ressources importées apparaissent dans les **ports d'outre-mer**. Le joueur doit les faire traverser jusqu'en métropole.
-- **À décider** : quantité de chaque incrément.
-- **Statut** : Décidé (principe, liste, rythme, lieu) ; Ouvert (quantités).
+- **Décision** (2026-11-27) : la quantité de chaque incrément est une donnée du mod `base`, fixée en tests de jeu ([D-06](#d-06--équilibrage)).
+- **Statut** : Décidé.
 
 ### G-04 — Énergie
 
@@ -775,7 +808,12 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Problème** : que s'est-il passé entre le début de l'épidémie et 2030 ? Où sont les dépôts, les stocks, les zones détruites ? Quel est l'état des routes, des ponts, des usines ?
 - **Décidé** : évacuation d'environ 7 millions de personnes vers l'outre-mer ; métropole entièrement zombifiée, sauf de rares poches isolées de survivants (A-10).
-- **Statut** : Ouvert.
+- **Décision** (2026-11-27) : en 2030, l'**infrastructure est intacte mais à l'arrêt** : routes et ponts praticables, centrales et usines arrêtées, à remettre en route. Les **dégâts** n'existent que là où une **liste écrite à la main** les place.
+- **Décision** (2026-11-27) : les **bases et dépôts militaires** de métropole gardent une partie de leurs stocks, à reprendre ; niveau qualitatif dans le catalogue.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : la **force d'invasion** de départ (unités, navires, stocks embarqués) est décrite dans le **scénario du mod `base`** ([F-03](#f-03--modding)) ; elle reste à écrire.
+- **Décision** (2026-11-27) : les **mairies** de métropole sont **vides** au début de la partie.
+- **Décision** (2026-11-27) : la **liste des dégâts initiaux** vit dans le scénario du mod `base`, à côté de la force d'invasion.
+- **Statut** : Décidé (2026-11-27) ; composition de la force d'invasion à écrire.
 
 ### G-07 — Conditions de victoire et de défaite
 
@@ -797,7 +835,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - le **service des tiles** : fichiers statiques immuables (H-06), servis à part pour ne pas charger la simulation ;
   - le **client** : fichiers statiques (WebAssembly, assets).
 - **Décision** : ingress **Traefik** ; tiles et client servis par **nginx**, hors du processus de simulation.
-- **Piste** : transport des ordres et de l'état en **WebSocket** ; WebTransport (QUIC, sans blocage en tête de file) à vérifier côté navigateurs et côté ingress.
+- **Piste** (remplacée par la décision ci-dessous) : transport des ordres et de l'état en **WebSocket** ; WebTransport (QUIC, sans blocage en tête de file) à vérifier côté navigateurs et côté ingress.
 - **Décision** : une **mise à jour du serveur = une remise à zéro du monde** (H-07). Une version du serveur dure le temps d'une saison.
 - **Conséquences** :
   - Aucune migration : ni du format des instantanés (A-13), ni du protocole. Client et serveur ont **toujours la même version** ; à une mise à jour, les clients sont déconnectés et rechargent le client.
@@ -805,15 +843,17 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - Un redémarrage **sans** changement de version (panne, redémarrage du nœud, déplacement du pod) reprend sur le dernier instantané.
   - Un changement du catalogue ou d'un mod est un changement de version ([E-02](#e-02--format-des-données)).
 - **Constat** (P-26, cluster) : conteneurs vérifiés dans `/proc` : aucune capacité, pas d'élévation de privilèges, seccomp filtré ; sorties réseau fermées ; un autre pod ne joint pas le serveur de jeu. Mais le **nœud** le joint directement : une NetworkPolicy ne filtre pas l'hôte. L'accès depuis le poste passe par un tunnel SSH ; `sshd` n'autorisait que `PermitOpen 127.0.0.1:6443`, l'adresse de service de nginx (figée) y a été ajoutée, avec l'accord de l'utilisateur.
-- **Statut** : Décidé (serveur unique, autorité, Kubernetes, mise à jour = remise à zéro) ; Piste (découpage, transport).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : transport en **WebSocket seul** pour la beta 1 ; WebTransport n'est réévalué que si une mesure montre un blocage en tête de file.
+- **Statut** : Décidé.
 
 ### H-02 — Identité et abus
 
 - **Décision** (pour le moment) : **aucun compte**, **anonymat total**. N'importe qui peut rejoindre la partie et l'influencer ; le jeu ne connaît aucune identité, même pseudonyme.
 - **Décision** : la protection contre les abus est faite au niveau **réseau**, par l'**ingress** : limites de débit et de connexions par adresse IP.
-- **Conséquence** : le jeu ne peut ni bannir un joueur, ni lui attribuer un ordre, ni limiter ses actions dans la durée : seule l'adresse IP le désigne, au niveau de l'ingress. Limites connues : plusieurs joueurs derrière une même adresse (CGNAT, entreprise) ; un seul joueur derrière beaucoup d'adresses (IPv6, VPN).
-- **Piste** : les ordres coûteux pour le serveur (calcul d'itinéraire, ordres groupés à des milliers d'unités) ont en plus un **quota par connexion** dans le serveur, que l'ingress ne voit pas.
-- **Statut** : Décidé (pour le moment) ; Piste (quotas applicatifs).
+- **Conséquence** : le jeu ne peut ni bannir un joueur, ni lui attribuer un ordre, ni limiter ses actions dans la durée (hors du quota par connexion sur les ordres coûteux) : seule l'adresse IP le désigne, au niveau de l'ingress. Limites connues : plusieurs joueurs derrière une même adresse (CGNAT, entreprise) ; un seul joueur derrière beaucoup d'adresses (IPv6, VPN).
+- **Piste** (remplacée par la décision ci-dessous) : les ordres coûteux pour le serveur (calcul d'itinéraire, ordres groupés à des milliers d'unités) ont en plus un **quota par connexion** dans le serveur, que l'ingress ne voit pas.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les ordres coûteux ont un **quota par connexion** dans le serveur ; valeurs fixées après mesure.
+- **Statut** : Décidé (pour le moment).
 
 ### H-03 — Commandement partagé
 
@@ -840,7 +880,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 - **Constat** : 1 Gbit/s montant pour **1 000 joueurs simultanés** (objectif), sans CDN, donne environ **1 Mbit/s** (125 ko/s) par joueur en moyenne, **tiles comprises**. Un survol à basse altitude lit à lui seul environ 100 ko/s de tiles (C-04, P-07).
 - **Piste** : **gestion d'intérêt** : chaque client ne reçoit que ce que sa caméra voit, comme un abonnement pub/sub par zone. Positions quantifiées et envoyées en différences ; fréquence réduite loin de la caméra ; en vue simplifiée (C-02), des agrégats (densités) plutôt que des agents.
-- **Décision** (recommandation adoptée par défaut, révisable) : quand le lien sature, le serveur envoie par **ordre de priorité**, comme une QoS à files prioritaires sur un routeur : (1) accusés des ordres et votes ; (2) état des unités et des zombies proches de la caméra ; (3) tiles ; (4) état lointain, dégradé en premier (fréquence réduite, agrégats).
+- **Décision** (recommandation adoptée par défaut, révisable) : quand le lien sature, le serveur envoie par **ordre de priorité**, comme une QoS à files prioritaires sur un routeur : (1) accusés des ordres, votes et alertes (D-04) ; (2) état des unités et des zombies proches de la caméra ; (3) tiles ; (4) état lointain, dégradé en premier (fréquence réduite, agrégats).
 - **À décider** : budget par joueur entre l'état et les tiles (après P-22).
 - **Constat** (P-24) : avec 26 750 zombies, un client qui voit 1,5 km reçoit **32 ko/s** (p99 40 ko/s) ; un client qui voit toute la zone de 6 km, **475 ko/s**, presque 4 fois le budget de 125 ko/s par joueur. Envoyer chaque zombie (5 octets, 10 fois par seconde) ne passe pas à l'échelle de la vue éloignée.
 - **Décision** (P-24, recommandation adoptée par défaut, révisable) : zombies **individuels jusqu'à environ 1 km** de la caméra ; au-delà, **carte de densité** par case de 50 m ; positions en différences d'un état à l'autre. Objectif : **60 ko/s par client**, quelle que soit la vue. À valider dans P-22.

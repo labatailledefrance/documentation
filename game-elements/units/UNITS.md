@@ -42,8 +42,16 @@ Un véhicule est un contenant : chaque membre d'équipage et chaque passager est
   - **destruction d'une infrastructure précise** (pont, rails, bâtiment) : toujours un ordre du joueur, **jamais une décision de l'unité** ;
   - **frappe nucléaire** et **frappe sur un barrage** : cible désignée par le joueur, puis soumise au vote.
 - **Décision** : **un seul ordre à la fois** : pas de file d'ordres. Un nouvel ordre remplace le précédent. Comptent pour un seul ordre : un trajet par waypoints, une patrouille, une **livraison** (charger en A, aller, décharger en B), un ordre permanent ([SYSTEMES](../systemes/SYSTEMES.md#cargaison-et-logistique)). **Exception** : un SNLE peut mener plusieurs tirs nucléaires en parallèle, sur plusieurs cibles.
-- **Décision** : un **ordre de groupe** (donné au chef de groupe, à une section, à une compagnie) **remplace l'ordre en cours** de chacun de ses membres.
+- **Décision** : un **ordre de groupe** (donné au chef de groupe, à une section, à une compagnie) **remplace l'ordre en cours** de chacun de ses membres, par les ordres issus de sa décomposition par l'IA du chef (voir *Chaîne de commandement et IA*).
+- **Décision** : une unité **sans ordre tient sa position et se défend**.
 - **Pourquoi** : le serveur reçoit des **ordres ponctuels** plutôt qu'un flux continu d'entrées, sensible à la latence ; et, sans verrou, plusieurs joueurs ne se disputent pas le volant d'une même unité ([H-03](../../OPEN-PROBLEMS.md#h-03--commandement-partagé)).
+
+### Chaîne de commandement et IA
+
+- **Échelons réels** : équipe, groupe, section, compagnie, régiment ; bâtiment, groupe naval ; patrouille aérienne. Décrits dans le catalogue ([D-01](../../OPEN-PROBLEMS.md#d-01--du-soldat-à-larmée)).
+- Un ordre donné à un échelon est **décomposé par l'IA du chef** en ordres aux échelons inférieurs (répartition du secteur, formation). Si le chef est tué, le suivant dans l'ordre de commandement prend le relais. Un ordre donné directement à un échelon inférieur survit aux passages du chef, jusqu'au prochain ordre.
+- Les joueurs peuvent **détacher ou rattacher** des unités : c'est un ordre comme un autre (révisable).
+- **IA** : un ordre est un **état désiré**, que l'unité poursuit par une boucle de réconciliation ; ses **réflexes** (riposter, se mettre à couvert, se replier, se ravitailler) sont choisis par des scores d'utilité et suspendent l'ordre sans l'effacer. Les seuils (repli, munitions basses, pertes) sont des données du catalogue, par type d'unité ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies), révisable).
 
 ### Contrôle des unités aériennes (et navales)
 
