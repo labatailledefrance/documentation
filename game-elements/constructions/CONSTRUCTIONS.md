@@ -17,7 +17,7 @@ Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du gén
 | Mur en béton préfabriqué | Blocs de béton | Engins de levage | Élevé | Durable ; nécessite des camions et une grue. |
 | Fossé | — | EGAME, EBG, ouvriers | Moyen | Canalise les hordes ; consomme du carburant pour les engins. Modifie le relief ([B-05](../../OPEN-PROBLEMS.md#b-05--destructions-et-modifications-du-terrain)). |
 | Talus / merlon | Terre | EGAME, EBG | Moyen | Souvent combiné au fossé. Modifie le relief (B-05). |
-| Comblement de cratère | Terre | EGAME, EBG, sapeurs | Faible | Rouvre une chaussée coupée aux véhicules à roues par un cratère (B-05). |
+| Comblement de cratère | Terre | EGAME, EBG, sapeurs | Faible | Rouvre une chaussée, une voie ferrée ou une piste coupée par un cratère (B-05). |
 | Barricade d'épaves | Véhicules épaves | EBG, dépanneurs | Faible | Utilise les épaves des routes. |
 | Champ de mines / pièges | Mines et pièges, explosifs | Sapeurs | Moyen | Usage unique. |
 | Poste de tir surélevé / tour de guet | Bois ou acier | Sapeurs, ouvriers | Moyen | Améliore la vue des tireurs. |
@@ -40,7 +40,7 @@ Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du gén
 |---|---|---|---|---|
 | Dépôt de carburant | Citernes souples ou fixes | Sapeurs, ouvriers | Moyen | Cible sensible (incendie). |
 | Dépôt de munitions | Abris, merlons | Sapeurs, ouvriers | Moyen | Doit être protégé et éloigné. |
-| Atelier de maintenance | Hangar, outillage, pièces détachées | Ouvriers | Élevé | Seul lieu de réparation des véhicules. |
+| Atelier de maintenance | Hangar, outillage, pièces détachées | Ouvriers | Élevé | Répare les véhicules, comme une [base militaire](../locations/bases-militaires.md) reprise. |
 | Hôpital de campagne | Tentes ou modules, matériel médical | Personnel de santé, ouvriers | Élevé | Voir [hôpital de campagne](../units/soutien/hopital-de-campagne.md). |
 | Cuisine / cantine | Matériel de cuisine, vivres | Ouvriers | Faible | Nourrit soldats et ouvriers. |
 | Logements / abris | Tentes, modules, bâtiments réhabilités | Ouvriers | Moyen | Civils et ouvriers. |
@@ -54,10 +54,11 @@ Bâtisseurs possibles : [sapeurs](../units/infanterie/sapeur.md), engins du gén
 
 Sites existants à reconquérir puis à remettre en route plutôt qu'à construire : intacts mais à l'arrêt, sauf là où la liste des dégâts initiaux les endommage ([G-06](../../OPEN-PROBLEMS.md#g-06--état-initial-du-monde)) :
 
-- Usines (munitions, poudres, explosifs, pièces détachées).
-- Raffineries et dépôts pétroliers.
+- [Usines d'armement](../locations/usines-armement.md) (munitions, poudres, explosifs, missiles, blindés, navires, aéronefs, pièces détachées).
+- [Raffineries et dépôts pétroliers](../locations/raffineries.md).
+- [Hôpitaux](../locations/hopitaux.md).
 - Centrales électriques : [CNPE](../locations/cnpe.md) et les 10 plus gros [barrages](../locations/barrages.md) (pas de centrales thermiques).
-- Réseau d'eau potable.
+- Réseau d'eau potable ([usines d'eau potable](../locations/eau-potable.md)).
 - [Ports](../locations/ports.md), [bases aériennes](../locations/bases-aeriennes.md) et aéroports, [gares](../locations/gares.md).
 - Voies ferrées obstruées ou coupées : dégagées ou réparées par le génie ([trains](../units/vehicules-lourds/trains.md)).
 - [CTM de Rosnay](../locations/ctm-rosnay.md), seul centre de transmissions de la Marine en état de marche.

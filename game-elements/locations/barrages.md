@@ -3,7 +3,7 @@
 ## Identité
 
 - Type : barrages et centrales hydroélectriques de métropole.
-- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Serre-Ponçon est confirmé en tête (1 270 hm³, CFBR, version 2026) ; le reste du classement est à vérifier dans le registre des barrages (les bulletins des agences de l'eau ne donnent que des volumes utiles) :
+- Liste : les **10 plus gros barrages** de France, classés par **volume de la retenue**. Classement du 2026-11-27, d'après la liste des lacs de barrage de Wikipédia (volume de retenue, page marquée « à achever ») ; Serre-Ponçon est confirmé en tête par le CFBR (1 270 hm³, version 2026). Grandval et L'Aigle remplacent Roselend (12e) et Pareloup (13e) de la liste précédente ; classement à vérifier :
 
 | Barrage | Commune (département) |
 |---|---|
@@ -14,9 +14,9 @@
 | Mont-Cenis | Val-Cenis (Savoie) |
 | Sarrans | Sainte-Geneviève-sur-Argence (Aveyron) |
 | Monteynard | Monteynard (Isère) |
+| Grandval | Cantal (commune à vérifier) |
 | Tignes (lac du Chevril) | Tignes (Savoie) |
-| Roselend | Beaufort (Savoie) |
-| Pareloup | Salles-Curan (Aveyron) |
+| L'Aigle | Cantal et Corrèze (commune à vérifier) |
 
 ## Rôle en jeu
 

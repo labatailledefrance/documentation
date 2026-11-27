@@ -52,4 +52,4 @@ Chaque occupant est un soldat commandable individuellement.
 
 ## Décisions
 
-- Les réparations se font en atelier, pas sur place : les dépanneurs ramènent les véhicules. Voir l'atelier de maintenance dans [CONSTRUCTIONS.md](../../constructions/CONSTRUCTIONS.md).
+- Les réparations se font en atelier ou dans une base militaire reprise, pas sur place : les dépanneurs ramènent les véhicules. Voir l'atelier de maintenance dans [CONSTRUCTIONS.md](../../constructions/CONSTRUCTIONS.md).

@@ -1,6 +1,6 @@
 # Lieux
 
-Index des lieux d'intérêt de la carte. Ce sont des sites réels, tirés des données (IGN en priorité, OpenStreetMap en complément), qui donnent au joueur une capacité nouvelle une fois tenus par une garnison : frappe nucléaire, électricité, logistique aérienne, ferroviaire ou navale.
+Index des lieux d'intérêt de la carte. Ce sont des sites réels, tirés des données (IGN en priorité, OpenStreetMap en complément), qui donnent au joueur une capacité nouvelle une fois tenus par une garnison : frappe nucléaire, électricité, logistique aérienne, ferroviaire ou navale, stocks, production, soins, eau potable.
 
 ----
 
@@ -16,6 +16,22 @@ Index des lieux d'intérêt de la carte. Ce sont des sites réels, tirés des do
 | Ports | [ports.md](ports.md) | Logistique navale et débarquement des colons, selon le tirant d'eau, les quais et la marée. | 100 (commerce, militaire) ; 10 (pêche, plaisance) |
 | Mairies et communes | [mairies.md](mairies.md) | Affichage du territoire libéré (cosmétique) ; dépôt des ressources des colons de la commune. | — |
 | Poches de survivants | [survivants.md](survivants.md) | Civils secourus. | — |
+| Bases et dépôts militaires | [bases-militaires.md](bases-militaires.md) | Stocks partiels, logement des soldats, atelier de maintenance ; bases navales, dont l'Île Longue. | 10 (100 pour une base navale) |
+| Raffineries et dépôts pétroliers | [raffineries.md](raffineries.md) | Raffinage du pétrole brut importé en carburants ; stocks de carburant. | 10 |
+| Usines d'armement | [usines-armement.md](usines-armement.md) | Production de munitions, poudres, missiles, blindés, navires, aéronefs. | 10 |
+| Hôpitaux | [hopitaux.md](hopitaux.md) | Chirurgie des blessés graves, grande capacité. | 10 |
+| Usines d'eau potable | [eau-potable.md](eau-potable.md) | Eau potable des communes desservies. | 10 |
+
+## Carte et calques
+
+Les lieux sont notés sur la carte du jeu, par **catégorie**, chacune avec son interrupteur (afficher, masquer) ([C-02](../../OPEN-PROBLEMS.md#c-02--niveaux-de-vue)).
+
+- **Lieux fixes** : une catégorie par fiche ci-dessus ; les pistes aériennes réunissent bases, aéroports et aérodromes secondaires.
+- **Couches dynamiques**, avec les mêmes interrupteurs : statut des communes, densité de zombies, régions électriques (alimentées ou dans le noir), routes coupées et ponts détruits, ponts à charge limitée, ports minés ou déminés, constructions des joueurs (dépôts, hôpitaux de campagne, sites d'incinération), alertes, météo (vent, pluie, état de la mer ; annuaire des marées au clic sur un port).
+- **Catégories** : données du mod `base` (identifiant, clé de traduction, symbole, zoom minimal, visible par défaut) ; un mod peut en ajouter.
+- **Listes géographiques** écrites à la main (identifiants BD TOPO) : entrées de la publication des tiles, dans `beta1-datachain`.
+- **Interrupteurs** propres à chaque joueur, gardés dans son navigateur ; rien côté serveur.
+- **Catégories denses** (gares, ports de plaisance, aérodromes, hôpitaux) : seuls les sites principaux quand on dézoome, comme une carte routière.
 
 ## Structure d'une fiche de lieu
 
@@ -39,6 +55,8 @@ Identité, Rôle en jeu, Prise de contrôle, Remise en service (s'il y a lieu), 
 - Une piste sommaire construite par le joueur n'exige aucune garnison.
 - Un lieu à cheval sur plusieurs communes appartient à toutes.
 - Le statut des communes est cosmétique et n'influence pas le gameplay.
+- (2026-11-27) Nouvelles catégories : bases et dépôts militaires, raffineries et dépôts pétroliers, usines d'armement, hôpitaux, usines d'eau potable ; carrières et scieries plus tard.
+- (2026-11-27) Chaque catégorie de lieux et chaque couche dynamique a son interrupteur sur la carte (voir *Carte et calques*).
 
 ## Questions ouvertes
 

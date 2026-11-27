@@ -155,6 +155,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : l'expérience suit la personne quand elle change de rôle : un colon qui devient ouvrier ou milicien, un milicien qui devient soldat régulier **gardent leur expérience**.
 - **Décision** : la **perte du chef de groupe** augmente l'usure du groupe, en plus de baisser son moral.
 - **Décision** : **délai de soin** : un blessé grave **meurt s'il n'est pas opéré à temps**. L'hôpital de campagne vaut donc par sa **distance au front**.
+- **Décision** (2026-11-27) : les [hôpitaux](game-elements/locations/hopitaux.md) fixes repris opèrent aussi les blessés graves ; ils valent par leur capacité.
 - **Décision** : **expérience individuelle** des soldats : elle améliore la précision et la résistance à l'usure. Elle ne se gagne **qu'au combat**. Un blessé soigné vaut donc plus qu'une recrue. En début de partie, **tout le monde est sans expérience**, forces spéciales et Légion comprises.
 - **Décision** : la Légion étrangère résiste à la **débandade** ; son trait ne touche pas l'usure.
 - **Décision** : un humain mort **sans contact avec un zombie** (blessé mort de ses blessures, par exemple) **ne se relève pas** ([ZOMBIES.md](game-elements/zombies/ZOMBIES.md#infection)).
@@ -177,6 +178,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : le barrage a une **barre de vie** : plusieurs frappes de bombe guidée ou d'artillerie sont nécessaires pour le rompre. Il n'est pas reconstructible ; sa région reste dans le noir pour toujours.
 - **Décision** : les zombies touchés par le front sont **dispersés** : relocalisés aléatoirement sur le **périmètre** de la surface de crue précalculée (pas tués). Humains, bâtiments, ponts et véhicules sur le passage sont **détruits** ; les corps des humains tués **disparaissent** (pas de cargaison à évacuer).
 - **Piste** : le périmètre est précalculé avec la carte d'inondation, restreint à la zone accessible des tiles (pas de relocalisation dans l'eau ou dans un bâtiment) ; les tiles qui reçoivent des zombies s'activent ou reçoivent une entrée de journal de migration, selon leur état.
+- **Conséquence** (2026-11-27) : la liste des barrages change (Grandval et L'Aigle à la place de Roselend et de Pareloup, [barrages](game-elements/locations/barrages.md)) : leurs crues sont à précalculer.
 - **Statut** : Décidé.
 
 ### A-02 — Accélération du temps
@@ -499,6 +501,9 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-25) : zoom continu du soldat au département, fondu vers la carte entre 5,5 et 8,5 km ; style de carte à valider.
 - **À décider** (P-25) : style de la carte : teintes des communes, chaleur orange pour les zombies.
 - **Constat** (P-26) : pyramide de carte multi-zones, minicarte par zone et mappemonde ; carte de deux territoires (Manche, La Réunion) : 74,6 Mo et 13 s de calcul, contre 383 Mo pour la seule Manche dans P-25. L'estimation de P-25 pour la France (22 à 38 Go) venait surtout de l'ombrage, qui se comprime mal : il se calcule au client.
+- **Décision** (2026-11-27) : la carte note les **lieux** par catégorie (une par fiche de [lieux](game-elements/locations/LOCATIONS.md#carte-et-calques)), et des **couches dynamiques** (statut des communes, densité de zombies, régions électriques, coupures, ponts à charge limitée, ports minés, constructions, alertes, météo). Chaque catégorie et chaque couche a son **interrupteur**.
+- **Décision** (2026-11-27) : les catégories (identifiant, clé de traduction, symbole, zoom minimal, visible par défaut) sont des données du mod `base` ([F-03](#f-03--modding)) ; les listes géographiques écrites à la main sont des entrées de la publication des tiles (`beta1-datachain`, [H-06](#h-06--diffusion-des-tiles)).
+- **Décision** (2026-11-27) : les interrupteurs sont gardés dans le **navigateur** de chaque joueur, sans rien côté serveur ([H-02](#h-02--identité-et-abus)). Les catégories denses n'affichent que leurs sites principaux quand on dézoome.
 - **Statut** : Piste.
 
 ### C-03 — Globe

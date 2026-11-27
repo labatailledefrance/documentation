@@ -30,7 +30,7 @@ Liste vérifiée pour 2030 (2026-11-27) : aucune fermeture n'est prévue avant 2
 
 ## Rôle en jeu
 
-- Une centrale redémarrée restaure l'**Électricité** dans sa région : usines, hôpitaux, recharge des **Batteries et piles** ([RESOURCES.md](../resources/RESOURCES.md#énergie)), traction des trains électriques ([gares.md](gares.md)), [CTM de Rosnay](ctm-rosnay.md).
+- Une centrale redémarrée restaure l'**Électricité** dans sa région : usines, raffineries, hôpitaux, usines d'eau potable, recharge des **Batteries et piles** ([RESOURCES.md](../resources/RESOURCES.md#énergie)), traction des trains électriques ([gares.md](gares.md)), [CTM de Rosnay](ctm-rosnay.md).
 - **Région** : découpage de Voronoï **fixe** autour de toutes les centrales électriques du jeu (CNPE et [barrages](barrages.md)), calculé une fois à la préparation de la carte. Chaque commune est rattachée à la centrale la plus proche de sa **mairie** ; les régions suivent donc les limites de communes. Une région dont la centrale est éteinte reste sans électricité, même si la voisine tourne : c'est voulu, pour inciter à libérer toutes les centrales.
 - La région est alimentée **d'un bloc** : le réseau (lignes, postes) n'est pas simulé.
 - Toutes les communes de la région reçoivent l'électricité, qu'elles soient libérées ou non.

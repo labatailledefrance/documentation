@@ -31,7 +31,7 @@ Les quantités et les taux de consommation seront définis dans le mod `base`, e
 
 ## Énergie
 
-- **Électricité** : réseau, groupes électrogènes, centrales. Une [centrale nucléaire](../locations/cnpe.md) ou un [barrage](../locations/barrages.md) remis en service alimente sa région indéfiniment, sans approvisionnement. Pas de centrales thermiques dans le jeu. L'outre-mer a l'électricité d'office. Indispensable aux usines, aux hôpitaux et à la recharge des batteries.
+- **Électricité** : réseau, groupes électrogènes, centrales. Une [centrale nucléaire](../locations/cnpe.md) ou un [barrage](../locations/barrages.md) remis en service alimente sa région indéfiniment, sans approvisionnement. Pas de centrales thermiques dans le jeu. L'outre-mer a l'électricité d'office. Indispensable aux [usines d'armement](../locations/usines-armement.md), aux [raffineries](../locations/raffineries.md), aux [hôpitaux](../locations/hopitaux.md), aux [usines d'eau potable](../locations/eau-potable.md) et à la recharge des batteries.
 - **Batteries et piles** : radios, vision nocturne, drones, désignateurs laser.
 - **Bois** : combustible de l'incinération des corps et du chauffage.
 
@@ -133,12 +133,12 @@ Munitions absentes ou rares dans les stocks réels, que le joueur peut produire 
 
 Chaînes de production à détailler plus tard. Premières briques :
 
-- **Pétrole brut** → raffinage → carburants.
+- **Pétrole brut** → raffinage ([raffineries](../locations/raffineries.md)) → carburants.
 - **Acier**, **cuivre**, **laiton**, **plomb** → corps d'obus, douilles, balles.
 - **Nitrocellulose, poudres et propergols** → charges propulsives.
 - **Explosifs** (TNT, hexogène…) → chargement des obus et des charges du génie.
 - **Produits chimiques et électronique** → fusées d'obus, munitions guidées.
-- **Sites de production** : usines, raffineries, arsenaux. Ils doivent être reconquis, alimentés en énergie et en main-d'œuvre.
+- **Sites de production** : [usines d'armement](../locations/usines-armement.md), [raffineries](../locations/raffineries.md), arsenaux. Ils doivent être reconquis, alimentés en énergie et en main-d'œuvre.
 
 ## Main-d'œuvre
 

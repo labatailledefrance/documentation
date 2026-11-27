@@ -34,6 +34,7 @@ Chaque membre du personnel est commandable individuellement.
 
 - Reçoit les blessés des [infirmiers](../infanterie/infirmier.md) et des évacuations sanitaires.
 - Le [PHA Mistral](../naval/pha-mistral.md) dispose d'un hôpital embarqué.
+- Les [hôpitaux](../../locations/hopitaux.md) fixes repris opèrent aussi les blessés graves : ils valent par leur capacité, l'hôpital de campagne par sa distance au front.
 
 ## Face aux zombies
 
