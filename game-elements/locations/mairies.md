@@ -46,6 +46,7 @@ L'état est une simple fonction de la situation, recalculée à chaque changemen
 - Une mairie détruite doit être réparée pour servir de dépôt ; effondrée, elle est reconstruite à l'identique.
 - Une mairie tombée aux zombies garde son stock sur place ; personne n'y puise tant qu'elle n'est pas reprise.
 - Capacité du dépôt illimitée.
+- Au début de la partie, les mairies de métropole sont **vides** ([G-06](../../OPEN-PROBLEMS.md#g-06--état-initial-du-monde)).
 - Soldats et ouvriers logés dans la commune puisent aussi au dépôt, munitions comprises ; une unité en opération passe par sa chaîne logistique.
 - Une mairie par commune, la principale ; à Paris, Lyon et Marseille, chaque arrondissement compte comme une commune (dépôt et statut).
 - Sans mairie dans les données, le plus grand bâtiment de la commune, public ou privé, en tient lieu.

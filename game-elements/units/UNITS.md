@@ -49,7 +49,7 @@ Un véhicule est un contenant : chaque membre d'équipage et chaque passager est
 ### Chaîne de commandement et IA
 
 - **Échelons réels** : équipe, groupe, section, compagnie, régiment ; bâtiment, groupe naval ; patrouille aérienne. Décrits dans le catalogue ([D-01](../../OPEN-PROBLEMS.md#d-01--du-soldat-à-larmée)).
-- Un ordre donné à un échelon est **décomposé par l'IA du chef** en ordres aux échelons inférieurs (répartition du secteur, formation). Si le chef est tué, le suivant dans l'ordre de commandement prend le relais.
+- Un ordre donné à un échelon est **décomposé par l'IA du chef** en ordres aux échelons inférieurs (répartition du secteur, formation). Si le chef est tué, le suivant dans l'ordre de commandement prend le relais. Un ordre donné directement à un échelon inférieur survit aux passages du chef, jusqu'au prochain ordre.
 - Les joueurs peuvent **détacher ou rattacher** des unités : c'est un ordre comme un autre (révisable).
 - **IA** : un ordre est un **état désiré**, que l'unité poursuit par une boucle de réconciliation ; ses **réflexes** (riposter, se mettre à couvert, se replier, se ravitailler) sont choisis par des scores d'utilité et suspendent l'ordre sans l'effacer. Les seuils (repli, munitions basses, pertes) sont des données du catalogue, par type d'unité ([D-02](../../OPEN-PROBLEMS.md#d-02--ia-des-unités-amies), révisable).
 

@@ -164,6 +164,10 @@ La publication est adressée par ses **entrées** (manifeste des sources, digest
 
 Commandes complètes : [README de beta1-helm](https://github.com/labatailledefrance/beta1-helm/blob/main/README.md). Une mise à jour du serveur remet le monde à zéro (H-01).
 
+### Météo
+
+Un **CronJob `meteo`** récupère les prévisions de Météo-France (seul pod qui sort vers elle, en 443 ; jeton dans un Secret) et les écrit sur une PVC ; le serveur les ingère à un tick fixé, comme un ordre, et les garde dans l'instantané. Une panne de l'API ne bloque rien : la dernière prévision reste ([A-11](../OPEN-PROBLEMS.md#a-11--météo-et-marées)).
+
 ## Contribuer
 
 Fork, branche, `git commit -s -S`, PR vers `main`, CI verte : le détail est dans [CONTRIBUTING.md](https://github.com/labatailledefrance/.github/blob/main/CONTRIBUTING.md), les vulnérabilités se signalent selon [SECURITY.md](https://github.com/labatailledefrance/.github/blob/main/SECURITY.md).
