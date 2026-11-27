@@ -317,6 +317,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - **pluie** : mobilité hors route réduite pour les véhicules à roues ; **neige et verglas** ralentissent les routes ;
   - **température** : le froid augmente le besoin en **vêtements chauds** et **couvertures**, la chaleur celui en **Eau potable**.
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **cycle jour-nuit réel** : soleil et lune calculés pour l'heure et le lieu réels. La nuit réduit la vue des humains sans vision nocturne ; les zombies voient moins aussi, leur ouïe est inchangée. Rendu de nuit : lumière réduite, teinte froide, lumières des communes alimentées en électricité visibles.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : précisions sur les effets (plafond, appontage, petites embarcations, pluie et feu, lune, optiques de nuit et batteries, éclairages, usure des vêtements chauds) : voir [SYSTEMES](game-elements/systemes/SYSTEMES.md#météo-et-marées).
 - **Statut** : Décidé (sources, architecture, effets, jour et nuit) ; Ouvert (licence de FES2022, modèle de vagues).
 
 ### A-12 — Déterminisme et multijoueur
@@ -621,6 +622,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : panneau de cargaison **en arbre repliable** (navire → conteneurs → palettes → caisses → lots), avec en tête le **total par ressource** (noms de RESOURCES).
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : **recherche par ressource** dans tout le monde (« où reste-t-il du F-34 ? »), commune à tous les joueurs.
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : emballer, déballer et transborder sont des **ordres** donnés à une unité, pas des actions instantanées ([D-02](#d-02--ia-des-unités-amies)).
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : l'inspection est **libre**, sans déballer ; emballer, déballer et transborder sont faits par les unités de logistique, le génie civil et les équipages des navires et des véhicules de transport.
 - **Statut** : Décidé (2026-11-27).
 
 ### D-06 — Équilibrage

@@ -163,7 +163,7 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
 - Chaque objet a une **masse** et un **volume**, qui déterminent ce qu'un véhicule, un navire ou un avion peut emporter.
 - Chaque soldat a un **inventaire individuel limité**, que le port d'un sac à dos augmente.
 - Les objets identiques sont regroupés en lots. Mécanique **emballer / déballer** : on emballe en caisses, palettes ou conteneurs pour transporter, on déballe pour distribuer ; l'inspection se fait dans le panneau de cargaison (voir plus bas).
-- Les palettes et les conteneurs peuvent être inspectés pour voir leur contenu : panneau en arbre repliable (navire → conteneurs → palettes → caisses → lots), avec en tête le total par ressource, et **recherche par ressource** dans tout le monde. Emballer, déballer et transborder sont des ordres donnés à une unité ([D-05](../../OPEN-PROBLEMS.md#d-05--inspection-de-la-cargaison)).
+- Les palettes et les conteneurs peuvent être inspectés pour voir leur contenu : panneau en arbre repliable (navire → conteneurs → palettes → caisses → lots), avec en tête le total par ressource, et **recherche par ressource** dans tout le monde ; l'inspection est libre, sans déballer. Emballer, déballer et transborder sont des ordres donnés aux unités de logistique, au génie civil et aux équipages des navires et des véhicules de transport ([D-05](../../OPEN-PROBLEMS.md#d-05--inspection-de-la-cargaison)).
 - Le joueur voit et gère la cargaison des navires (PHA notamment). Le chargement et le déchargement des navires de colons et d'importations se font sur ordre du joueur, ponctuel ou permanent (navette, [D-03](../../OPEN-PROBLEMS.md#d-03--logistique-automatisée)).
 - **Ordres permanents** : en plus des ordres ponctuels (une livraison, charger en A puis décharger en B, compte pour un seul ordre), un véhicule logistique peut recevoir un ordre durable, comme « tenir ce groupe ravitaillé » ou « vider les corps de ce secteur vers ce site » ; il enchaîne seul les trajets et les chargements (P-24, révisable). Sans eux, la logistique demande une micro-gestion intenable à grande échelle.
 
@@ -206,6 +206,14 @@ Décidé avec [P-06](https://github.com/labatailledefrance/prototypes/blob/main/
   - la **pluie** ralentit les roues hors route ; **neige et verglas** ralentissent les routes ;
   - le **froid** augmente le besoin en vêtements chauds et couvertures, la **chaleur** celui en eau potable.
 - **Jour et nuit** : cycle réel, soleil et lune calculés pour l'heure et le lieu réels. La nuit réduit la vue des humains sans vision nocturne et celle des zombies ; leur ouïe est inchangée. De nuit, les lumières des communes alimentées en électricité sont visibles ([A-11](../../OPEN-PROBLEMS.md#a-11--météo-et-marées)).
+- **Précisions** (révisables) :
+  - le **plafond** limite l'appui aérien, l'artillerie observée par drone, les **largages** (A400M, C-130) et les **bombardiers d'eau** (Canadair, Dash 8) ; pas l'artillerie sur coordonnées ni l'appui naval ;
+  - l'**état de la mer** limite aussi l'appontage des Rafale M sur le Charles de Gaulle, à un seuil plus haut que pour les hélicoptères ; les **petites embarcations** sont les vedettes, les embarcations de gendarmerie, les engins de débarquement et les embarcations des forces spéciales ;
+  - la **pluie** ralentit le feu, une forte pluie l'éteint ;
+  - la **lune** compte : une nuit de pleine lune pénalise moins la vue ;
+  - les équipages des véhicules à optiques jour/nuit (Leclerc, VBCI, Jaguar…) ont la vision nocturne tant qu'ils sont à bord ; la **vision nocturne** consomme des **Batteries et piles** ;
+  - l'**éclairage de périmètre** et les **obus éclairants** rendent la vue de jour dans leur zone et attirent les zombies comme un bruit ; les lumières des communes alimentées ne les attirent pas ;
+  - les **vêtements chauds** et les **couvertures** s'usent lentement et sont à remplacer.
 
 ## Dissuasion nucléaire
 
