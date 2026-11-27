@@ -9,7 +9,7 @@ Documents liés :
 - [ZOMBIES.md](../zombies/ZOMBIES.md) : comportement des zombies.
 - [CONSTRUCTIONS.md](../constructions/CONSTRUCTIONS.md) : constructions possibles (ébauche).
 
-Les statistiques chiffrées seront définies plus tard ; les fiches utilisent des niveaux qualitatifs (faible / moyen / élevé).
+Les statistiques chiffrées seront définies plus tard, dans le catalogue TOML de `beta1-server` qui met ces fiches en œuvre ([E-02](../../OPEN-PROBLEMS.md#e-02--format-des-données)) ; les fiches restent la conception et utilisent des niveaux qualitatifs (faible / moyen / élevé).
 
 ----
 
