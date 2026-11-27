@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : tir de saturation, tenue des points de passage obligés.
 
 ## Armement

@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd — Contrôle : [D]
+- Catégorie : véhicule lourd — Contrôle : [O]
 - Rôle : char de combat principal.
 
 ## Versions
@@ -13,7 +13,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Tireur.

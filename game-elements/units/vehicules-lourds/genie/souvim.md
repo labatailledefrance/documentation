@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd (génie) — Contrôle : [D]
+- Catégorie : véhicule lourd (génie) — Contrôle : [O]
 - Rôle : détection et neutralisation des mines et engins explosifs sur les routes.
 
 ## Versions
@@ -11,7 +11,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote de chaque véhicule.
 

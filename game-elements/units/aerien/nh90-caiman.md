@@ -12,11 +12,11 @@
 
 ## Postes
 
-Équipage individuel, non contrôlable à bord, mais pouvant survivre à un crash.
+Équipage individuel, non commandable à bord, mais pouvant survivre à un crash.
 
 - Pilote, copilote.
 - Mécanicien navigant / tireur de sabord.
-- Passagers : environ 20 soldats, qui redeviennent contrôlables une fois débarqués.
+- Passagers : environ 20 soldats, qui redeviennent commandables une fois débarqués.
 
 ## Ordres possibles
 

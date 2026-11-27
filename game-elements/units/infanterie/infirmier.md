@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : soins d'urgence sur le terrain, préparation des évacuations.
 
 ## Armement

@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : points de contrôle, sécurité des zones reconquises, encadrement des civils.
 
 ## Armement

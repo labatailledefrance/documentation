@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule léger — Contrôle : [D]
+- Catégorie : véhicule léger — Contrôle : [O]
 - Rôle : transport de ravitaillement : carburant, munitions, vivres, matériel, troupes.
 - Modèles : porteurs polyvalents, camions-citernes, véhicules de transport logistique.
 
@@ -17,7 +17,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Conducteur.
 - Chef de bord / convoyeur.

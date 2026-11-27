@@ -2,19 +2,19 @@
 
 ## Identité
 
-- Catégorie : naval — Contrôle : [A], [D] pour les petites embarcations.
+- Catégorie : naval — Contrôle : [A]
 - Rôle : surveillance côtière, contrôle des fleuves et des estuaires, sauvetage.
 - Modèles : patrouilleurs océaniques, vedettes côtières, embarcations de gendarmerie maritime et fluviales.
 
 ## Postes
 
-Chaque occupant d'une petite embarcation est un soldat contrôlable individuellement.
+Chaque occupant d'une petite embarcation est un soldat commandable individuellement.
 
 - Pilote, équipage, éventuels passagers.
 
 ## Ordres possibles
 
-- Contrôle direct (petites embarcations), trajet par waypoints, patrouille.
+- Trajet par waypoints, patrouille.
 
 ## Armement
 

@@ -11,7 +11,7 @@
 
 ## Postes
 
-Équipage individuel, non contrôlable à bord.
+Équipage individuel, non commandable à bord.
 
 - Pilote, copilote.
 - Passagers (configuration transport).

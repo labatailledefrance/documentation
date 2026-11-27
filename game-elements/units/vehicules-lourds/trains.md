@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd — Contrôle : [D] (le joueur choisit la destination et l'itinéraire sur le réseau ferré).
+- Catégorie : véhicule lourd — Contrôle : [O] (le joueur choisit la **destination** seulement ; l'itinéraire sur le réseau ferré est calculé).
 - Rôle : logistique de gare à gare, transport de gros volumes et de matériel lourd ([gares.md](../../locations/gares.md)).
 - Origine : matériel ferroviaire civil, trouvé sur place, en **état impeccable**. Chaque gare a **une chance sur cinq** d'avoir un train disponible au début de la partie.
 
@@ -15,7 +15,7 @@ Deux modèles seulement, tous deux électriques. Un train ne peut pas être reco
 
 ## Postes
 
-Chaque occupant est un individu contrôlable une fois descendu.
+Chaque occupant est un individu commandable une fois descendu.
 
 - Conducteur : n'importe quel soldat ou civil ; aucune compétence requise.
 - Passagers et escorte : dans les wagons, selon la composition du train.

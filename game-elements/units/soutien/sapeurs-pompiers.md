@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : lutte contre l'incendie, secours, désincarcération, décontamination.
 - Statut : militaires à Paris (BSPP) et à Marseille (BMPM), civils ailleurs.
 

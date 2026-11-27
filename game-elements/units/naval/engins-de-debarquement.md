@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : naval — Contrôle : [D] pendant le débarquement, [A] sinon.
+- Catégorie : naval — Contrôle : [A]
 - Rôle : transport des troupes et véhicules du navire amphibie jusqu'à la plage.
 
 ## Versions
@@ -14,7 +14,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Équipage de pont.
@@ -22,7 +22,7 @@ Chaque occupant est un soldat contrôlable individuellement.
 
 ## Ordres possibles
 
-- Contrôle direct, ou trajet par waypoints entre le navire et la plage.
+- Trajet par waypoints entre le navire et la plage ; point de débarquement désigné sur la plage.
 
 ## Armement
 

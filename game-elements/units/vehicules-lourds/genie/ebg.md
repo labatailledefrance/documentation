@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd (génie) — Contrôle : [D]
+- Catégorie : véhicule lourd (génie) — Contrôle : [O]
 - Rôle : travaux sous le feu : déblaiement, création de brèches, destruction d'obstacles.
 
 ## Versions
@@ -11,7 +11,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Chef d'engin.

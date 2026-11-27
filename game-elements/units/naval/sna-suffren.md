@@ -8,7 +8,7 @@
 
 ## Postes
 
-L'équipage n'est pas contrôlable à bord. Les commandos embarqués redeviennent contrôlables une fois débarqués.
+L'équipage n'est pas commandable à bord. Les commandos embarqués redeviennent commandables une fois débarqués.
 
 - Équipage du sous-marin.
 - Commandos (avec un abri de pont pour la mise à l'eau).

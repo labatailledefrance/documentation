@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : génie de combat : démolitions, mines, barricades, ouverture d'itinéraires.
 
 ## Armement

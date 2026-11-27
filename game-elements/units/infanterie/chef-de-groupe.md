@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : commande un groupe de combat (environ 8 à 10 hommes) ; fait le lien entre contrôle individuel et contrôle du groupe.
 
 ## Armement
@@ -23,7 +23,7 @@
 
 ## Interactions
 
-- Le joueur peut donner un ordre au chef de groupe, qui le répercute aux membres du groupe.
+- Le joueur peut donner un ordre au chef de groupe, qui le répercute aux membres du groupe ; il remplace l'ordre en cours de chacun.
 - Sa perte fait baisser le moral et la précision du groupe et augmente son usure psychologique, à la mise à jour suivante des jauges (au plus une seconde de jeu plus tard).
 
 ## Face aux zombies

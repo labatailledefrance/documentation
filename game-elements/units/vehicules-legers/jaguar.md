@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule léger — Contrôle : [D]
+- Catégorie : véhicule léger — Contrôle : [O]
 - Rôle : reconnaissance blindée et combat.
 
 ## Versions
@@ -11,7 +11,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Tireur.

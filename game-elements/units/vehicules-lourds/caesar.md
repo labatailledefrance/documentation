@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd — Contrôle : [D] pour le déplacement et la mise en batterie ; tir sur ordre.
+- Catégorie : véhicule lourd — Contrôle : [O] (déplacement, mise en batterie, tir sur une zone désignée par le joueur).
 - Rôle : artillerie automotrice de 155 mm.
 
 ## Versions
@@ -12,7 +12,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Conducteur.
 - Chef de pièce.
@@ -43,7 +43,7 @@ Chaque occupant est un soldat contrôlable individuellement.
 
 ## Interactions
 
-- Tire sur demande d'un [JTAC / opérateur radio](../infanterie/operateur-radio-jtac.md) ou sur coordonnées.
+- Tire sur une **zone désignée par le joueur** ; un [JTAC / opérateur radio](../infanterie/operateur-radio-jtac.md) rend le tir précis.
 - Ravitaillé par : [camions logistiques](../vehicules-legers/camions-logistiques.md).
 
 ## Face aux zombies

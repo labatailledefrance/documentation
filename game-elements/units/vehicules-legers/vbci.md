@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule léger — Contrôle : [D]
+- Catégorie : véhicule léger — Contrôle : [O]
 - Rôle : véhicule de combat d'infanterie : transporte un groupe et l'appuie au canon.
 
 ## Versions
@@ -12,7 +12,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote.
 - Tireur.

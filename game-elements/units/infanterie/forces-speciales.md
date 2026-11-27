@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : raids, reconnaissance profonde, sauvetage, missions à fort enjeu.
 - Unités : commandos marine, 1er RPIMa, 13e RDP, CPA 10.
 

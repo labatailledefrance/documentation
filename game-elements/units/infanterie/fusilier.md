@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : combattant de base ; sert aussi d'équipage et de passager dans les véhicules.
 
 ## Armement

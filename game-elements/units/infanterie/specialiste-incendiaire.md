@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : infanterie — Contrôle : [D]
+- Catégorie : infanterie — Contrôle : [O]
 - Rôle : nettoyage de zones, destruction de hordes ou de cadavres par le feu.
 - Statut : rôle improvisé ; l'armée française n'utilise plus de lance-flammes.
 

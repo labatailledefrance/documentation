@@ -12,7 +12,7 @@
 
 ## Postes
 
-L'équipage n'est pas contrôlable à bord.
+L'équipage n'est pas commandable à bord.
 
 - Équipage du navire, hélicoptère embarqué.
 

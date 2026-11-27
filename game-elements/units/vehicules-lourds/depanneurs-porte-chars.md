@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule lourd — Contrôle : [D]
+- Catégorie : véhicule lourd — Contrôle : [O]
 - Rôle : récupération des véhicules immobilisés, transport des engins lourds sur longue distance.
 - Modèles : dépanneur de char Leclerc (DCL), dépanneurs à roues, tracteurs porte-chars.
 
@@ -15,7 +15,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat contrôlable individuellement.
+Chaque occupant est un soldat commandable individuellement.
 
 - Pilote / conducteur.
 - Chef d'engin.

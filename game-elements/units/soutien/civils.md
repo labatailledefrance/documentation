@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : soutien — Contrôle : [D]
+- Catégorie : soutien — Contrôle : [O]
 - Rôle : colons débarqués de l'outre-mer, et survivants des rares poches secourues ; main-d'œuvre, ressources humaines, enjeu moral.
 
 ## Armement

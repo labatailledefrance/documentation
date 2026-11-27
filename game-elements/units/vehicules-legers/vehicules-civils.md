@@ -2,7 +2,7 @@
 
 ## Identité
 
-- Catégorie : véhicule léger — Contrôle : [D]
+- Catégorie : véhicule léger — Contrôle : [O]
 - Rôle : transport improvisé de personnes et de matériel, en complément des véhicules militaires.
 
 ## Versions
@@ -12,7 +12,7 @@
 
 ## Postes
 
-Chaque occupant est un soldat ou un civil contrôlable individuellement.
+Chaque occupant est un soldat ou un civil commandable individuellement.
 
 - Conducteur.
 - Passagers, selon le véhicule.
