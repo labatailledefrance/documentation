@@ -80,5 +80,5 @@ Choix de conception :
 
 - Vue isométrique
 - Direction artistique low-poly, dans l'esprit de Project Zomboid, avec des textures peu détaillées ([E-01](OPEN-PROBLEMS.md#e-01--volume-de-contenu))
-- API/ABI pour le modding avancé, côté serveur seulement ([F-03](OPEN-PROBLEMS.md#f-03--modding))
+- Jeu décrit par des fichiers de données (TOML) ; mods de données, côté serveur seulement ([E-02](OPEN-PROBLEMS.md#e-02--format-des-données), [F-03](OPEN-PROBLEMS.md#f-03--modding))
 - Facilité de traduction

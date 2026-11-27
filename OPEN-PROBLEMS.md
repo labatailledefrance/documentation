@@ -314,7 +314,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (P-24, recommandation adoptée par défaut, révisable) : tout calcul en tâche de fond rend son résultat à un **tick fixé à son lancement** ; le tick l'attend s'il est en retard. Analogie : un horodatage logique plutôt que l'heure d'arrivée du message.
 - **Constat** (P-25) : même empreinte à 1 et 16 threads, activations comprises.
 - **Constat** (P-26) : même empreinte pour la Manche (patrouille de 1 500 s) dans P-25 et dans P-26, à 16 et à 1 threads, après la refonte des positions ; l'écart d'une activation (144 au lieu de 145) venait d'un défaut de P-25, qui activait une tile absente des données.
-- **Statut** : Décidé (serveur faisant autorité ; tâches de fond à tick fixé, P-24) ; Piste (déterminisme pour le débogage).
+- **Décision** (2026-11-27) : la détection d'ambiguïté de Bevy est en erreur ([F-01](#f-01--moteur)) et le hash du catalogue entre dans le hash d'état ([E-02](#e-02--format-des-données)).
+- **Statut** : Décidé (serveur faisant autorité ; tâches de fond à tick fixé, P-24 ; hash d'état vérifié en CI à 1 et 16 threads, catalogue et ordre des systèmes compris).
 
 ### A-13 — Sauvegardes
 
@@ -338,6 +339,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Conséquence** : les tiles étant écrites sans `fsync`, un arrêt brutal du serveur ramène le monde au **dernier instantané**. Sa fréquence fixe la perte maximale.
 - **Décision** (recommandation adoptée par défaut, révisable) : un instantané **toutes les 5 minutes**. Il ne recopie rien (liens physiques et manifeste) : son coût est le `fsync` des tiles écrites depuis le précédent, à mesurer sur les disques durs chiffrés du serveur (P-19).
 - **Décision** : une **mise à jour du serveur remet le monde à zéro** ([H-01](#h-01--architecture--serveur-unique-faisant-autorité)). Un instantané n'est donc relu que par la version qui l'a écrit : il ne sert qu'à reprendre après un arrêt ou un redémarrage (panne, redémarrage du nœud). Aucune migration de format n'est jamais nécessaire.
+- **Décision** (2026-11-27) : un instantané enregistre le **hash du catalogue** (mods compris, [E-02](#e-02--format-des-données)). Le serveur **refuse de reprendre** un instantané dont le hash diffère, au lieu de remettre le monde à zéro sans prévenir : la remise à zéro reste une décision de l'opérateur ([H-07](#h-07--remise-à-zéro-du-monde)).
 - **Constat** (serveur) : le volume racine (XFS sur LUKS, 15 To) est en **RAID 0** sur les deux disques durs de 8 To : il n'est pas redondant. La perte d'un disque perd le monde ; vu la décision précédente, elle équivaut à une remise à zéro.
 - **Statut** : Décidé (tiles, instantanés du monde toutes les 5 minutes, bâtiments modifiés) ; Piste (autres différences du monde de base).
 
@@ -598,9 +600,16 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 ### E-02 — Format des données
 
-- **Problème** : les fiches d'unités doivent devenir des fichiers de données lus par le jeu (et par les mods), avec validation.
-- **Piste** : format texte lisible (RON ou TOML), un fichier par unité, schéma validé automatiquement.
-- **Statut** : Piste.
+- **Problème** : ce que décrivent les fiches doit devenir des données lues par le serveur (et étendues par les mods), avec validation ; les fiches restent la conception.
+- **Piste** (remplacée par la décision ci-dessous) : format texte lisible (RON ou TOML), un fichier par unité, schéma validé automatiquement. Le RON est écarté.
+- **Décision** (2026-11-27) : tout ce qui **décrit** le jeu est en données ; tout ce qui le **fait tourner** est en Rust. Analogie : une CRD et ses objets sont du YAML, le controller qui les fait converger est du code compilé. En données : unités, versions, postes, armes, munitions, véhicules, ressources, recettes de production, constructions, paramètres des zombies, scénario et état initial ([G-06](#g-06--état-initial-du-monde)), lieux. En code : perception, décision, mouvement, tir, logistique, recherche de chemin, réseau, sauvegarde.
+- **Décision** : format **TOML** (crate `toml`, bien maintenu ; `serde_yaml` est archivé). **Un fichier par objet**, chaque objet a un identifiant, les références entre objets passent par cet identifiant. Fichiers dans `beta1-server/mods/base/` ([F-03](#f-03--modding) : le contenu de base est un mod).
+- **Décision** : **validation stricte au démarrage**, comme un admission controller : champs inconnus refusés (`deny_unknown_fields`), références vérifiées, valeurs bornées. Le serveur refuse de démarrer sur une erreur ; `beta1-server --check` valide le catalogue en CI. Un JSON Schema généré sert à l'autocomplétion dans l'éditeur.
+- **Décision** : les fichiers sont **compilés au chargement** en une ressource `Catalogue` indexée par entiers : aucune chaîne de caractères dans la boucle de simulation. Le **hash du catalogue** entre dans le hash d'état ([A-12](#a-12--déterminisme-et-multijoueur)).
+- **Décision** : le **client reçoit le catalogue du serveur au handshake**, en binaire, avec son hash (noms, modèles, affichage) ; les types du catalogue sont dans `beta1-common`. Le client ne lit aucun fichier du catalogue.
+- **Décision** : **pas de rechargement à chaud**. Un changement du catalogue ou d'un mod compte comme une **mise à jour du serveur**, donc remet le monde à zéro ([H-01](#h-01--architecture--serveur-unique-faisant-autorité)) ; pour le catalogue officiel, c'est déjà le cas, puisqu'il est livré dans l'image de `beta1-server`.
+- **Conséquence** : les chiffres des statistiques, absents des fiches, vivront dans ces fichiers ; les fiches restent la conception, le catalogue en est la mise en œuvre.
+- **Statut** : Décidé (2026-11-27).
 
 ### E-03 — Exactitude des informations
 
@@ -615,7 +624,8 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 ### E-05 — Traduction
 
 - **Piste** : Project Fluent (crate `fluent`) ; toutes les chaînes, y compris les noms d'unités, externalisées dès le début.
-- **Statut** : Piste.
+- **Décision** (2026-11-27) : le catalogue ([E-02](#e-02--format-des-données)) ne contient **aucun texte affiché** : seulement des **clés de traduction**. Les textes sont dans des fichiers Fluent portés par chaque mod (`base` compris) et envoyés au client avec le catalogue. Le **français est la seule langue** au début.
+- **Statut** : Décidé (clés de traduction, français seul) ; Piste (autres langues).
 
 ## F. Architecture et technique
 
@@ -629,6 +639,10 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Constat** (P-24) : un serveur Bevy sans rendu (`MinimalPlugins`, 20 Hz) et un client Bevy reliés par WebSocket forment un jeu jouable de bout en bout ; 27 000 zombies sur 36 km² coûtent 2,3 ms par tick.
 - **Décision** (P-24, recommandation adoptée par défaut, révisable) : le code du jeu (dépôts `beta1-*`, voir [développement](developpement/DEVELOPPEMENT.md)) démarre sur l'**architecture de P-24** : bibliothèque commune (carte, protocole), binaires serveur et client, protocole binaire écrit à la main, file d'envoi bornée par client.
 - **Constat** (P-24, Bevy 0.20) : shaders en WESL ; pas de mipmaps pour les GLB (à calculer au chargement) ; une passe placée après le tonemapping lit la profondeur du prepass, donc sans MSAA ; `depth_bias` trie aussi les transparents (biais remis à 0 dans `specialize` pour l'eau). Une compilation avec `lto = "thin"` dure 2 min 40 : prévoir un profil sans LTO pour itérer.
+- **Décision** (2026-11-27) : le serveur est découpé en **un plugin Bevy par domaine** (`catalogue`, `tiles`, `zombies`, `unites`, `combat`, `logistique`, `routes`, `reseau`, `sauvegarde`, `determinisme`). Chaque plugin possède ses composants, ses systèmes et ses messages ; il lit les composants des autres mais **n'écrit que les siens** ; les plugins ne s'appellent pas, ils échangent des **messages** (`ZombieAbattu`…). Analogie : un operator par CRD, reliés par un bus.
+- **Décision** : un tick suit un **pipeline fixe de phases**, déclaré à un seul endroit (`app.rs`) : Entrees, Tiles, Perception, Decision, Mouvement, Combat, Logistique, Nettoyage, Sortie. Chaque système est rangé dans une phase. Analogie : une chaîne netfilter, toujours parcourue dans le même ordre.
+- **Décision** : la **détection d'ambiguïté** de Bevy est en erreur et vérifiée en CI : deux systèmes qui touchent la même donnée sans ordre déclaré empêchent le serveur de démarrer. Le flux reste explicite et l'ordre ne dépend pas des threads ([A-12](#a-12--déterminisme-et-multijoueur)).
+- **Constat** (P-26) : la simulation tenait dans un seul objet `Monde` (2 200 lignes, environ 45 champs, règles en constantes) que Bevy ne faisait que cadencer ; on ne le porte pas tel quel, on le redécoupe en plugins.
 - **Statut** : Décidé.
 
 ### F-02 — Performances de la simulation
@@ -668,11 +682,16 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 
 ### F-03 — Modding
 
-- **Problème** : Rust n'a pas d'ABI stable.
+- **Problème** : permettre de modifier le jeu sans fork ; pour du code, Rust n'a pas d'ABI stable.
 - **Décision** : la sécurité des mods n'est pas un objectif : le jeu, open source et sans éditeur reconnu, est lui-même du code non vérifié pour le joueur. Pas de sandbox de sécurité à concevoir.
-- **Pistes** : mods en WebAssembly (`wasmtime`) pour la portabilité et le multi-langage, ou mods natifs via une ABI C ; mods de données (E-02) sans code. Attention au coût des appels de mods dans les boucles critiques.
+- **Pistes** (abandonnées pour la beta 1, décision du 2026-11-27) : mods en WebAssembly (`wasmtime`) pour la portabilité et le multi-langage, ou mods natifs via une ABI C. Attention au coût des appels de mods dans les boucles critiques.
 - **Conséquence** (serveur unique) : un mod qui change la simulation ne peut tourner que sur le **serveur**, et la partie officielle n'en charge que si son opérateur le décide. En pratique, modifier le jeu officiel, c'est proposer un changement au code ; les mods servent aux parties hébergées par d'autres.
-- **Statut** : Piste.
+- **Décision** (2026-11-27, beta 1) : **mods de données seulement**. Un mod est un dossier de fichiers TOML du catalogue ([E-02](#e-02--format-des-données)) qui ajoutent ou remplacent des objets, appliqués dans un ordre déclaré, comme des overlays kustomize ; il passe la même validation que le catalogue officiel et change son hash. **Pas de code chargé à l'exécution** (ni script, ni WebAssembly, ni ABI C) : un appel par zombie dans la boucle de simulation coûterait trop et fragiliserait le déterminisme. Un mod de comportement est un **fork**, dont l'AGPL impose de publier le code.
+- **Décision** (2026-11-27) : le **contenu de base est un mod** comme les autres, le mod `base`, à la manière de Factorio. Le serveur n'a aucune donnée de jeu en dur : il charge une liste de mods par le même mécanisme, et le `Catalogue` est le résultat de leur fusion. `base` est livré dans l'image de `beta1-server` (`mods/base/`).
+- **Décision** : chaque mod a un `mod.toml` (identifiant, version, dépendances, `base` compris). L'ordre de chargement suit les **dépendances**, puis l'ordre déclaré ; une dépendance absente ou un cycle empêche le démarrage.
+- **Décision** : un opérateur fournit ses mods par une **PVC** montée dans le pod du serveur ; la liste et l'ordre sont déclarés dans les values du chart `game`.
+- **Décision** (recommandation adoptée par défaut, révisable) : la partie officielle ne charge que `base` ; un bon mod devient une PR sur `base`.
+- **Statut** : Décidé (beta 1 : mods de données, contenu de base en mod `base`) ; Piste (mods de code, hors de la boucle de simulation, si un besoin réel apparaît).
 
 ### F-04 — Plateformes cibles
 
@@ -784,6 +803,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
   - Aucune migration : ni du format des instantanés (A-13), ni du protocole. Client et serveur ont **toujours la même version** ; à une mise à jour, les clients sont déconnectés et rechargent le client.
   - Un correctif urgent efface lui aussi le monde : les mises à jour se regroupent.
   - Un redémarrage **sans** changement de version (panne, redémarrage du nœud, déplacement du pod) reprend sur le dernier instantané.
+  - Un changement du catalogue ou d'un mod est un changement de version ([E-02](#e-02--format-des-données)).
 - **Constat** (P-26, cluster) : conteneurs vérifiés dans `/proc` : aucune capacité, pas d'élévation de privilèges, seccomp filtré ; sorties réseau fermées ; un autre pod ne joint pas le serveur de jeu. Mais le **nœud** le joint directement : une NetworkPolicy ne filtre pas l'hôte. L'accès depuis le poste passe par un tunnel SSH ; `sshd` n'autorisait que `PermitOpen 127.0.0.1:6443`, l'adresse de service de nginx (figée) y a été ajoutée, avec l'accord de l'utilisateur.
 - **Statut** : Décidé (serveur unique, autorité, Kubernetes, mise à jour = remise à zéro) ; Piste (découpage, transport).
 

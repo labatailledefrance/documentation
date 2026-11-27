@@ -50,8 +50,58 @@ Les règles sont dans CONTRIBUTING ; voici ce qui les fait respecter.
 | Déterminisme (même hash d'état à 1 et 16 threads) | `--determinism` du serveur, en CI |
 | Le décodeur ne panique sur aucune entrée | fuzzing (`cargo fuzz`) de `beta1-common` |
 | Pas de secret dans l'historique | gitleaks |
+| Ordre des systèmes explicite (aucune ambiguïté) | détection d'ambiguïté de Bevy en erreur, au démarrage du serveur en CI |
+| Catalogue valide (champs connus, références, bornes) | `beta1-server --check` |
 
 L'analogie : chaque dépôt est un service, `.github` est sa **bibliothèque de pipelines** partagée, versionnée comme une dépendance. Un dépôt appelle `labatailledefrance/.github/.github/workflows/rust.yml@<SHA> # v2.0.0` : changer de version de pipeline est une PR explicite, jamais une dérive silencieuse.
+
+## Organisation du serveur
+
+Décisions : [E-02](../OPEN-PROBLEMS.md#e-02--format-des-données), [F-01](../OPEN-PROBLEMS.md#f-01--moteur), [F-03](../OPEN-PROBLEMS.md#f-03--modding).
+
+### Données et code
+
+Ce qui **décrit** le jeu est en données ; ce qui le **fait tourner** est en Rust. Comme dans Kubernetes : la ressource est déclarative, le controller est compilé.
+
+- **Catalogue** : un fichier TOML par objet (unité et ses versions et postes, arme, munition, véhicule, ressource, recette, construction, lieu, paramètres des zombies, scénario et état initial), référencé par identifiant. Les textes affichés sont des clés de traduction (Fluent, français seul au début, E-05).
+- **Validation stricte au démarrage** : champs inconnus refusés, références et bornes vérifiées ; le serveur ne démarre pas sur une erreur. `beta1-server --check` en CI ; JSON Schema généré pour l'éditeur.
+- **Compilation au chargement** en une ressource `Catalogue` indexée par entiers ; son hash entre dans le hash d'état. Le client le reçoit au handshake (types dans `beta1-common`).
+- **Pas de rechargement à chaud** : une donnée changée, c'est un redémarrage, donc un monde remis à zéro.
+- **Tout est mod**, à la manière de Factorio : le contenu de base est le mod `base` (`beta1-server/mods/base/`, dans l'image), chargé comme les autres. Chaque mod a un `mod.toml` (identifiant, version, dépendances) ; l'ordre suit les dépendances, puis l'ordre déclaré. Les mods d'un opérateur arrivent par une PVC, listés dans les values du chart `game` ; la partie officielle ne charge que `base`. Pas de code de mod chargé à l'exécution ; un mod de comportement est un fork.
+- **Instantanés** : ils portent le hash du catalogue ; un hash différent empêche la reprise (A-13).
+
+### Plugins et phases
+
+```
+beta1-server/src/
+  main.rs          CLI, assemblage des plugins
+  app.rs           les phases et leur ordre : le seul endroit où lire le flux d'un tick
+  catalogue/       chargement des mods, fusion et validation
+  tiles/           actives, inertes, sûres ; terrain
+  zombies/         perception, relais, champs, déplacement
+  unites/          ordres, IA (D-02), déplacement
+  combat/
+  logistique/
+  routes/          CCH, tâches de fond à tick fixé
+  reseau/          WebSocket, handshake, send queue
+  sauvegarde/
+  determinisme/    hash d'état
+mods/base/         le contenu de base : mod.toml, TOML, textes Fluent
+```
+
+- Un **plugin par domaine** : il possède ses composants, ses systèmes et ses messages ; il lit les composants des autres, n'écrit que les siens (règle de revue).
+- Les plugins ne s'appellent pas : ils échangent des **messages** (`combat` émet `ZombieAbattu`, `logistique` le consomme).
+- Un tick suit des **phases** dans un ordre fixe : Entrees, Tiles, Perception, Decision, Mouvement, Combat, Logistique, Nettoyage, Sortie.
+
+```rust
+#[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
+pub enum Phase { Entrees, Tiles, Perception, Decision, Mouvement, Combat, Logistique, Nettoyage, Sortie }
+
+app.configure_sets(FixedUpdate, (Phase::Entrees, Phase::Tiles, /* … */ Phase::Sortie).chain());
+```
+
+- **Détection d'ambiguïté** en erreur : deux systèmes qui touchent la même donnée sans ordre déclaré empêchent le démarrage.
+- Chaque plugin se teste seul, dans une `App` minimale avec un petit catalogue de test.
 
 ## Pipelines
 
