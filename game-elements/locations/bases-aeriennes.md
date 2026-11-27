@@ -62,7 +62,8 @@
 - Les aéroports civils comptent comme des bases aériennes.
 - Garnison du génie : 100. Une piste sommaire construite par le joueur n'en exige aucune ; elle ouvre la même logistique aérienne, limitée aux avions adaptés (A400M, C-130).
 - Pas d'électricité nécessaire. Un cratère coupe une piste jusqu'à son comblement par le génie ([B-05](../../OPEN-PROBLEMS.md#b-05--destructions-et-modifications-du-terrain)).
-- Les aérodromes secondaires comptent comme des pistes, avec leur longueur et leur revêtement (2026-11-27).
+- Les aérodromes secondaires comptent comme des pistes, avec leur longueur et leur revêtement ; garnison du génie de 10 (2026-11-27, recommandation adoptée par défaut, révisable).
+- Une base de l'ALAT est aussi une [base militaire](bases-militaires.md) : un seul lieu, garnison 100.
 
 ## Questions ouvertes
 

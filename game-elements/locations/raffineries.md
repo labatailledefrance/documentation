@@ -23,7 +23,8 @@
 - **Raffinage** : une raffinerie remise en service transforme le **Pétrole brut** en carburants : **F-34**, **F-44**, **F-76**, **Gazole routier**, **Essence**, **Jet A-1** ([RESOURCES.md](../resources/RESOURCES.md#carburants)). Le pétrole brut est importé ([G-03](../../OPEN-PROBLEMS.md#g-03--importations)) : sans raffinerie tenue, les carburants sont des stocks finis.
 - Une raffinerie consomme de l'**Électricité** et de la main-d'œuvre (ouvriers).
 - Les raffineries sont toutes **portuaires ou au bord d'un fleuve** : le brut arrive par navire.
-- **Dépôts pétroliers** : stockage du carburant ; stock initial à décider (voir *Questions ouvertes*).
+- **Dépôts pétroliers** : ils gardent une **partie de leurs stocks** de carburant, à reprendre, comme les bases militaires ([G-06](../../OPEN-PROBLEMS.md#g-06--état-initial-du-monde)) ; ce sont eux qui font tenir les premières semaines.
+- Dans une région éteinte, elle peut tourner sur **groupes électrogènes**, alimentés en **Gazole routier**, comme le [CTM de Rosnay](ctm-rosnay.md).
 
 ## Prise de contrôle
 
@@ -43,8 +44,10 @@
 - Sept raffineries, liste écrite à la main ; dépôts tirés des données.
 - Une raffinerie transforme le pétrole brut importé en carburants ; elle a besoin d'électricité et d'ouvriers.
 - Garnison du génie : 10.
+- Les dépôts pétroliers gardent un stock partiel (2026-11-27, recommandation adoptée par défaut, révisable).
+- Une raffinerie peut tourner sur groupes électrogènes dans une région éteinte (2026-11-27, recommandation adoptée par défaut, révisable).
+- Oléoducs (réseau TRAPIL, oléoduc de défense commune) : **absents de la beta 1**, à reprendre plus tard (2026-11-27, recommandation adoptée par défaut, révisable).
 
 ## Questions ouvertes
 
-- Les dépôts pétroliers ont-ils un stock au début de la partie (comme les bases militaires) ou sont-ils vides (comme les mairies) ?
-- Oléoducs (réseau TRAPIL, oléoduc de défense commune) : simulés comme une voie de transport du carburant, ou absents ?
+- Aucune pour l'instant.

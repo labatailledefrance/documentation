@@ -179,6 +179,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : les zombies touchés par le front sont **dispersés** : relocalisés aléatoirement sur le **périmètre** de la surface de crue précalculée (pas tués). Humains, bâtiments, ponts et véhicules sur le passage sont **détruits** ; les corps des humains tués **disparaissent** (pas de cargaison à évacuer).
 - **Piste** : le périmètre est précalculé avec la carte d'inondation, restreint à la zone accessible des tiles (pas de relocalisation dans l'eau ou dans un bâtiment) ; les tiles qui reçoivent des zombies s'activent ou reçoivent une entrée de journal de migration, selon leur état.
 - **Conséquence** (2026-11-27) : la liste des barrages change (Grandval et L'Aigle à la place de Roselend et de Pareloup, [barrages](game-elements/locations/barrages.md)) : leurs crues sont à précalculer.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : la rupture d'un barrage d'amont ne rompt pas le barrage d'aval : la crue s'arrête à sa retenue.
 - **Statut** : Décidé.
 
 ### A-02 — Accélération du temps
@@ -788,6 +789,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** : une centrale redémarrée fonctionne indéfiniment, sans approvisionnement. Le génie militaire et le génie civil peuvent la redémarrer ; garnison de 100 pour une CNPE.
 - **Décision** : pas de centrales thermiques dans le jeu (trop lourdes à approvisionner).
 - **Décision** : Voronoï **fixe**, pour inciter à libérer toutes les centrales ; région alimentée d'un bloc, réseau non simulé. Garnison exigée au redémarrage seulement. Les 10 plus gros barrages suivent la même règle que les CNPE. L'outre-mer a l'électricité d'office.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : dans une région éteinte, un hôpital, une usine, une raffinerie ou une usine d'eau potable peut tourner sur **groupes électrogènes** (Gazole routier), comme le CTM de Rosnay. Une usine d'eau potable dessert un découpage de Voronoï fixe, comme une centrale ; l'outre-mer a l'eau potable d'office.
 - **Statut** : Décidé.
 
 ### G-05 — Effets des armes nucléaires
@@ -818,6 +820,7 @@ Principe général proposé : **ne simuler finement que là où ça compte**, et
 - **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : la **force d'invasion** de départ (unités, navires, stocks embarqués) est décrite dans le **scénario du mod `base`** ([F-03](#f-03--modding)) ; elle reste à écrire.
 - **Décision** (2026-11-27) : les **mairies** de métropole sont **vides** au début de la partie.
 - **Décision** (2026-11-27) : la **liste des dégâts initiaux** vit dans le scénario du mod `base`, à côté de la force d'invasion.
+- **Décision** (2026-11-27, recommandation adoptée par défaut, révisable) : les **dépôts pétroliers** et les **hôpitaux** gardent eux aussi une partie de leurs stocks ([raffineries](game-elements/locations/raffineries.md), [hôpitaux](game-elements/locations/hopitaux.md)).
 - **Statut** : Décidé (2026-11-27) ; composition de la force d'invasion à écrire.
 
 ### G-07 — Conditions de victoire et de défaite

@@ -32,7 +32,9 @@ Restent à recenser : Thales (optronique, radars, munitions de TDA), Safran (mot
 ## Rôle en jeu
 
 - Une usine remise en service **produit** ce que son site fabriquait, à partir de matières premières ([RESOURCES.md](../resources/RESOURCES.md#matières-premières-et-production)). Les chaînes de production sont à détailler.
-- Elle consomme de l'**Électricité** et de la main-d'œuvre qualifiée (ouvriers).
+- Elle consomme de l'**Électricité** et de la main-d'œuvre qualifiée (ouvriers). Dans une région éteinte, elle peut tourner sur **groupes électrogènes**, alimentés en **Gazole routier**, comme le [CTM de Rosnay](ctm-rosnay.md).
+- Une usine de blindés, de navires ou d'aéronefs produit de **nouvelles unités** ; leur équipage est pris dans la main-d'œuvre.
+- **Production adaptée** : une usine peut produire autre chose que ce que son site fabriquait, **dans sa famille** de production (des munitions anti-zombies dans une usine de munitions).
 - Les composants que la France ne fabrique pas restent importés ([G-03](../../OPEN-PROBLEMS.md#g-03--importations)).
 
 ## Prise de contrôle
@@ -52,7 +54,10 @@ Restent à recenser : Thales (optronique, radars, munitions de TDA), Safran (mot
 - Liste écrite à la main des sites de production ; sièges et centres d'essais exclus.
 - Une usine produit ce que son site fabriquait ; elle a besoin d'électricité et d'ouvriers.
 - Garnison du génie : 10.
+- Les usines de blindés, de navires et d'aéronefs produisent de nouvelles unités, avec un équipage pris dans la main-d'œuvre (2026-11-27, recommandation adoptée par défaut, révisable).
+- Production adaptée dans la famille de production du site (2026-11-27, recommandation adoptée par défaut, révisable).
+- Groupes électrogènes possibles dans une région éteinte (2026-11-27, recommandation adoptée par défaut, révisable).
 
 ## Questions ouvertes
 
-- Une usine peut-elle produire autre chose que ce que son site fabriquait (« production adaptée » de munitions anti-zombies, [RESOURCES.md](../resources/RESOURCES.md)) ?
+- Aucune pour l'instant.

@@ -45,6 +45,7 @@
 - Un barrage a une barre de vie, comme toute construction ou infrastructure ; endommagé mais pas rompu, il continue de produire. Plusieurs frappes de bombes guidées ou d'artillerie sont nécessaires pour le rompre ; sa rupture noie la vallée en aval.
 - Un barrage détruit ne peut pas être reconstruit ; sa région reste dans le noir pour toujours.
 - Tout ordre de frappe visant un barrage est soumis au **vote des joueurs** ([H-04](../../OPEN-PROBLEMS.md#h-04--vote-sur-les-actions-irréversibles)).
+- La rupture d'un barrage d'amont (Grandval, Bort-les-Orgues) ne rompt **pas** le barrage d'aval (Sarrans, L'Aigle) : la crue s'arrête à la retenue d'aval (2026-11-27, recommandation adoptée par défaut, révisable).
 - La liste des barrages est écrite à la main (identifiants BD TOPO), la BD TOPO classant aussi les seuils en « Barrage » (P-07).
 
 ## Questions ouvertes

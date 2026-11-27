@@ -24,7 +24,7 @@ Les quantités et les taux de consommation seront définis dans le mod `base`, e
 | **F-34** | Véhicules terrestres, aéronefs de l'armée de Terre et de l'armée de l'Air | Kérosène militaire (équivalent JP-8). Carburant unique terre-air. |
 | **F-44** | Aéronefs embarqués (Rafale M, hélicoptères de la Marine) | Kérosène à point éclair élevé (équivalent JP-5), exigé à bord des navires. |
 | **F-76** | Navires à propulsion classique | Gazole marine. |
-| **Gazole routier** | Véhicules civils, groupes électrogènes (dont ceux du CTM de Rosnay hors région alimentée, et des centrales à redémarrer) | Stocks civils récupérables dans les stations et les dépôts. Utilisable en dépannage par certains véhicules militaires. |
+| **Gazole routier** | Véhicules civils, groupes électrogènes (dont ceux du CTM de Rosnay, des hôpitaux, des usines, des raffineries et des usines d'eau potable hors région alimentée, et des centrales à redémarrer) | Stocks civils récupérables dans les stations et les dépôts. Utilisable en dépannage par certains véhicules militaires. |
 | **Essence** | Motos, quads, petits moteurs, engins civils | Également matière première des armes incendiaires improvisées. |
 | **Jet A-1** | Aviation civile, Canadair | Proche du F-34 ; stocks dans les aéroports civils. |
 | **Combustible nucléaire** | Charles de Gaulle, SNA | Rechargement très rare, hors logistique courante. |
@@ -143,6 +143,6 @@ Chaînes de production à détailler plus tard. Premières briques :
 ## Main-d'œuvre
 
 - **Militaires** : combattants et soutien.
-- **Ouvriers** : production, réparation, infrastructures. Compétences gérées lorsqu'elles sont liées aux ressources (électricien, soudeur, chimiste…).
+- **Ouvriers** : production, réparation, infrastructures. Compétences gérées lorsqu'elles sont liées aux ressources (électricien, soudeur, chimiste, santé…). Le personnel de santé d'un hôpital est une compétence de militaires ou d'ouvriers, pas une ressource à part.
 - **Civils** : colons débarqués de l'outre-mer, et survivants des rares poches secourues. Ils consomment des vivres et de l'eau, peuvent travailler ou être mobilisés, et peuvent être sacrifiés : la main-d'œuvre perdue est le vrai coût. Pas d'âge modélisé.
 - **Capacité** : la main-d'œuvre se loge et travaille dans les bâtiments : un colon logé par 35 m² de plancher, un poste de travail par 20 m² (valeurs de départ, [SYSTEMES.md](../systemes/SYSTEMES.md#colonisation)).

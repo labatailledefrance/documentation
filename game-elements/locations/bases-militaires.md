@@ -7,6 +7,7 @@
   - **bases navales** ;
   - **quartiers des régiments** de l'armée de Terre ;
   - **dépôts de munitions** du Service interarmées des munitions (SIMu) ;
+  - **camps d'entraînement** (Mailly, Mourmelon, Suippes, Canjuers, Coëtquidan…), traités comme les autres bases ;
   - **bases aériennes sans piste** : BA 101 Toulouse, BA 110 Creil, BA 921 Taverny, BA 928 Brest-Loperhet, BA 942 Lyon-Mont Verdun, écoles (BA 721 Rochefort, BA 749 Grenoble) ; à vérifier.
 - Liste : **écrite à la main** (identifiants BD TOPO), d'après les listes ci-dessous. Recensement du 2026-11-27, tiré de Wikipédia ; **à vérifier pour 2030** (dissolutions, déménagements).
 
@@ -55,7 +56,7 @@ Garnisons des régiments en activité en 2026, hors étranger et hors Pacifique.
 | Matériel | 2e RMAT : Bruz ; 3e RMAT : Muret ; 4e RMAT : Nîmes ; 6e RMAT : Besançon ; 7e RMAT : Lyon ; 8e RMAT : Mourmelon-le-Grand ; 12e BSMAT : Neuvy-Pailloux ; 13e BSMAT : Clermont-Ferrand ; 14e BSMAT : Nouâtre |
 | Santé | Régiment médical : camp de la Valbonne |
 
-Restent à recenser : les unités de la sécurité civile (UIISC 1, 5 et 7), les groupements de recrutement et de sélection, et les grands camps d'entraînement (Mailly, Mourmelon, Suippes, Canjuers, Coëtquidan…).
+Restent à recenser : les unités de la sécurité civile (UIISC 1, 5 et 7), les groupements de recrutement et de sélection, et la liste complète des camps d'entraînement.
 
 ## Rôle en jeu
 
@@ -66,7 +67,9 @@ Restent à recenser : les unités de la sécurité civile (UIISC 1, 5 et 7), les
 
 ## Prise de contrôle
 
-- Y installer une **garnison du génie** de 10, civil ou militaire (règle commune, voir [LOCATIONS.md](LOCATIONS.md#règles-communes)). Une base navale suit en plus la règle des ports militaires (garnison de 100).
+- Y installer une **garnison du génie** de 10, civil ou militaire (règle commune, voir [LOCATIONS.md](LOCATIONS.md#règles-communes)).
+- Une **base navale** et son port militaire forment **un seul lieu**, avec la garnison d'un grand port : 100.
+- Une base de l'**ALAT** (Phalsbourg, Étain, Pau-Uzein) est à la fois une base militaire et une [base aérienne](bases-aeriennes.md) : **un seul lieu**, avec la garnison la plus forte, 100.
 
 ## Données
 
@@ -77,9 +80,9 @@ Restent à recenser : les unités de la sécurité civile (UIISC 1, 5 et 7), les
 
 - Trois familles : bases navales, quartiers des régiments, dépôts de munitions ; liste écrite à la main.
 - Une base apporte ses stocks partiels, du logement pour les soldats et un atelier de maintenance.
-- Garnison du génie : 10 ; une base navale suit en plus la règle des ports militaires.
+- Garnison du génie : 10 ; une base navale (avec son port) ou une base de l'ALAT est un seul lieu, garnison 100 (2026-11-27, recommandation adoptée par défaut, révisable).
+- Les camps d'entraînement sont des bases comme les autres (2026-11-27, recommandation adoptée par défaut, révisable).
 
 ## Questions ouvertes
 
 - Vérifier la liste pour 2030 et les communes des dépôts du SIMu.
-- Grands camps d'entraînement : une famille à part (sans stocks, grands espaces de manœuvre) ou des bases comme les autres ?
